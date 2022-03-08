@@ -1,0 +1,35 @@
+{
+  "name": "xpressdrive",
+  "version": "1.0.0",
+  "description": "backend for drive system",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yahiachames/xpressDrive.git"
+  },
+  "keywords": [
+    "drive"
+  ],
+  "author": "chames",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yahiachames/xpressDrive/issues"
+  },
+  "homepage": "https://github.com/yahiachames/xpressDrive#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.4",
+    "mongoose-type-email": "^1.1.2",
+    "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-http-bearer": "^1.0.1",
+    "passport-jwt": "^4.0.0"
+  }
+}
