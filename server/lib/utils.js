@@ -14,9 +14,10 @@ function issueJWT(user) {
   const payload = {
     sub: _id,
     iat: Date.now(),
+    role: user.role,
   };
 
-  const signedToken = jsonwebtoken.sign(payload, PRIV_KEY, {
+  const signedToken = jsonwebtoken.sign(payload, process.env.PRIV_KEY, {
     expiresIn: expiresIn,
     algorithm: "RS256",
   });
