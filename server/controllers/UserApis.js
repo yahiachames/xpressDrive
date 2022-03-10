@@ -4,9 +4,6 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const isAdmin = require("../config/isAdmin");
-const { findById } = require("../models/User");
-var _ = require("lodash");
-const eliminate = require("../lib/reduceObject");
 
 const saltRounds = 10;
 
