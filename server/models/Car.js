@@ -16,10 +16,8 @@ const CarSchema = new mongoose.Schema({
     ref: "users",
     required: true,
   },
-  cin: { type: Buffer, required: true },
-  permis: { type: Buffer, required: true },
   rider_id: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
   level: { type: String, enum: ["normal", "confort"] },
 });
 
-module.exports = mongoose.model("documents", CarSchema);
+module.exports = mongoose.model("cars", CarSchema);

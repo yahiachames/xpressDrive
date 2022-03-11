@@ -9,7 +9,7 @@ router.get(
   (req, res) => {
     Localization.findOne({ user: req.params.id }, (error, result) => {
       if (error) return next(err);
-      if (result == null) res.send("now data");
+      if (result == null) res.send("no data");
 
       res.send(result);
     });
