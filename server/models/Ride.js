@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 require("mongoose-type-email");
 const RideSchema = new mongoose.Schema({
+  date: { type: String, required: true, default: new Date().toDateString() },
   cuurentPoint: { type: mongoose.Schema.Types.ObjectId, ref: "localizations" },
   destinationPoint: {
     type: mongoose.Schema.Types.ObjectId,
