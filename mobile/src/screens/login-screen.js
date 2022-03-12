@@ -8,7 +8,7 @@ import {colors} from "../constants";
 import {APP_NAME} from "../config/config";
 
 const initialValues = {
-  username: "",
+  email: "",
   password: "",
 };
 
@@ -18,7 +18,10 @@ const image = {
 
 const LoginScreen = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
-    username: Yup.string(),
+    email: Yup.string()
+      .label("Email")
+      .email("Enter a valid email")
+      .required("Please enter a registered email"),
     password: Yup.string()
       .label("Password")
       .required()
@@ -41,9 +44,7 @@ const LoginScreen = ({ navigation }) => {
     handleSubmit,
   } = formik;
 
-  const onSubmit = (values) => {
-    console.log(values);
-  };
+  const onSubmit = (values) => {};
 
   return (
     <View style={styles.Container}>
