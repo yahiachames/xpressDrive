@@ -73,7 +73,7 @@ const LoginScreen = ({navigation}) => {
                     errorMessage={touched.password && errors.password}
                 />
                 <BasicButton
-                    title={'LoginScreen'}
+                    title={'Login'}
                     width={'100%'}
                     color={colors.primary}
                     onPress={handleSubmit}
