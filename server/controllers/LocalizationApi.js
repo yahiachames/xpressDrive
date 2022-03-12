@@ -3,11 +3,25 @@ const Localization = require("../models/Localization");
 const passport = require("passport");
 
 router.get(
-  "/localization/:id",
+  "/one/:id",
 
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Localization.findOne({ user: req.params.id }, (error, result) => {
+      if (error) return next(err);
+      if (result == null) res.send("no data");
+
+      res.send(result);
+    });
+  }
+);
+
+router.get(
+  "/all",
+
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Localization.find({}, (error, result) => {
       if (error) return next(err);
       if (result == null) res.send("no data");
 
