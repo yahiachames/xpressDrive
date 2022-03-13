@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     versionText: {
         color: colors.grey,
-        fontFamily: fonts.latoRegular,
+        fontFamily: 'latoRegular',
         fontSize: 20,
         textAlign: 'right'
     }

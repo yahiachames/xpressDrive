@@ -3,7 +3,7 @@ import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {adaptToHeight, adaptToWidth} from "../config/dimensions";
 import {colors} from "../constants";
 import NavOptions from "../components/nav-options";
-
+import Carousel from "react-native-snap-carousel";
 const HomeScreen = () => {
 
     return (

@@ -6,6 +6,9 @@ import {ImageBackground, StyleSheet, Text, View} from "react-native";
 import {adaptToHeight, adaptToWidth} from "../config/dimensions";
 import {colors} from "../constants";
 import {APP_NAME} from "../config/config";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../redux/actions/auth-actions";
+import {useEffect} from "react";
 
 const initialValues = {
     email: '',
@@ -15,6 +18,9 @@ const initialValues = {
 const image = { uri: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" };
 
 const LoginScreen = ({navigation}) => {
+
+    const auth = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -26,6 +32,11 @@ const LoginScreen = ({navigation}) => {
             .required()
             .min(5, 'Password must have more than 4 characters '),
     });
+
+    const onSubmit = (values) => {
+        console.log(values)
+        dispatch(login(values))
+    };
 
     const formik = useFormik({
         initialValues,
@@ -43,14 +54,11 @@ const LoginScreen = ({navigation}) => {
         handleSubmit,
     } = formik;
 
-    const onSubmit = values => {
-    };
-
     return (
         <View style={styles.Container}>
             <ImageBackground source={image} style={styles.image}  imageStyle={{opacity:0.2}}>
                 <Text style={styles.header}>{APP_NAME}</Text>
-                <Text style={styles.text}>Welcome!</Text>
+                <Text style={styles.text}>Welcome back!</Text>
                 <BasicInput
                     style={{fontSize: adaptToHeight(0.025)}}
                     placeholder={'Enter e-mail'}
@@ -89,7 +97,7 @@ const LoginScreen = ({navigation}) => {
                         type="clear"
                     />
                 </View>
-                <View style={styles.SocialContainer}>
+                {/*<View style={styles.SocialContainer}>
                     <BasicButton
                         titleStyle={{color: colors.danger, fontSize: adaptToHeight(0.025)}}
                         title={"Google"}
@@ -109,7 +117,7 @@ const LoginScreen = ({navigation}) => {
                         color="transparent"
                         type="clear"
                     />
-                </View>
+                </View>*/}
                 <View style={styles.SignUp}>
                     <Text style={{fontSize: adaptToHeight(0.025), color: colors.gray}}>Don't have an account?</Text>
                     <BasicButton
@@ -129,14 +137,14 @@ const LoginScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     header: {
-        fontFamily: 'latoMedium',
+        fontFamily: 'yellowtail',
         color: colors.primary,
-        fontSize: adaptToHeight(0.038),
+        fontSize: adaptToHeight(0.06),
         marginBottom: adaptToHeight(0.05),
     },
     text: {
-      fontFamily: 'latoBold',
-      color: colors.gray,
+      fontFamily: 'latoMedium',
+      color: colors.primary,
       fontSize: adaptToHeight(0.032),
       alignSelf: 'flex-start',
       marginBottom: adaptToHeight(0.02)
