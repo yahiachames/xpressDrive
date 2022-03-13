@@ -6,154 +6,149 @@ import {ImageBackground, StyleSheet, Text, View} from "react-native";
 import {adaptToHeight, adaptToWidth} from "../config/dimensions";
 import {colors} from "../constants";
 import {APP_NAME} from "../config/config";
+<<<<<<< HEAD
 import CustomChooseDest from "../components/CustomChooseDest";
+=======
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../redux/actions/auth-actions";
+import {useEffect} from "react";
+>>>>>>> 47ee741776eec6487e1305f002de0f12f16f6502
 
 const initialValues = {
-  email: "",
-  password: "",
+    email: '',
+    password: '',
 };
 
-const image = {
-  uri: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-};
+const image = { uri: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" };
 
-const LoginScreen = ({ navigation }) => {
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .label("Email")
-      .email("Enter a valid email")
-      .required("Please enter a registered email"),
-    password: Yup.string()
-      .label("Password")
-      .required()
-      .min(5, "Password must have more than 4 characters "),
-  });
+const LoginScreen = ({navigation}) => {
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
+    const auth = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
 
-  const {
-    values,
-    touched,
-    errors,
-    handleChange,
-    isSubmitting,
-    isValid,
-    handleSubmit,
-  } = formik;
+    const validationSchema = Yup.object().shape({
+        email: Yup.string()
+            .label('Email')
+            .email('Enter a valid email')
+            .required('Please enter a registered email'),
+        password: Yup.string()
+            .label('Password')
+            .required()
+            .min(5, 'Password must have more than 4 characters '),
+    });
 
-  const onSubmit = (values) => {};
+    const onSubmit = (values) => {
+        console.log(values)
+        dispatch(login(values))
+    };
 
-  return (
-    <View style={styles.Container}>
-      <ImageBackground
-        source={image}
-        style={styles.image}
-        imageStyle={{ opacity: 0.2 }}
-      >
-        <Text style={styles.header}>{APP_NAME}</Text>
-        <Text style={styles.text}>Welcome!</Text>
-        <BasicInput
-          style={{ fontSize: adaptToHeight(0.025) }}
-          placeholder={"Enter e-mail"}
-          iconName="envelope"
-          iconSize={adaptToHeight(0.028)}
-          containerStyle={{ backgroundColor: colors.light }}
-          onChangeText={handleChange("email")}
-          value={values.email}
-          errorMessage={touched.email && errors.email}
-        />
-        <BasicInput
-          style={{ fontSize: adaptToHeight(0.025) }}
-          placeholder={"Enter password"}
-          iconName="lock"
-          iconSize={adaptToHeight(0.035)}
-          containerStyle={{ backgroundColor: colors.light }}
-          secureTextEntry
-          onChangeText={handleChange("password")}
-          value={values.password}
-          errorMessage={touched.password && errors.password}
-        />
-        <BasicButton
-          title={"LoginScreen"}
-          width={"100%"}
-          color={colors.primary}
-          onPress={handleSubmit}
-          disabled={!isValid || isSubmitting}
-          loading={isSubmitting}
-        />
-        <View style={styles.ForgetPassword}>
-          <BasicButton
-            titleStyle={{
-              color: colors.primary,
-              fontSize: adaptToHeight(0.025),
-            }}
-            title={"Forget password?"}
-            onPress={() => navigation.navigate("ForgetPassword")}
-            color="transparent"
-            type="clear"
-          />
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit,
+    });
+
+    const {
+        values,
+        touched,
+        errors,
+        handleChange,
+        isSubmitting,
+        isValid,
+        handleSubmit,
+    } = formik;
+
+    return (
+        <View style={styles.Container}>
+            <ImageBackground source={image} style={styles.image}  imageStyle={{opacity:0.2}}>
+                <Text style={styles.header}>{APP_NAME}</Text>
+                <Text style={styles.text}>Welcome back!</Text>
+                <BasicInput
+                    style={{fontSize: adaptToHeight(0.025)}}
+                    placeholder={'Enter e-mail'}
+                    iconName="envelope"
+                    iconSize={adaptToHeight(0.028)}
+                    containerStyle={{backgroundColor: colors.light}}
+                    onChangeText={handleChange('email')}
+                    value={values.email}
+                    errorMessage={touched.email && errors.email}
+                />
+                <BasicInput
+                    style={{fontSize: adaptToHeight(0.025)}}
+                    placeholder={'Enter password'}
+                    iconName="lock"
+                    iconSize={adaptToHeight(0.035)}
+                    containerStyle={{backgroundColor: colors.light}}
+                    secureTextEntry
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                    errorMessage={touched.password && errors.password}
+                />
+                <BasicButton
+                    title={'Login'}
+                    width={'100%'}
+                    color={colors.primary}
+                    onPress={handleSubmit}
+                    disabled={!isValid || isSubmitting}
+                    loading={isSubmitting}
+                />
+                <View style={styles.ForgetPassword}>
+                    <BasicButton
+                        titleStyle={{color: colors.primary, fontSize: adaptToHeight(0.025)}}
+                        title={"Forget password?"}
+                        onPress={() => navigation.navigate('ForgetPassword')}
+                        color="transparent"
+                        type="clear"
+                    />
+                </View>
+                {/*<View style={styles.SocialContainer}>
+                    <BasicButton
+                        titleStyle={{color: colors.danger, fontSize: adaptToHeight(0.025)}}
+                        title={"Google"}
+                        style={styles.SocialBtn}
+                        width={'50%'}
+                        onPress={() => console.log('google')}
+                        color="transparent"
+                        type="clear"
+                    />
+                    <View style={{width: '1%'}} />
+                    <BasicButton
+                        titleStyle={{color: colors.blue, fontSize: adaptToHeight(0.025)}}
+                        title={"Facebook"}
+                        style={styles.SocialBtn}
+                        width={'50%'}
+                        onPress={() => console.log('facebook')}
+                        color="transparent"
+                        type="clear"
+                    />
+                </View>*/}
+                <View style={styles.SignUp}>
+                    <Text style={{fontSize: adaptToHeight(0.025), color: colors.gray}}>Don't have an account?</Text>
+                    <BasicButton
+                        titleStyle={{color: colors.primary, fontSize: adaptToHeight(0.025), fontWeight: 'bold'}}
+                        title={"Sign Up"}
+                        onPress={() => navigation.navigate('Register')}
+                        color="transparent"
+                        type="clear"
+                    />
+                </View>
+                <View style={styles.CircleLeft} />
+                <View style={styles.CircleRight} />
+            </ImageBackground>
         </View>
-        <View style={styles.SocialContainer}>
-          <BasicButton
-            titleStyle={{
-              color: colors.danger,
-              fontSize: adaptToHeight(0.025),
-            }}
-            title={"Google"}
-            style={styles.SocialBtn}
-            width={"50%"}
-            onPress={() => console.log("google")}
-            color="transparent"
-            type="clear"
-          />
-          <View style={{ width: "1%" }} />
-          <BasicButton
-            titleStyle={{ color: colors.blue, fontSize: adaptToHeight(0.025) }}
-            title={"Facebook"}
-            style={styles.SocialBtn}
-            width={"50%"}
-            onPress={() => console.log("facebook")}
-            color="transparent"
-            type="clear"
-          />
-        </View>
-        <View style={styles.SignUp}>
-          <Text style={{ fontSize: adaptToHeight(0.025), color: colors.gray }}>
-            Don't have an account?
-          </Text>
-          <BasicButton
-            titleStyle={{
-              color: colors.primary,
-              fontSize: adaptToHeight(0.025),
-              fontWeight: "bold",
-            }}
-            title={"Sign Up"}
-            onPress={() => navigation.navigate("Register")}
-            color="transparent"
-            type="clear"
-          />
-        </View>
-        <View style={styles.CircleLeft} />
-        <View style={styles.CircleRight} />
-      </ImageBackground>
-    </View>
-  );
+    );
 };
 
 const styles = StyleSheet.create({
     header: {
-        fontFamily: 'latoMedium',
+        fontFamily: 'yellowtail',
         color: colors.primary,
-        fontSize: adaptToHeight(0.038),
+        fontSize: adaptToHeight(0.06),
         marginBottom: adaptToHeight(0.05),
     },
     text: {
-      fontFamily: 'latoBold',
-      color: colors.gray,
+      fontFamily: 'latoMedium',
+      color: colors.primary,
       fontSize: adaptToHeight(0.032),
       alignSelf: 'flex-start',
       marginBottom: adaptToHeight(0.02)

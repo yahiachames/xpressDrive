@@ -1,12 +1,12 @@
 import api from "./ApiConfig";
 
-export const login = (username, password) =>
+export const loginApi = (username, password) =>
   api.post("users/login", {
     username,
     password,
   });
 
-export const signup = (username, password) =>
+export const signupApi = (username, password) =>
   api.post("users/signup", {
     username,
     phone,

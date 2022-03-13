@@ -1,6 +1,6 @@
 import { create } from "apisauce";
-import { API_URL } from "../config/config";
-// import StorageToken from "../Auth/storage";
+import {API_URL, AUTH_KEY} from "../config/config";
+import Storage from "../config/storage";
 
 const api = create({
   baseURL: API_URL,
@@ -14,9 +14,9 @@ api.addAsyncRequestTransform(async (request) => {
   request.headers["Access-Control-Allow-Origin"] = "*";
   request.headers["Connection"] = "close";
 
-  // const authToken = await StorageToken.getToken();
-  // if (!authToken) return;
-  // request.headers["Authorization"] = "Bearer " + authToken;
+  const authToken = await Storage.getKey(AUTH_KEY);
+  if (!authToken) return;
+  request.headers["Authorization"] = "Bearer " + authToken;
 });
 
 export default api;
