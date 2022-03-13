@@ -7,25 +7,12 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 import ForgetPasswordScreen from "../screens/forget-password-screen";
 import MapScreen from "../screens/map-screen";
-
+import Drawar from "./drawer-stack";
+import AppNavigator from "./AppNavigator";
 const Stack = createStackNavigator();
 
 export default () => (
   <NavigationContainer>
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name={routes.HOME} component={HomeScreen} />
-      <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
-      <Stack.Screen name={routes.REGISTER} component={RegisterScreen} />
-      <Stack.Screen
-        name={routes.FORGET_PASSWORD}
-        component={ForgetPasswordScreen}
-      />
-      <Stack.Screen name={routes.MAP} component={MapScreen} />
-    </Stack.Navigator>
+    <AppNavigator />
   </NavigationContainer>
 );

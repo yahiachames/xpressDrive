@@ -6,6 +6,7 @@ import {ImageBackground, StyleSheet, Text, View} from "react-native";
 import {adaptToHeight, adaptToWidth} from "../config/dimensions";
 import {colors} from "../constants";
 import {APP_NAME} from "../config/config";
+import CustomChooseDest from "../components/CustomChooseDest";
 
 const initialValues = {
   email: "",

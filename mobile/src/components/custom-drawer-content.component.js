@@ -12,22 +12,22 @@ const CustomDrawerContentComponent = () => (
 );
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 60
-    },
-    containerVersion: {
-        bottom: 16,
-        paddingHorizontal: 38,
-        position: 'absolute',
-        width: '100%'
-    },
-    versionText: {
-        color: colors.grey,
-        fontFamily: fonts.latoRegular,
-        fontSize: 20,
-        textAlign: 'right'
-    }
+  container: {
+    flex: 1,
+    marginTop: 60,
+  },
+  containerVersion: {
+    bottom: 16,
+    paddingHorizontal: 38,
+    position: "absolute",
+    width: "100%",
+  },
+  versionText: {
+    color: colors.grey,
+
+    fontSize: 20,
+    textAlign: "right",
+  },
 });
 
 export default CustomDrawerContentComponent;
