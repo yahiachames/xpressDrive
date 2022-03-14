@@ -7,46 +7,33 @@ import HomeScreen from "../screens/home-screen";
 import LoginScreen from "../screens/login-screen";
 import RegisterScreen from "../screens/register-screen";
 import NewListingButton from "./NewListingButton";
+import ProfileScreen from "../screens/ProfileScreen";
 
-const Tab = createBottomTabNavigator();
+const AppNavigator = () => {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator initialRouteName="Navigate">
+      <Tab.Screen
+        name="Navigate"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
 
-const AppNavigator = () => (
-  <Tab.Navigator>
-    <Tab.Screen
-      name="Navigate"
-      component={HomeScreen}
-      options={{
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="home" color={color} size={size} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="ListingEdit"
-      component={LoginScreen}
-      options={({ navigation }) => ({
-        tabBarButton: () => (
-          <NewListingButton onPress={() => navigation.navigate(routes.LOGIN)} />
-        ),
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons
-            name="plus-circle"
-            color={color}
-            size={size}
-          />
-        ),
-      })}
-    />
-    <Tab.Screen
-      name="Account"
-      component={RegisterScreen}
-      options={{
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="account" color={color} size={size} />
-        ),
-      }}
-    />
-  </Tab.Navigator>
-);
+      <Tab.Screen
+        name="Account"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default AppNavigator;
