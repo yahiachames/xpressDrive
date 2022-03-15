@@ -12,6 +12,9 @@ import AuthNavigator from "./src/navigation/AuthNavigator";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { obj } from "./src/config/iinObject";
+import storage from "./src/config/storage";
+import { AUTH_KEY } from "./src/config/config";
+import jwt_decode from "jwt-decode";
 
 export default function AppContainer() {
   const [permLocation, setPermLocation] = useState(false);
@@ -20,19 +23,21 @@ export default function AppContainer() {
   const [fontsLoaded] = useFonts(fonts);
   const auth = useSelector((state) => state.auth.userData);
   console.log(auth, "authhhhhhhhh");
-  // const restoreUser = async () => {
-  //   const token = await storage.getKey(AUTH_KEY);
-  //   console.log(token);
-  //   //decode token
-  //   const user = jwt_decode(token);
-  //   console.log(user);
-  //   setUser(user);
-  //   // call user
-  // };
+  const restoreUser = async () => {
+    const token = await storage.getKey(AUTH_KEY);
+
+    //decode token
+    const user = token ? jwt_decode(token.split(" ")[1]) : null;
+    console.log(user);
+    setUser(user);
+    // call user
+  };
 
   useEffect(() => {
-    dispatch(persistantLogin);
-  }, [auth]);
+    console.log("dispatch executed");
+    restoreUser();
+    dispatch(persistantLogin(user));
+  }, []);
 
   useEffect(() => {
     setUser(auth);
@@ -45,7 +50,7 @@ export default function AppContainer() {
         <>
           <StatusBar barStyle="dark-content" />
           <NavigationContainer>
-            {obj(user, "sub") ? <AppNavigator /> : <AuthNavigator />}
+            {user ? <AppNavigator /> : <AuthNavigator />}
           </NavigationContainer>
         </>
       ) : (

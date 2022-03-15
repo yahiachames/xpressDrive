@@ -1,10 +1,11 @@
-import * as Yup from 'yup';
-import {useFormik} from 'formik';
+import React from "react";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import BasicInput from "../components/basic-input";
 import BasicButton from "../components/basic-button";
-import {ImageBackground, StyleSheet, Text, View} from "react-native";
-import {adaptToHeight, adaptToWidth} from "../config/dimensions";
-import {colors} from "../constants";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { adaptToHeight, adaptToWidth } from "../config/dimensions";
+import { colors } from "../constants";
 import { APP_NAME } from "../config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/auth-actions";
@@ -146,64 +147,62 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    header: {
-        fontFamily: 'yellowtail',
-        color: colors.primary,
-        fontSize: adaptToHeight(0.06),
-        marginBottom: adaptToHeight(0.05),
-    },
-    text: {
-      fontFamily: 'latoMedium',
-      color: colors.primary,
-      fontSize: adaptToHeight(0.032),
-      alignSelf: 'flex-start',
-      marginBottom: adaptToHeight(0.02)
-    },
-    image: {
-        flex: 1,
-        resizeMode: 'cover',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: adaptToWidth(0.05),
-    },
-    ForgetPassword: {
-    },
-    SocialContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-    },
-    SocialBtn: {
-        borderWidth: 2,
-        borderRadius: 10,
-        borderColor: colors.primary
-    },
-    Container: {
-        flex: 1,
-    },
-    SignUp: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    CircleLeft: {
-        width: 150,
-        height: 150,
-        borderRadius: 80,
-        position: 'absolute',
-        left: -adaptToWidth(0.2),
-        bottom: -adaptToHeight(0.2),
-        backgroundColor: colors.redLight
-    },
-    CircleRight: {
-        width: 250,
-        height: 250,
-        borderRadius: 150,
-        position: 'absolute',
-        right: -adaptToWidth(0.3),
-        bottom: -adaptToHeight(0.3),
-        backgroundColor: colors.pinkLight
-    }
+  header: {
+    fontFamily: "yellowtail",
+    color: colors.primary,
+    fontSize: adaptToHeight(0.06),
+    marginBottom: adaptToHeight(0.05),
+  },
+  text: {
+    fontFamily: "latoMedium",
+    color: colors.primary,
+    fontSize: adaptToHeight(0.032),
+    alignSelf: "flex-start",
+    marginBottom: adaptToHeight(0.02),
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: adaptToWidth(0.05),
+  },
+  ForgetPassword: {},
+  SocialContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+  },
+  SocialBtn: {
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: colors.primary,
+  },
+  Container: {
+    flex: 1,
+  },
+  SignUp: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  CircleLeft: {
+    width: 150,
+    height: 150,
+    borderRadius: 80,
+    position: "absolute",
+    left: -adaptToWidth(0.2),
+    bottom: -adaptToHeight(0.2),
+    backgroundColor: colors.redLight,
+  },
+  CircleRight: {
+    width: 250,
+    height: 250,
+    borderRadius: 150,
+    position: "absolute",
+    right: -adaptToWidth(0.3),
+    bottom: -adaptToHeight(0.3),
+    backgroundColor: colors.pinkLight,
+  },
 });
 
 export default LoginScreen;
-

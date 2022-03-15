@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ImageBackground,
@@ -17,11 +17,29 @@ import { Card } from "react-native-elements";
 import Map from "../components/Map";
 import CustomCarousel from "../components/CustomCarousel";
 import CustomChooseDest from "../components/CustomChooseDest";
+import * as Location from "expo-location";
 
 const { width: windowWidth } = Dimensions.get("window");
 
 const HomeScreen = () => {
+  const [location, setLocation] = useState(null);
   const ref = React.useRef(null);
+  const getlocation = async () => {
+    try {
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+        maximumAge: 10000,
+      });
+      setLocation(location);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  console.log(location);
+
+  useEffect(() => {
+    getlocation();
+  }, []);
 
   return (
     <View style={styles.container}>

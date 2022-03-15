@@ -47,23 +47,6 @@ export function login(username, password) {
   };
 }
 
-export const persistantLogin = () => {
-  console.log("executed");
-  return (dispatch) => {
-    dispatch(isLoading(true));
-    return storage
-      .getKey(AUTH_KEY)
-      .then((response) => {
-        console.log(response, "response token");
-        const user = jwt_decode(response);
-        console.log(user, "user");
-
-        dispatch(isLoading(false));
-        dispatch(loginSuccess(user));
-      })
-      .catch((error) => {
-        dispatch(isLoading(false));
-        dispatch(loginFailed(error));
-      });
-  };
+export const persistantLogin = (user) => {
+  return loginSuccess(user);
 };
