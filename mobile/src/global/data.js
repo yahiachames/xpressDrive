@@ -13,8 +13,7 @@ export const rideData = [
     area: " East Rand,Ekurhuleni,Gauteng,1459",
     id: "2",
   },
-  { street: "Total Boksburg", area: "35 Atlas Rd,Anderbolt,Boksburg", id: "3" },
-  { street: "179 8th Ave", area: "Bezuidenhout Valley,Johannesburg", id: "4" },
+
 ];
 
 export const carTypeData = [

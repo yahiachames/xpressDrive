@@ -48,7 +48,7 @@ export default function RequestScreen({ navigation, route }) {
           <View style={styles.view11}>
             <Icon
               type="material-community"
-              name="clock-time-four"
+              name="account"
               color={colors.white}
               size={18}
             />
@@ -67,65 +67,6 @@ export default function RequestScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.view1}>
-        <Icon
-          type="material-community"
-          name="arrow-left"
-          color={colors.grey1}
-          size={32}
-        />
-      </View>
-      <View style={styles.view2}>
-        <TouchableOpacity>
-          <View style={styles.view3}>
-            <Avatar
-              rounded
-              avatarStyle={{}}
-              size={30}
-              source={require("../../../assets/blankProfilePic.jpg")}
-            />
-            <Text style={{ marginLeft: 5 }}>For Someone</Text>
-            <Icon
-              type="material-community"
-              name="chevron-down"
-              color={colors.grey1}
-              size={26}
-            />
-          </View>
-        </TouchableOpacity>
-        <View style={styles.view4}>
-          <View>
-            <Image
-              style={styles.image1}
-              source={require("../../../assets/transit.png")}
-            />
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("DestinationScreen")}
-            >
-              <View style={styles.view6}>
-                <Text style={styles.text1}>From where</Text>
-              </View>
-            </TouchableOpacity>
-            <View style={styles.view7}>
-              <TouchableOpacity>
-                <View style={styles.view5}>
-                  <Text style={styles.text10}>...</Text>
-                </View>
-              </TouchableOpacity>
-              <View style={styles.view8}>
-                <Icon
-                  type="material-community"
-                  name="plus-thick"
-                  color={colors.black}
-                  size={25}
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
       <MapComponent userOrigin={userOrigin} userDestination={userDestination} />
       <BottomSheet
         ref={bottomsheet1}
@@ -139,51 +80,6 @@ export default function RequestScreen({ navigation, route }) {
           keyExtractor={(item) => item.id}
           renderItem={renderFlatListItems}
           contentContainerStyle={styles.contentContainer}
-          ListHeaderComponent={
-            <View style={styles.view10}>
-              <View style={styles.view11}>
-                <Icon
-                  type="material-community"
-                  name="star"
-                  color={colors.white}
-                  size={20}
-                />
-              </View>
-              <View>
-                <Text style={styles.text9}>Saved Places</Text>
-              </View>
-            </View>
-          }
-          ListFooterComponent={
-            <View>
-              <View style={styles.view10}>
-                <View style={styles.view11}>
-                  <Icon
-                    type="material-community"
-                    name="map-marker"
-                    color={colors.white}
-                    size={20}
-                  />
-                </View>
-                <View>
-                  <Text style={styles.text9}>Set location on map</Text>
-                </View>
-              </View>
-              <View style={styles.view10}>
-                <View style={styles.view11}>
-                  <Icon
-                    type="material-community"
-                    name="skip-next"
-                    color={colors.white}
-                    size={20}
-                  />
-                </View>
-                <View>
-                  <Text style={styles.text9}>Enter destination later</Text>
-                </View>
-              </View>
-            </View>
-          }
         />
       </BottomSheet>
     </View>
