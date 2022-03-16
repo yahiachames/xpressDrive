@@ -3,13 +3,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import routes from "./routes";
-import HomeScreen from "../screens/home-screen";
-import LoginScreen from "../screens/login-screen";
-import RegisterScreen from "../screens/register-screen";
+
+import RegisterScreen from "../screens/riderScreens/register-screen";
 import NewListingButton from "./NewListingButton";
-import ProfileScreen from "../screens/ProfileScreen";
-import RequestScreen from "../screens/RequestScreen";
-import DestinationScreen from "../screens/DestinationScreen";
+import ProfileScreen from "../screens/riderScreens/ProfileScreen";
+import RequestScreen from "../screens/riderScreens/RequestScreen";
+import HomeScreen from "../screens/riderScreens/home-screen";
+import DestinationScreen from "../screens/riderScreens/DestinationScreen";
+import LoginScreen from "../screens/riderScreens/login-screen";
 
 const AppNavigator = () => {
   const Tab = createBottomTabNavigator();

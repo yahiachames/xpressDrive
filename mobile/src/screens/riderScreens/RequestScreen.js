@@ -19,9 +19,9 @@ import BottomSheet, {
   BottomSheetSectionList,
 } from "@gorhom/bottom-sheet";
 import { Avatar, Icon } from "react-native-elements";
-import MapComponent from "../components/MapComponent";
-import { colors, parameters } from "../global/styles.js";
-import { rideData } from "../global/data";
+import MapComponent from "../../components/MapComponent";
+import { colors, parameters } from "../../global/styles.js";
+import { rideData } from "../../global/data";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -82,7 +82,7 @@ export default function RequestScreen({ navigation, route }) {
               rounded
               avatarStyle={{}}
               size={30}
-              source={require("../../assets/blankProfilePic.jpg")}
+              source={require("../../../assets/blankProfilePic.jpg")}
             />
             <Text style={{ marginLeft: 5 }}>For Someone</Text>
             <Icon
@@ -97,7 +97,7 @@ export default function RequestScreen({ navigation, route }) {
           <View>
             <Image
               style={styles.image1}
-              source={require("../../assets/transit.png")}
+              source={require("../../../assets/transit.png")}
             />
           </View>
           <View>

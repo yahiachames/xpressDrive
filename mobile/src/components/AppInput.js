@@ -3,14 +3,20 @@ import { View, TextInput, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../constants";
 
-function AppTextInput({ icon, width = "100%", styleView, ...otherProps }) {
+function AppTextInput({
+  icon,
+  width = "100%",
+  styleView,
+  color = colors.primary,
+  ...otherProps
+}) {
   return (
     <View style={[styles.container, { width }, styleView]}>
       {icon && (
         <MaterialCommunityIcons
           name={icon}
           size={20}
-          color={colors.primary}
+          color={color}
           style={styles.icon}
         />
       )}

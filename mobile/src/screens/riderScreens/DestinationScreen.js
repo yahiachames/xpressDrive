@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import Shape from "../components/shape";
+import Shape from "../../components/shape";
+import ChoseDestCmpt from "../../components/chooseDestcmpt";
 
 const DestinationScreen = () => {
-  return <Shape />;
+  return <ChoseDestCmpt />;
 };
 
 export default DestinationScreen;

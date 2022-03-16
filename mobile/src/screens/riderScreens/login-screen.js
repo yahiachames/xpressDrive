@@ -1,14 +1,14 @@
 import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import BasicInput from "../components/basic-input";
-import BasicButton from "../components/basic-button";
+import BasicInput from "../../components/basic-input";
+import BasicButton from "../../components/basic-button";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import { adaptToHeight, adaptToWidth } from "../config/dimensions";
-import { colors } from "../constants";
-import { APP_NAME } from "../config/config";
+import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
+import { colors } from "../../constants";
+import { APP_NAME } from "../../config/config";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/actions/auth-actions";
+import { login } from "../../redux/actions/auth-actions";
 
 const initialValues = {
   username: "",
