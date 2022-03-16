@@ -124,7 +124,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                 </View>*/}
         <View style={styles.SignUp}>
-          <Text style={{ fontSize: adaptToHeight(0.025), color: colors.gray }}>
+          <Text style={{ fontSize: adaptToHeight(0.025), color: colors.grey }}>
             Don't have an account?
           </Text>
           <BasicButton

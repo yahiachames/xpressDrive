@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
         left: 8,
         zIndex: 50,
         borderRadius: 50,
-        backgroundColor: colors.grayLight
+        backgroundColor: colors.greyLight
     }
 });

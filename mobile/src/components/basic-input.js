@@ -8,7 +8,7 @@ import {colors} from "../constants";
 const BasicInput = ({
                         iconName = 'user',
                         iconSize = 24,
-                        iconColor = colors.grayMedium,
+                        iconColor = colors.greyMedium,
                         containerStyle,
                         ...rest
                     }) => (

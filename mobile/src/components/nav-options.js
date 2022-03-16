@@ -32,7 +32,7 @@ const NavOptions = () => {
             renderItem={({ item }) => (
                 <TouchableOpacity
                     onPress={() => navigation.navigate(item.screen)}
-                    style={{padding: adaptToWidth(0.01), margin: adaptToWidth(0.01), width: 'auto', backgroundColor: colors.grayMedium}}
+                    style={{padding: adaptToWidth(0.01), margin: adaptToWidth(0.01), width: 'auto', backgroundColor: colors.greyMedium}}
                     /*disabled={!origin}*/
                 >
                     <View >
