@@ -16,7 +16,7 @@ api.addAsyncRequestTransform(async (request) => {
 
   const authToken = await Storage.getKey(AUTH_KEY);
   if (!authToken) return;
-  request.headers["Authorization"] = "Bearer " + authToken;
+  request.headers["Authorization"] = authToken;
 });
 
 export default api;

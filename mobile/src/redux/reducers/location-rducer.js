@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  currentPosition: {
+  currentPoint: {
     latitude: 0,
     longitude: 0,
     region: "",
@@ -20,7 +20,7 @@ const INITIAL_STATE = {
 export default function auth(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "LOCATION_ATTEMPT":
-      return { ...state, currentPosition: action.payload };
+      return { ...state, currentPoint: action.payload };
     case "ADD_DESTINATION":
       return { ...state, destination: action.payload };
 

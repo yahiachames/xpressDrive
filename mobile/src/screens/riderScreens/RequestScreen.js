@@ -13,85 +13,203 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
-import BottomSheet, {
-  BottomSheetFlatList,
-  BottomSheetSectionList,
-} from "@gorhom/bottom-sheet";
+
 import { Avatar, Icon } from "react-native-elements";
+
 import MapComponent from "../../components/MapComponent";
 import { colors, parameters } from "../../global/styles.js";
 import { rideData } from "../../global/data";
+import { useSelector } from "react-redux";
+import BottomSheet from "../../components/BottomSheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
+import { getDrivers } from "../../controllers/userApis";
+import RequestRideModal from "../../components/Modals/RequestRideModal";
+import AppText from "../../components/Text";
+import AppButton from "../../components/Button";
+import { createRide } from "../../controllers/rideApis";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function RequestScreen({ navigation, route }) {
+  const location = useSelector((state) => state.location);
+  const [toggleModal, handleToggleModal] = useState(false);
+  const [drivers, setDrivers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [driver_id, setDriver_id] = useState("");
   const [userOrigin, setUserOrigin] = useState({
-    latitude: -26.207487,
-    longitude: 28.236226,
+    latitude: location.currentPoint.latitude,
+    longitude: location.currentPoint.longitude,
   });
   const [userDestination, setUserDestination] = useState({
-    latitude: -26.208565,
-    longitude: -26.203598,
+    latitude: location.destination.latitude,
+    longitude: location.destination.longitude,
   });
+  let isActive = bottomsheet1?.current?.isActive();
+  const bottomsheet1 = useRef(null);
+  const id = useSelector((state) => state.auth.userData.sub);
+  const locationstate = useSelector((state) => state.location);
 
-  const bottomsheet1 = useRef(1);
+  console.log(id, locationstate, "id");
 
-  const snapPoints1 = useMemo(() => ["70%"], []);
-  const handleSheetChange1 = useCallback((index) => {}, []);
+  const getDriversAPi = async () => {
+    getDrivers()
+      .then((res) => setDrivers(res.data))
+      .catch((e) => console.log(e));
+  };
 
-  const renderFlatListItems = useCallback(
-    ({ item }) => (
-      <View>
-        <View style={styles.view10}>
-          <View style={styles.view11}>
-            <Icon
-              type="material-community"
-              name="account"
-              color={colors.white}
-              size={18}
-            />
-          </View>
-          <View>
-            <Text style={{ fontSize: 15, color: colors.grey1 }}>
-              {item.street}
-            </Text>
-            <Text style={{ color: colors.grey4 }}>{item.area}</Text>
+  const createRideApi = async () => {
+    createRide({
+      currentPoint: {
+        latitude: locationstate.currentPoint["latitude"],
+        longitude: locationstate.currentPoint["longitude"],
+      },
+      destination: {
+        latitude: locationstate.destination["latitude"],
+        longitude: locationstate.destination["longitude"],
+      },
+      driver_id: driver_id,
+      rider_id: id,
+      distance: 6,
+      total_price: 12,
+    })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    bottomsheet1?.current?.scrollTo(-adaptToHeight(0.55));
+  }, [isActive]);
+
+  useEffect(() => {
+    setLoading(true);
+    getDriversAPi();
+    setLoading(false);
+  }, []);
+
+  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+  const handleSheetChanges = useCallback((index) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  const renderFlatListItems = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setDriver_id(item.id);
+          handleToggleModal(true);
+        }}
+      >
+        <View>
+          <View style={styles.view10}>
+            <View style={styles.view11}>
+              <Icon
+                type="material-community"
+                name="account"
+                color={colors.white}
+                size={18}
+              />
+            </View>
+            <View>
+              <Text style={{ fontSize: 15, color: colors.grey1 }}>
+                {item.username}
+              </Text>
+              <Text style={{ color: colors.grey4 }}>{item.area}</Text>
+            </View>
           </View>
         </View>
-      </View>
-    ),
-    []
-  );
+      </TouchableOpacity>
+    );
+  };
 
-  return (
-    <View style={styles.container}>
-      <MapComponent userOrigin={userOrigin} userDestination={userDestination} />
-      <BottomSheet
-        ref={bottomsheet1}
-        index={0}
-        snapPoints={snapPoints1}
-        onChange={handleSheetChange1}
-      >
-        <BottomSheetFlatList
-          keyboardShouldPersistTaps="always"
-          data={rideData}
-          keyExtractor={(item) => item.id}
-          renderItem={renderFlatListItems}
-          contentContainerStyle={styles.contentContainer}
-        />
-      </BottomSheet>
-    </View>
-  );
+  if (loading)
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  else {
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <BottomSheet ref={bottomsheet1}>
+            <FlatList
+              keyboardShouldPersistTaps="always"
+              data={drivers}
+              keyExtractor={(item) => item.id}
+              renderItem={renderFlatListItems}
+              contentContainerStyle={styles.contentContainer}
+            />
+          </BottomSheet>
+
+          <RequestRideModal
+            visible={toggleModal}
+            child={
+              <View style={styles.Modalcontainer}>
+                <AppText>accapter votre demande ?</AppText>
+                <View style={styles.btnModalContainer}>
+                  <AppButton
+                    title="confirmer"
+                    styleCOntainer={styles.btnModal}
+                    styleText={styles.textBtnModal}
+                    onPress={async () => {
+                      handleToggleModal(false);
+                      createRideApi();
+                    }}
+                  />
+                  <AppButton
+                    title="annuler"
+                    styleCOntainer={styles.btnModal}
+                    styleText={styles.textBtnModal}
+                    onPress={() => {
+                      handleToggleModal(false);
+                    }}
+                  />
+                </View>
+              </View>
+            }
+          />
+        </View>
+      </GestureHandlerRootView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container1: { flex: 1, paddingTop: parameters.statusBarHeight },
+  Modalcontainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  btnModalContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnModal: {
+    width: adaptToWidth(0.32),
+  },
+  textBtnModal: {
+    fontSize: 14,
+  },
 
   container: {
     flex: 1,
-    paddingTop: parameters.statusBarHeight,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    height: 50,
+    borderRadius: 25,
+    aspectRatio: 1,
+    backgroundColor: "white",
+    opacity: 0.6,
   },
   contentContainer: {
     flex: 1,
@@ -112,286 +230,7 @@ const styles = StyleSheet.create({
     zIndex: 8,
   },
 
-  view2: {
-    height: SCREEN_HEIGHT * 0.21,
-    alignItems: "center",
-    zIndex: 5,
-    backgroundColor: colors.white,
-  },
-
-  view3: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 2,
-    marginBottom: 10,
-    backgroundColor: colors.white,
-    //height:30,
-    zIndex: 10,
-  },
-  view4: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  view5: {
-    backgroundColor: colors.grey7,
-    width: SCREEN_WIDTH * 0.7,
-    height: 40,
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  view6: {
-    backgroundColor: colors.grey6,
-    width: SCREEN_WIDTH * 0.7,
-    height: 40,
-    justifyContent: "center",
-    marginTop: 10,
-    paddingLeft: 0,
-  },
-  text1: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: colors.grey1,
-  },
-
-  image1: { height: 70, width: 30, marginRight: 10, marginTop: 10 },
-  view7: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  view8: {
-    marginLeft: 10,
-  },
-  view10: {
-    alignItems: "center",
-    flex: 5,
-    flexDirection: "row",
-    paddingVertical: 10,
-    borderBottomColor: colors.grey5,
-    borderBottomWidth: 1,
-    paddingHorizontal: 15,
-  },
-  view11: {
-    backgroundColor: colors.grey,
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 15,
-    marginTop: 15,
-  },
-
-  contentContainer: {
-    backgroundColor: "white",
-  },
-
-  view12: {
-    alignItems: "center",
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grey4,
-  },
-
-  text2: {
-    fontSize: 18,
-    color: colors.grey1,
-  },
-  text3: {
-    fontSize: 16,
-    color: colors.black,
-    fontWeight: "bold",
-    marginRight: 5,
-  },
-
-  text4: { color: colors.grey2, marginTop: 4 },
-
-  view13: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-  },
-
-  button1: {
-    height: 40,
-    width: 100,
-    backgroundColor: colors.grey6,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-
-  button2: {
-    height: 50,
-    backgroundColor: colors.grey10,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    marginHorizontal: 30,
-  },
-
-  button1Text: {
-    fontSize: 17,
-    marginTop: -2,
-    color: colors.black,
-  },
-
-  button2Text: {
-    color: colors.white,
-    fontSize: 23,
-    marginTop: -2,
-  },
-
-  view14: {
-    alignItems: "center",
-    flex: 5,
-    flexDirection: "row",
-  },
-  view15: {
-    backgroundColor: colors.grey6,
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 20,
-  },
-
-  view16: {
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
-
-  text5: {
-    fontSize: 12,
-    color: colors.black,
-    marginLeft: 3,
-    fontWeight: "bold",
-    paddingBottom: 1,
-  },
-
-  view17: {},
-
-  view18: {},
-
-  view19: { flex: 1.7, alignItems: "flex-end" },
-
-  icon: { paddingBottom: 2 },
-
-  image2: { height: 60, width: 60 },
-
-  view20: { marginRight: 10 },
-
-  text6: {
-    fontSize: 15,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-
-  view21: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginHorizontal: 30,
-    marginTop: 15,
-  },
-
-  view22: {
-    alignItems: "center",
-    marginBottom: -20,
-  },
-
-  sectionHeaderContainer: {
-    backgroundColor: "white",
-    marginTop: 30,
-    paddingLeft: 15,
-  },
-
-  text7: {
-    fontSize: 28,
-    color: colors.black,
-    marginRight: 5,
-  },
-
-  text8: {
-    fontSize: 15,
-    color: colors.grey2,
-    textDecorationLine: "line-through",
-  },
-
-  button3: {
-    height: 60,
-    backgroundColor: colors.black,
-    alignItems: "center",
-    justifyContent: "center",
-    width: SCREEN_WIDTH - 110,
-    marginBottom: 10,
-  },
-
-  view23: {
-    flexDirection: "row",
-    backgroundColor: colors.cardbackground,
-    // elevation:10,
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    paddingHorizontal: 20,
-    height: 80,
-  },
-
-  button2Image: {
-    height: 55,
-    width: 55,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.grey6,
-    marginBottom: 10,
-  },
-  text9: { fontSize: 15, color: colors.grey1 },
-
-  map: {
-    marginVertical: 0,
-    width: SCREEN_WIDTH,
-    zIndex: -1,
-  },
-
-  centeredView: {
-    zIndex: 14,
-  },
-  modalView: {
-    marginHorizontal: 20,
-    marginVertical: 60,
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    zIndex: 16,
-  },
-
-  view24: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 15,
-    paddingHorizontal: 20,
-  },
-
-  view25: {
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
-
   flatlist: {
     marginTop: 20,
   },
-
-  text10: { color: colors.grey2, paddingLeft: 10 },
 });

@@ -17,6 +17,9 @@ import Shape from "../../components/shape";
 import ChoseDestCmpt from "../../components/chooseDestcmpt";
 import MapCustom from "../../components/MapCustom";
 import { useSelector } from "react-redux";
+import BasicButton from "../../components/basic-button";
+import storage from "../../config/storage";
+import { AUTH_KEY } from "../../config/config";
 
 const HomeScreen = () => {
   let loc = useSelector((state) => state.location);
@@ -50,7 +53,14 @@ const HomeScreen = () => {
       <View style={styles.chosedestcmp}>
         <ChoseDestCmpt />
       </View>
-      <MapCustom containerStyle={styles.mapContainer} />
+      {/* <MapCustom containerStyle={styles.mapContainer} /> */}
+      <BasicButton
+        width={adaptToWidth(0.3)}
+        color={colors.danger}
+        containerStyle={styles.btn}
+        title="logout"
+        onPress={() => storage.removeKey(AUTH_KEY)}
+      />
     </View>
   );
 };
@@ -58,6 +68,12 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  btn: {
+    zIndex: 4,
+    position: "absolute",
+    borderWidth: 10,
+    top: 500,
   },
   mapContainer: {
     top: -adaptToHeight(0.18),

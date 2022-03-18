@@ -30,13 +30,13 @@ export default function AppContainer() {
     const user = token ? jwt_decode(token.split(" ")[1]) : null;
     console.log(user);
     setUser(user);
+    dispatch(persistantLogin(user));
     // call user
   };
 
   useEffect(() => {
     console.log("dispatch executed");
     restoreUser();
-    dispatch(persistantLogin(user));
   }, []);
 
   useEffect(() => {

@@ -18,22 +18,22 @@ import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import ScreenComponent from "../../components/screen.component";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const initialValues = {
-  full_name: "",
-  email: "",
-  password: "",
-  phone: "",
-};
-
-const image = {
-  uri: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-};
 
 const RegisterScreen = ({ navigation }) => {
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+    phone: "",
+  };
+
+  const image = {
+    uri: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+  };
   const [selected, setSelected] = useState("");
 
   const validationSchema = Yup.object().shape({
-    full_name: Yup.string()
+    username: Yup.string()
       .label("Name")
       .required()
       .min(2, "Must have at least 2 characters"),
@@ -67,7 +67,9 @@ const RegisterScreen = ({ navigation }) => {
     handleSubmit,
   } = formik;
 
-  const onSubmit = (values) => {};
+  const onSubmit = (values) => {
+    console.log({ ...values, role: selected }, "tyy");
+  };
 
   const Form = () => {
     return (
@@ -79,11 +81,11 @@ const RegisterScreen = ({ navigation }) => {
           style={{ fontSize: adaptToHeight(0.025) }}
           containerStyle={{ backgroundColor: colors.light }}
           iconSize={adaptToHeight(0.028)}
-          placeholder={"Enter your full name"}
+          placeholder={"Enter your username"}
           iconName="user"
-          onChangeText={handleChange("full_name")}
-          value={values.full_name}
-          errorMessage={touched.full_name && errors.full_name}
+          onChangeText={handleChange("username")}
+          value={values.username}
+          errorMessage={touched.username && errors.username}
         />
         <BasicInput
           style={{ fontSize: adaptToHeight(0.025) }}

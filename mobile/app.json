@@ -13,12 +13,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
+
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -26,7 +25,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDHKYX4D0RijmTdHOFwaPq5mem58lVz7GQ"
+          "apiKey": "AIzaSyBJhorPEbTDcnX4fH4sobWv_aLiUkawKU0"
         }
       }
     },

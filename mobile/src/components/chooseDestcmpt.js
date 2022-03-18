@@ -99,9 +99,9 @@ const ChoseDestCmpt = () => {
           setToggleFlat(false);
           setSearchValue(item.item.properties.name);
           setDestination({
-            latitude: item.item.geometry.coordinates[0],
+            latitude: item.item.geometry.coordinates[1],
 
-            longitude: item.item.geometry.coordinates[1],
+            longitude: item.item.geometry.coordinates[0],
             region: item.item.properties.state,
             subregion: item.item.properties.city,
             street: item.item.properties.street,

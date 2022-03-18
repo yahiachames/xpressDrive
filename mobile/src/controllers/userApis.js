@@ -8,7 +8,7 @@ export const loginApi = ({ username, password }) => {
   });
 };
 
-export const signupApi = (username, password) =>
+export const signupApi = ({ username, password, email, phone, role }) =>
   api.post("user/signup", {
     username,
     phone,
@@ -16,3 +16,7 @@ export const signupApi = (username, password) =>
     password,
     role,
   });
+
+export const getDrivers = () => {
+  return api.get("user/all");
+};
