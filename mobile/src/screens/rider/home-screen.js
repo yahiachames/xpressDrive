@@ -8,14 +8,14 @@ import {
   Text,
   View,
 } from "react-native";
-import { adaptToHeight, adaptToWidth } from "../config/dimensions";
-import { colors } from "../constants";
+import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
+import { colors } from "../../constants";
 
 import * as Location from "expo-location";
 
-import Shape from "../components/shape";
-import ChoseDestCmpt from "../components/chams/chooseDestcmpt";
-import MapCustom from "../components/chams/MapCustom";
+import Shape from "../../components/shape";
+import ChoseDestCmpt from "../../components/chams/chooseDestcmpt";
+import MapCustom from "../../components/chams/MapCustom";
 import { useSelector } from "react-redux";
 
 const HomeScreen = () => {

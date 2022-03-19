@@ -45,8 +45,8 @@ const LoginScreen = ({navigation}) => {
                 style={styles.image}
                 imageStyle={{opacity: 1}}
             >
-                <View style={styles.filter} />
-                <Image source={login2} style={styles.wave} />
+                <View style={styles.filter}/>
+                <Image source={login2} style={styles.wave}/>
             </ImageBackground>
             <View style={styles.form}>
                 <Text style={styles.title}>Let's get start</Text>

@@ -1,7 +1,6 @@
 import api from "./api-config";
 
 export const loginApi = ({username, password}) => {
-    console.log(username, password);
     return api.post("user/login", {
         username,
         password,

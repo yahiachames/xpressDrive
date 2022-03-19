@@ -19,8 +19,8 @@ const ForgetPasswordScreen = ({navigation}) => {
     const validationSchema = Yup.object().shape({
         email: Yup.string()
             .label("Email")
-        /*.email("Enter a valid email")
-        .required("Please enter a valid email"),*/
+            .email("Enter a valid email")
+            .required("Please enter a valid email"),
     });
 
     const onSubmit = (values) => {

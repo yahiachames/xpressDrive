@@ -3,7 +3,6 @@ import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {adaptToHeight, adaptToWidth} from "../../config/dimensions";
 import {colors} from "../../constants";
-import Map from "../../components/chams/map";
 
 const indicators = [
     { icon: "clock", value: "10.2", label: "Hours Online" },
@@ -15,7 +14,6 @@ const indicator = () => {
     return (
         <View style={styles.WorkingInfo}>
             <Icon
-                style={styles.SelectedIcon}
                 name="dashboard"
                 size={adaptToWidth(.07)}
                 color={colors.greyMedium}
@@ -26,10 +24,9 @@ const indicator = () => {
     )
 }
 
-const DashboardScreen = () => {
+const HomeScreen = () => {
   return (
     <View>
-        <Map />
         <View style={styles.Box}>
             <View style={styles.BoxHeader}>
                 <View style={styles.UserInfo}>
@@ -55,7 +52,7 @@ const DashboardScreen = () => {
   );
 };
 
-export default DashboardScreen;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     Box: {

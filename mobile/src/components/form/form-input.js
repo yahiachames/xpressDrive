@@ -19,7 +19,7 @@ function FormInput({
         <>
             <BasicInput
                 onBlur={() => setFieldTouched(name)}
-                onChangeText={setFieldValue}
+                onChangeText={(value) => setFieldValue(name, value)}
                 textStyle={textStyle}
                 {...otherProps}
                 width={width}

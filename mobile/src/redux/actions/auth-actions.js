@@ -27,9 +27,8 @@ export function loginFailed(error) {
 export function login({username, password}) {
     return (dispatch) => {
         dispatch(isLoading(true));
-        return loginApi(username, password)
+        return loginApi({username, password})
             .then((response) => {
-                console.log(response);
                 if (response.ok) {
                     dispatch(isLoading(false));
                     const user = jwt_decode(response.data.token);
