@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItem, DrawerItemList} from "@react-navigation/drawer";
 
-const CustomDrawerContentComponent = (props) => (
+const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
         <DrawerItem
@@ -18,4 +18,4 @@ const CustomDrawerContentComponent = (props) => (
 
 const styles = StyleSheet.create({});
 
-export default CustomDrawerContentComponent;
+export default CustomDrawerContent;

@@ -11,6 +11,7 @@ import FormInput from "../../../components/form/form-input";
 import CustomForm from "../../../components/form/form";
 import Screen from "../../../components/screen";
 import SubmitButton from "../../../components/form/submit-button";
+import routes from "../../../navigation/routes";
 
 const initialValues = {
     email: "",
@@ -85,7 +86,7 @@ const RegisterScreen = ({navigation}) => {
                         <BasicButton
                             textColor={colors.black}
                             title={"Sign In"}
-                            onPress={() => navigation.navigate("Login")}
+                            onPress={() => navigation.navigate(routes.LOGIN)}
                             bgColor="transparent"
                             type="clear"
                         />

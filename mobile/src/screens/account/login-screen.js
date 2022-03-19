@@ -7,9 +7,9 @@ import {login} from "../../redux/actions/auth-actions";
 import FormInput from "../../components/form/form-input";
 import SubmitButton from "../../components/form/submit-button";
 import CustomForm from "../../components/form/form";
-import {adaptToHeight} from "../../config/dimensions";
 import Screen from "../../components/screen";
 import BasicButton from "../../components/basic-button";
+import routes from "../../navigation/routes";
 
 const initialValues = {
     username: "",
@@ -76,7 +76,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.footer}>
                 <BasicButton
                     title={"Forget password?"}
-                    onPress={() => navigation.navigate("ForgetPassword")}
+                    onPress={() => navigation.navigate(routes.FORGET_PASSWORD)}
                     bgColor="transparent"
                     type="clear"
                     textColor={colors.grey}
@@ -87,7 +87,7 @@ const LoginScreen = ({navigation}) => {
                     </Text>
                     <BasicButton
                         title={"Sign Up"}
-                        onPress={() => navigation.navigate("Register")}
+                        onPress={() => navigation.navigate(routes.REGISTER)}
                         bgColor="transparent"
                         type="clear"
                         textColor={colors.black}
