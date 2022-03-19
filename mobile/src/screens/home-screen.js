@@ -10,18 +10,17 @@ import {
 } from "react-native";
 import { adaptToHeight, adaptToWidth } from "../config/dimensions";
 import { colors } from "../constants";
-import NavOptions from "../components/nav-options";
-import Carousel from "react-native-snap-carousel";
-import { Dimensions } from "react-native";
-import { Card } from "react-native-elements";
-import Map from "../components/Map";
-import CustomCarousel from "../components/CustomCarousel";
-import CustomChooseDest from "../components/CustomChooseDest";
+
 import * as Location from "expo-location";
 
-const { width: windowWidth } = Dimensions.get("window");
+import Shape from "../components/shape";
+import ChoseDestCmpt from "../components/chams/chooseDestcmpt";
+import MapCustom from "../components/chams/MapCustom";
+import { useSelector } from "react-redux";
 
 const HomeScreen = () => {
+  let loc = useSelector((state) => state.location);
+  console.log(loc, " use seletor");
   const [location, setLocation] = useState(null);
   const ref = React.useRef(null);
   const getlocation = async () => {
@@ -43,9 +42,15 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Map />
-      <CustomChooseDest />
-      <CustomCarousel />
+      <Text style={styles.logo}>Xpress Drive</Text>
+      <View style={styles.shapecontainer}>
+        <Shape />
+      </View>
+
+      <View style={styles.chosedestcmp}>
+        <ChoseDestCmpt />
+      </View>
+      <MapCustom containerStyle={styles.mapContainer} />
     </View>
   );
 };
@@ -53,6 +58,25 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  mapContainer: {
+    top: -adaptToHeight(0.18),
+    zIndex: 0,
+  },
+  shapecontainer: {
+    zIndex: 1,
+  },
+  logo: {
+    zIndex: 2,
+    top: adaptToHeight(0.05),
+    color: colors.gray,
+    position: "absolute",
+    fontSize: adaptToHeight(0.05),
+    left: adaptToWidth(0.05),
+    backgroundColor: colors.redLight,
+    padding: adaptToHeight(0.025),
+    borderBottomRightRadius: adaptToHeight(0.05),
+    borderTopEndRadius: adaptToHeight(0.5),
   },
   header: {
     color: colors.primary,
@@ -63,6 +87,12 @@ const styles = StyleSheet.create({
   bgi: {
     width: 200,
     height: 200,
+  },
+  chosedestcmp: {
+    zIndex: 1,
+    position: "absolute",
+    top: adaptToHeight(0.21),
+    left: adaptToWidth(0.03),
   },
 });
 

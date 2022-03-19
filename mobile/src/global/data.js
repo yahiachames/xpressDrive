@@ -5,6 +5,10 @@ export const filterData = [
   { name: "Reserve", image: require("../../assets/reserve.png"), id: "3" },
 ];
 
+export const countriesPhoneCodesData = [
+  { label: '🇹🇳', value: '216' },
+]
+
 export const rideData = [
   { street: "32 Olivia Rd", area: "Klipfontein 83-Ir,Boksburg", id: "0" },
   { street: "Hughes Industrial Park", area: "Hughes,Boksburg", id: "1" },
@@ -13,8 +17,7 @@ export const rideData = [
     area: " East Rand,Ekurhuleni,Gauteng,1459",
     id: "2",
   },
-  { street: "Total Boksburg", area: "35 Atlas Rd,Anderbolt,Boksburg", id: "3" },
-  { street: "179 8th Ave", area: "Bezuidenhout Valley,Johannesburg", id: "4" },
+
 ];
 
 export const carTypeData = [

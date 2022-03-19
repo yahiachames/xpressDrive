@@ -1,11 +1,10 @@
 export default {
-    primary: '#FFD428',
-    secondary: '#FF8900',
+    primary: '#5ab925',
+    secondary: '#f36526',
     black: '#242A37',
     white: '#fff',
-    medium: '#F3F3F3',
-    grey: '#F1F2F6',
-    greyLight: '#edeff3',
+    grey: '#707070',
+    greyLight: '#cfcfcf',
     greyMedium: '#a5a5a5',
     pinkLight: '#f9ded4',
     redLight: '#f5beab',
@@ -13,4 +12,5 @@ export default {
     dark: '#0c0c0c',
     danger: '#E81A1A',
     blue: '#4564a1',
+    yellow: '#FFD428',
 }

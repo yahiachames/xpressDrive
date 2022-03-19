@@ -1,33 +1,21 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Constants from 'expo-constants';
-import { colors, fonts } from '../constants';
+import {StyleSheet} from 'react-native';
+import {DrawerContentScrollView, DrawerItem, DrawerItemList} from "@react-navigation/drawer";
 
-const CustomDrawerContentComponent = () => (
-    <View style={styles.container}>
-        <View style={styles.containerVersion}>
-            <Text style={styles.versionText}>{`v${Constants.manifest.version}`}</Text>
-        </View>
-    </View>
+const CustomDrawerContentComponent = (props) => (
+    <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+        <DrawerItem
+            label="Close drawer"
+            onPress={() => props.navigation.closeDrawer()}
+        />
+        <DrawerItem
+            label="Toggle drawer"
+            onPress={() => props.navigation.toggleDrawer()}
+        />
+    </DrawerContentScrollView>
 );
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 60
-    },
-    containerVersion: {
-        bottom: 16,
-        paddingHorizontal: 38,
-        position: 'absolute',
-        width: '100%'
-    },
-    versionText: {
-        color: colors.grey,
-        fontFamily: 'latoRegular',
-        fontSize: 20,
-        textAlign: 'right'
-    }
-});
+const styles = StyleSheet.create({});
 
 export default CustomDrawerContentComponent;

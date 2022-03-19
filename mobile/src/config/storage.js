@@ -2,8 +2,7 @@ import * as SecureStore from "expo-secure-store";
 
 const getKey = async (key) => {
     try {
-        const response = await SecureStore.getItemAsync(key);
-        return response;
+        return await SecureStore.getItemAsync(key);
     } catch (error) {
         console.log(`Error getting the key ${key}`, error);
     }

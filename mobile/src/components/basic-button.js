@@ -1,16 +1,60 @@
 import React from 'react';
-import {Button} from 'react-native-elements';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {AntDesign, FontAwesome5} from "@expo/vector-icons";
+import {colors, sizes} from "../constants";
 import {adaptToHeight} from "../config/dimensions";
-import {StyleSheet} from "react-native";
 
-const BasicButton = ({color = 'blue', height = adaptToHeight(0.08), width="auto", style, ...props}) => (
-    <Button {...props} containerStyle={[styles.ContainerStyle, {width: width}]} buttonStyle={[style, { backgroundColor: color, height: height}]} />
-);
+function BasicButton({
+                         iconSize = sizes.icon,
+                         iconType = "FontAwesome5",
+                         title,
+                         icon,
+                         onPress,
+                         bgColor = colors.dark,
+                         style,
+                         textColor = colors.white,
+                         textStyle,
+                         disabled = false,
+                     }) {
+    return (
+        <TouchableOpacity
+            activeOpacity={0.9}
+            style={[styles.button, {backgroundColor: bgColor}, style]}
+            disabled={disabled}
+            onPress={onPress}
+        >
+            <View style={{alignItems: "center", flexDirection: "row"}}>
+                {title && (
+                    <Text style={[styles.text, {color: textColor}, textStyle]}>
+                        {title}
+                    </Text>
+                )}
+                {icon && iconType === "FontAwesome5" ? (
+                    <FontAwesome5 name={icon} size={iconSize} color={textColor}/>
+                ) : (
+                    <AntDesign name={icon} size={iconSize} color={textColor}/>
+                )}
+            </View>
+        </TouchableOpacity>
+    );
+}
 
 const styles = StyleSheet.create({
-    ContainerStyle: {
+    button: {
+        backgroundColor: colors.primary,
+        borderRadius: sizes.radius,
+        justifyContent: "center",
+        alignItems: "center",
+        height: adaptToHeight(.08),
+    },
+    text: {
+        color: "white",
+        fontSize: sizes.input,
+        textTransform: "capitalize",
+        fontWeight: "bold",
+        textAlign: "center",
 
-    }
-});
+    },
+})
 
 export default BasicButton;

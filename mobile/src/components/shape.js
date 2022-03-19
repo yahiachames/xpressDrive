@@ -1,31 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 import React from "react";
-import { Dimensions } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
+import {LinearGradient} from "expo-linear-gradient";
+import {adaptToHeight, adaptToWidth} from "../config/dimensions";
 
-const { width: W } = Dimensions.get("window");
+const {width: W} = Dimensions.get("window");
 
-const Shape = () => {
-  return (
-    <LinearGradient
-      start={{ x: 0.8, y: 0.2 }}
-      end={{ x: 0.5, y: 1.0 }}
-      locations={[0.1, 0.9]}
-      colors={["black", "pink"]}
-      style={{
-        height: 245,
-        width: W - 120,
-        left: 50,
-        backgroundColor: "red",
-        top: -85,
-        borderRadius: 150,
-        transform: [{ scaleX: 3 }],
-      }}
-    >
-      <StatusBar translucent={true} backgroundColor={"transparent"} />
-    </LinearGradient>
-  );
+const Shape = ({children}) => {
+    return (
+        <LinearGradient
+            start={{x: 0.8, y: 0.2}}
+            end={{x: 0.5, y: 1.0}}
+            locations={[0.1, 0.9]}
+            colors={["dodgerblue", "dodgerblue"]}
+            style={{
+                height: adaptToHeight(0.5),
+                width: adaptToWidth(0.5),
+                left: adaptToWidth(0.1),
+                backgroundColor: colors.black,
+                top: -adaptToHeight(0.1),
+                borderRadius: 180,
+                transform: [{scaleX: 3}],
+            }}
+        >
+            {children}
+        </LinearGradient>
+    );
 };
 
 export default Shape;
