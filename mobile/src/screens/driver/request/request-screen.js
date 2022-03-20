@@ -7,7 +7,7 @@ import RequestItem from "./components/requestItem";
 const RequestScreen = () => {
     return (
         <Screen>
-            <Text style={styles.messageInfo}>
+            <Text style={styles.alert}>
                 You have 10 new requests.
             </Text>
             <ScrollView>
@@ -20,7 +20,7 @@ const RequestScreen = () => {
 export default RequestScreen;
 
 const styles = StyleSheet.create({
-    messageInfo: {
+    alert: {
         backgroundColor: colors.secondary,
         padding: sizes.padding * 1.2,
         color: colors.black,

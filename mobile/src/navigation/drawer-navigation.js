@@ -13,6 +13,7 @@ import CustomHeader from "../components/custom-header";
 import {View} from "react-native";
 import routes from "./routes";
 import BasicButton from "../components/basic-button";
+import PickUpScreen from "../screens/driver/pick-up-screen";
 
 const Drawer = createDrawerNavigator();
 
@@ -76,6 +77,19 @@ export default () => (
                 headerShown: true,
                 header: ({scene, previous, navigation}) => (
                     <CustomHeader title={routes.REQUESTS} navigation={navigation} children={<View/>}/>
+                ),
+            }}
+        />
+        <Drawer.Screen
+            name={routes.PICK_UP}
+            component={PickUpScreen}
+            options={{
+                drawerIcon: ({color}) => (
+                    <Ionicons name="git-pull-request" size={sizes.icon} color={color}/>
+                ),
+                headerShown: true,
+                header: ({scene, previous, navigation}) => (
+                    <CustomHeader goBack={true} title={routes.PICK_UP} navigation={navigation} children={<View/>} />
                 ),
             }}
         />

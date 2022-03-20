@@ -10,4 +10,5 @@ export default Object.freeze({
   REQUESTS: "Requests",
   SETTINGS: "Settings",
   PROFILE: "Profile",
+  PICK_UP: "Pick Up",
 });

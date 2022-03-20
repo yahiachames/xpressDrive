@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import React, {useCallback, useMemo, useRef} from "react";
 import Screen from "../../../components/screen";
 import InfoPanel from "./components/info-panel";
@@ -19,7 +19,7 @@ const HomeScreen = () => {
     return (
         <Screen>
             <View style={{flex: 1, position: 'relative'}}>
-                <OfflineBar />
+                <OfflineBar/>
                 <MapView style={styles.map}/>
                 <TouchableOpacity style={styles.location}>
                     <FontAwesome5
@@ -35,9 +35,7 @@ const HomeScreen = () => {
                 snapPoints={snapPoints}
                 onChange={handleSheetChange}
             >
-                <View style={{position: "absolute", bottom: 0, width: '100%'}}>
-                    <InfoPanel/>
-                </View>
+                <InfoPanel/>
             </BottomSheet>
         </Screen>
     );
