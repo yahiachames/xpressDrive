@@ -1,40 +1,48 @@
-import React from 'react';
-import {Input} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {StyleSheet} from "react-native";
+import React from "react";
+import {StyleSheet, TextInput, View} from "react-native";
+import {AntDesign} from "@expo/vector-icons";
+import {colors, sizes} from "../constants";
 import {adaptToHeight} from "../config/dimensions";
-import {colors} from "../constants";
 
-const BasicInput = ({
-                        iconName = 'user',
-                        iconSize = 24,
-                        iconColor = colors.grayMedium,
-                        containerStyle,
-                        ...rest
-                    }) => (
-    <Input
-        containerStyle={{paddingHorizontal: 0}}
-        {...rest}
-        leftIcon={<Icon name={iconName} style={{marginHorizontal: 5}} size={iconSize} color={iconColor} />}
-        inputContainerStyle={[styles.InputContainerStyle, containerStyle]}
-        leftIconContainerStyle={styles.LeftIconContainerStyle}
-        errorStyle={styles.ErrorStyle}
-    />
-);
+function AppTextInput({
+                          icon,
+                          width = "100%",
+                          style,
+                          textStyle,
+                          lang,
+                          ...otherProps
+                      }) {
+    return (
+        <View style={[styles.container, {width}, style]}>
+            {icon && (
+                <AntDesign
+                    name={icon}
+                    size={sizes.icon}
+                    color={colors.dark}
+                    style={styles.icon}
+                />
+            )}
+            <TextInput style={[styles.text, textStyle]} {...otherProps} />
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
-    InputContainerStyle: {
-        borderBottomWidth: 0,
-        borderRadius: 10,
-        height: adaptToHeight(0.08)
+    container: {
+        borderRadius: sizes.radius,
+        flexDirection: "row",
+        paddingHorizontal: sizes.margin,
+        height: adaptToHeight(0.08),
     },
-    LeftIconContainerStyle: {
-        marginLeft: 5,
+    icon: {
+        marginRight: sizes.margin,
+        top: 3,
     },
-    ErrorStyle: {
-        fontSize: adaptToHeight(0.022),
-        marginBottom: adaptToHeight(0.020),
+    text: {
+        color: colors.dark,
+        fontSize: sizes.input,
+        fontFamily: "latoBold",
     },
 });
 
-export default BasicInput;
+export default AppTextInput;

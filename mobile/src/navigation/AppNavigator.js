@@ -1,61 +1,47 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as React from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import routes from "./routes";
+// components
+import CustomDrawerContent from "../components/custom-drawer";
 
-import RegisterScreen from "../screens/riderScreens/register-screen";
-import NewListingButton from "./NewListingButton";
-import ProfileScreen from "../screens/riderScreens/ProfileScreen";
-import RequestScreen from "../screens/riderScreens/RequestScreen";
-import HomeScreen from "../screens/riderScreens/home-screen";
-import DestinationScreen from "../screens/riderScreens/DestinationScreen";
-import LoginScreen from "../screens/riderScreens/login-screen";
+import { colors, sizes } from "../constants";
+import { Ionicons } from "@expo/vector-icons";
 
-const AppNavigator = () => {
-  const Tab = createBottomTabNavigator();
-  return (
-    <Tab.Navigator initialRouteName="Navigate">
-      <Tab.Screen
-        name="Navigate"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-          headerShown: false,
-        }}
-      />
+import CustomHeader from "../components/custom-header";
+import HomeNavigator from "./home-rider";
+import RiderCustomDrawr from "../components/chames/RiderCustomDrawer";
+import CustomRiderHeader from "../components/CustomRiderHeader";
 
-      <Tab.Screen
-        name="Account"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="equest"
-        component={RequestScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="destination"
-        component={DestinationScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
+const Drawer = createDrawerNavigator();
 
-export default AppNavigator;
+export default () => (
+  <Drawer.Navigator
+    drawerContent={RiderCustomDrawr}
+    screenOptions={{
+      headerShown: false,
+      drawerActiveBackgroundColor: colors.primary,
+      drawerActiveTintColor: colors.white,
+      drawerInactiveTintColor: colors.black,
+      drawerLabelStyle: {
+        marginLeft: -25,
+        fontFamily: "latoMedium",
+        fontSize: sizes.font,
+      },
+    }}
+  >
+    <Drawer.Screen
+      name="Home"
+      component={HomeNavigator}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons name="home-outline" size={sizes.icon} color={color} />
+        ),
+        headerShown: true,
+        header: ({ scene, previous, navigation }) => (
+          <CustomRiderHeader navigation={navigation} />
+        ),
+        headerTransparent: true,
+      }}
+    />
+  </Drawer.Navigator>
+);

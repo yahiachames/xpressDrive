@@ -5,18 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFonts } from "expo-font";
 import { fonts } from "./src/constants/index";
 import AppLoading from "expo-app-loading";
-
-import * as Location from "expo-location";
-import { persistantLogin } from "./src/redux/actions/auth-actions";
-import AuthNavigator from "./src/navigation/AuthNavigator";
-import AppNavigator from "./src/navigation/AppNavigator";
+import GuestStack from "./src/navigation/guest-stack";
+import MainStack from "./src/navigation/main-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { obj } from "./src/config/iinObject";
 import storage from "./src/config/storage";
 import { AUTH_KEY, SERVER_URL, USER_Key } from "./src/config/config";
 import jwt_decode from "jwt-decode";
 import AuthContext from "./src/context/AuthContext";
 import { io } from "socket.io-client";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function AppContainer() {
   const [permLocation, setPermLocation] = useState(false);
@@ -49,7 +46,15 @@ export default function AppContainer() {
         <>
           <StatusBar barStyle="dark-content" />
           <NavigationContainer>
-            {user ? <AppNavigator /> : <AuthNavigator />}
+            {user ? (
+              user.role == "driver" ? (
+                <MainStack />
+              ) : (
+                <AppNavigator />
+              )
+            ) : (
+              <GuestStack />
+            )}
           </NavigationContainer>
         </>
       ) : (

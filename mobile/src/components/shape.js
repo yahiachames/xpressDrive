@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import React from "react";
-import { Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 import { adaptToHeight, adaptToWidth } from "../config/dimensions";
+import { colors } from "../constants";
 
 const { width: W } = Dimensions.get("window");
 
@@ -18,7 +17,7 @@ const Shape = ({ children }) => {
         height: adaptToHeight(0.5),
         width: adaptToWidth(0.5),
         left: adaptToWidth(0.1),
-        backgroundColor: "black",
+        backgroundColor: colors.black,
         top: -adaptToHeight(0.1),
         borderRadius: 180,
         transform: [{ scaleX: 3 }],

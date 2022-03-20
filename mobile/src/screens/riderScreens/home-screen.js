@@ -14,8 +14,8 @@ import { colors } from "../../constants";
 import * as Location from "expo-location";
 
 import Shape from "../../components/shape";
-import ChoseDestCmpt from "../../components/chooseDestcmpt";
-import MapCustom from "../../components/MapCustom";
+import ChoseDestCmpt from "../../components/chames/chooseDestcmpt";
+import MapCustom from "../../components/chames/MapCustom";
 import { useDispatch, useSelector } from "react-redux";
 import BasicButton from "../../components/basic-button";
 import storage from "../../config/storage";
@@ -25,7 +25,6 @@ import { setLocation } from "../../redux/actions/location-actions";
 import { updateLocation } from "../../controllers/userApis";
 import { io } from "socket.io-client";
 import NetInfo from "@react-native-community/netinfo";
-import { logout } from "../../redux/actions/auth-actions";
 import AuthContext from "../../context/AuthContext";
 
 const HomeScreen = ({ navigation }) => {
@@ -33,6 +32,7 @@ const HomeScreen = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
   const dispatch = useDispatch();
   const id_user = user.sub;
+  const origin = useSelector((state) => state.location.currentPoint);
 
   NetInfo.addEventListener((state) => {
     console.log(state, "statteeeeeeeeee infooooooooo");
@@ -44,7 +44,7 @@ const HomeScreen = ({ navigation }) => {
       socket.emit("deconnect", { id_user: user.sub, role: "driver" });
     }
   });
-  const getlocation = async () => {
+  const getlocation = () => {
     Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.Highest,
@@ -78,34 +78,16 @@ const HomeScreen = ({ navigation }) => {
       }
     );
   };
-
   useEffect(() => {
     getlocation();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>Xpress Drive</Text>
-      <View style={styles.shapecontainer}>
-        <Shape />
-      </View>
-
+      <MapCustom containerStyle={styles.mapContainer} origin={origin} />
       <View style={styles.chosedestcmp}>
-        <ChoseDestCmpt />
+        <ChoseDestCmpt navigation={navigation} />
       </View>
-      {/* <MapCustom containerStyle={styles.mapContainer} /> */}
-      <BasicButton
-        width={adaptToWidth(0.3)}
-        color={colors.danger}
-        containerStyle={styles.btn}
-        title="logout"
-        onPress={() => {
-          socket.emit("deconnect", { id_user: user.sub });
-          dispatch(logout);
-          storage.removeKey(AUTH_KEY);
-          setUser(null);
-        }}
-      />
     </View>
   );
 };
@@ -121,8 +103,9 @@ const styles = StyleSheet.create({
     top: 500,
   },
   mapContainer: {
-    top: -adaptToHeight(0.18),
     zIndex: 0,
+    width: adaptToWidth(1),
+    height: adaptToHeight(1),
   },
   shapecontainer: {
     zIndex: 1,
@@ -152,7 +135,7 @@ const styles = StyleSheet.create({
   chosedestcmp: {
     zIndex: 1,
     position: "absolute",
-    top: adaptToHeight(0.21),
+    top: adaptToHeight(0.285),
     left: adaptToWidth(0.03),
   },
 });

@@ -1,4 +1,4 @@
-import api from "./ApiConfig";
+import api from "./api-config";
 
 export const loginApi = ({ username, password }) => {
   console.log(username, password);
@@ -22,6 +22,7 @@ export const getDrivers = () => {
 };
 
 export const updateLocation = ({ latitude, longitude, id }) => {
+  console.log("workedddd", { latitude, longitude, id });
   return api.post(`/user/location/update/${id}`, {
     location: { latitude, longitude },
   });

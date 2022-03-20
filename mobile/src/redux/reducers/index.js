@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 import location from "./location-rducer";
 import RideId from "./ride-id-reducer";

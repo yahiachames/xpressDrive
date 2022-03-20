@@ -1,13 +1,8 @@
-import * as React from 'react';
-
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-
-import AppNavigator from "./AppNavigator";
-
+import * as React from "react";
+import DrawerNavigation from "./drawer-navigation";
 
 export default () => (
-  <NavigationContainer>
-    <AppNavigator />
-  </NavigationContainer>
+  <>
+    <DrawerNavigation />
+  </>
 );

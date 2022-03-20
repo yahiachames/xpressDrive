@@ -1,4 +1,4 @@
-import api from "./ApiConfig";
+import api from "./api-config";
 
 export const createRide = ({
   currentPoint,

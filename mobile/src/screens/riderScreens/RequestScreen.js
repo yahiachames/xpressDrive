@@ -18,7 +18,7 @@ import {
 
 import { Avatar, Icon } from "react-native-elements";
 
-import MapComponent from "../../components/MapComponent";
+import MapComponent from "../../components//chames/MapComponent";
 import { colors, parameters } from "../../global/styles.js";
 import { rideData } from "../../global/data";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,7 +39,9 @@ import { io } from "socket.io-client";
 import { API_URL, SERVER_URL } from "../../config/config";
 import AuthContext from "../../context/AuthContext";
 import MapCustom from "../../components/MapCustom";
-
+import ListItemSeparator from "../../components/chames/list/ListItemSep";
+import { FontAwesome } from "@expo/vector-icons";
+import { color } from "react-native-reanimated";
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -63,8 +65,10 @@ export default function RequestScreen({ navigation, route }) {
   const { user, setUser } = useContext(AuthContext);
   const id = user.sub;
   const locationstate = useSelector((state) => state.location);
+  const origin = useSelector((state) => state.location.currentPoint);
+  console.log(origin, "origiiiiiiiiiin");
   const RideId = useSelector((state) => state.RideId.id);
-
+  console.log(drivers);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState("pending");
 
@@ -113,17 +117,6 @@ export default function RequestScreen({ navigation, route }) {
       .catch((e) => console.log(e));
   };
 
-  // if (rideStatus == "pending") {
-  //   setInterval(() => {
-  //     console.log(RideId);
-  //     checkStatus(RideId)
-  //       .then((res) => {
-  //         setRideStatus(res.data.status);
-  //         console.log("ride status", rideStatus);
-  //       })
-  //       .catch((e) => console.log(e));
-  //   }, 200000);
-  // }
   useEffect(() => {
     bottomsheet1?.current?.scrollTo(-adaptToHeight(0.55));
   }, [isActive]);
@@ -133,11 +126,7 @@ export default function RequestScreen({ navigation, route }) {
     getDriversAPi();
     setLoading(false);
   }, []);
-
-  const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
-  const handleSheetChanges = useCallback((index) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  useEffect(() => {}, [drivers.length]);
 
   const renderFlatListItems = ({ item }) => {
     return (
@@ -147,21 +136,22 @@ export default function RequestScreen({ navigation, route }) {
           handleToggleModal(true);
         }}
       >
-        <View>
-          <View style={styles.view10}>
-            <View style={styles.view11}>
-              <Icon
-                type="material-community"
-                name="account"
-                color={colors.white}
-                size={18}
-              />
+        <View style={styles.itemFlatContainer}>
+          <View style={styles.itemIconBox}>
+            <FontAwesome
+              name="car"
+              size={adaptToHeight(0.04)}
+              color={colors.darkBlue}
+            />
+          </View>
+          <View style={styles.itemTextBox}>
+            <View style={styles.ItemFlatTitleBox}>
+              <AppText style={styles.itemtitleFlat}>Just Go</AppText>
+              <AppText style={styles.itemtitleFlat}>50TND</AppText>
             </View>
-            <View>
-              <Text style={{ fontSize: 15, color: colors.grey1 }}>
-                {item.username}
-              </Text>
-              <Text style={{ color: colors.grey4 }}>{item.area}</Text>
+            <View style={styles.ItemFlatDescBox}>
+              <AppText style={styles.itemdescFlat}>Near by you</AppText>
+              <AppText style={styles.itemdescFlat}>2min</AppText>
             </View>
           </View>
         </View>
@@ -180,24 +170,7 @@ export default function RequestScreen({ navigation, route }) {
       return (
         <GestureHandlerRootView style={{ flex: 1 }}>
           <View style={styles.container}>
-            {/* <AppButton
-              title="test"
-              styleCOntainer={styles.btnModal}
-              styleText={styles.textBtnModal}
-              onPress={async () => {
-                await updateStatus(RideId, "started");
-              }}
-            /> */}
-            <MapCustom
-              userOrigin={{
-                latitude: locationstate.currentPoint["latitude"],
-                longitude: locationstate.currentPoint["longitude"],
-              }}
-              userDestination={{
-                latitude: locationstate.destination["latitude"],
-                longitude: locationstate.destination["longitude"],
-              }}
-            />
+            <MapComponent drivers={drivers} origin={origin} />
             <BottomSheet ref={bottomsheet1}>
               <Text>No Drivers</Text>
             </BottomSheet>
@@ -236,20 +209,20 @@ export default function RequestScreen({ navigation, route }) {
       return (
         <GestureHandlerRootView style={{ flex: 1 }}>
           <View style={styles.container}>
-            <AppButton
-              title="test"
-              styleCOntainer={styles.btnModal}
-              styleText={styles.textBtnModal}
-              onPress={async () => {
-                await updateStatus(RideId, "started");
-              }}
+            <MapComponent
+              drivers={drivers}
+              mapStyle={styles.MapView}
+              origin={origin}
             />
+
             <BottomSheet ref={bottomsheet1}>
               <FlatList
-                keyboardShouldPersistTaps="always"
                 data={drivers}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => {
+                  return index;
+                }}
                 renderItem={renderFlatListItems}
+                ItemSeparatorComponent={ListItemSeparator}
                 contentContainerStyle={styles.contentContainer}
               />
             </BottomSheet>
@@ -292,15 +265,64 @@ const styles = StyleSheet.create({
   container1: { flex: 1, paddingTop: parameters.statusBarHeight },
   Modalcontainer: {
     flex: 1,
+  },
+  MapView: {
+    width: adaptToWidth(1),
+    height: adaptToHeight(1),
+    zIndex: 1,
+  },
+  BottomsheetView: {},
+  itemFlatContainer: {
+    padding: adaptToHeight(0.01),
+    flexDirection: "row",
+    justifyContent: "center",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "90%",
+  },
+  itemTextBox: {
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+
+    width: "80%",
+  },
+  itemIconBox: {
+    borderRadius: adaptToWidth(0.6),
+    backgroundColor: colors.grey10,
+    width: "16%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  ItemFlatTitleBox: {
+    width: "100%",
+
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  ItemFlatDescBox: {
+    width: "100%",
+
+    flexDirection: "row",
+
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    fontSize: adaptToHeight(0.5),
+  },
+  itemdescFlat: {
+    color: colors.grey1,
+    fontSize: adaptToHeight(0.02),
   },
   btnModalContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
+
   btnModal: {
     width: adaptToWidth(0.32),
   },
@@ -321,10 +343,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     opacity: 0.6,
   },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
+  contentContainer: {},
 
   view1: {
     position: "absolute",
@@ -342,5 +361,6 @@ const styles = StyleSheet.create({
 
   flatlist: {
     marginTop: 20,
+    height: "100%",
   },
 });
