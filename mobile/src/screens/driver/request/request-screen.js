@@ -1,19 +1,23 @@
-import {StyleSheet, Text} from "react-native";
+import {ScrollView, StyleSheet, Text} from "react-native";
 import React from "react";
-import Screen from "../../components/screen";
-import {colors, sizes} from "../../constants";
+import Screen from "../../../components/screen";
+import {colors, sizes} from "../../../constants";
+import RequestItem from "./components/requestItem";
 
-const RequestsScreen = () => {
+const RequestScreen = () => {
     return (
         <Screen>
             <Text style={styles.messageInfo}>
                 You have 10 new requests.
             </Text>
+            <ScrollView>
+                <RequestItem/>
+            </ScrollView>
         </Screen>
     );
 };
 
-export default RequestsScreen;
+export default RequestScreen;
 
 const styles = StyleSheet.create({
     messageInfo: {
@@ -22,5 +26,5 @@ const styles = StyleSheet.create({
         color: colors.black,
         fontFamily: 'latoBold',
         fontSize: sizes.h3
-    }
+    },
 });

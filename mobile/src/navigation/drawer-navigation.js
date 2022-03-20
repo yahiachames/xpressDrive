@@ -8,7 +8,7 @@ import {colors, sizes} from "../constants";
 import {Ionicons} from "@expo/vector-icons";
 import ProfileScreen from "../screens/account/profile-screen";
 import SettingsScreen from "../screens/settings-screen";
-import RequestsScreen from "../screens/driver/requests-screen";
+import RequestScreen from "../screens/driver/request/request-screen";
 import CustomHeader from "../components/custom-header";
 import {View} from "react-native";
 import routes from "./routes";
@@ -68,7 +68,7 @@ export default () => (
         />
         <Drawer.Screen
             name={routes.REQUESTS}
-            component={RequestsScreen}
+            component={RequestScreen}
             options={{
                 drawerIcon: ({color}) => (
                     <Ionicons name="git-pull-request" size={sizes.icon} color={color}/>
