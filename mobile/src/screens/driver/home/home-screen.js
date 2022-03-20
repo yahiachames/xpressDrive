@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, {
   useCallback,
   useMemo,
@@ -97,22 +97,22 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    map: {
-        width: sizes.width,
-        height: sizes.height,
-    },
-    location: {
-        position: 'absolute',
-        top: adaptToHeight(.53),
-        right: 20,
-        backgroundColor: colors.white,
-        borderRadius: 40,
-        paddingHorizontal: sizes.padding * 1.3,
-        paddingVertical: sizes.padding * 1.2,
-        elevation: 10,
-        shadowColor: colors.black,
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: sizes.radius,
-    }
+  map: {
+    width: sizes.width,
+    height: sizes.height,
+  },
+  location: {
+    position: "absolute",
+    top: adaptToHeight(0.53),
+    right: 20,
+    backgroundColor: colors.white,
+    borderRadius: 40,
+    paddingHorizontal: sizes.padding * 1.3,
+    paddingVertical: sizes.padding * 1.2,
+    elevation: 10,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: sizes.radius,
+  },
 });

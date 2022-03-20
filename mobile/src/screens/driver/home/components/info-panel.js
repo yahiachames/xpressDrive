@@ -1,6 +1,6 @@
 import {FlatList, Image, StyleSheet, Text, View} from "react-native";
 import React from "react";
-import {AntDesign, FontAwesome5} from "@expo/vector-icons";
+import {AntDesign} from "@expo/vector-icons";
 import {colors, images, sizes} from "../../../../constants";
 import {adaptToHeight, adaptToWidth} from "../../../../config/dimensions";
 
@@ -33,7 +33,7 @@ const InfoPanel = () => {
                 <View style={styles.userInfo}>
                     <Image source={defaultUser} style={styles.avatar}/>
                     <View>
-                        <Text style={styles.textPrimary}>Firstname Lastname</Text>
+                        <Text style={styles.textPrimary}>John Doe</Text>
                         <Text style={styles.textSecondary}>Basic Level</Text>
                     </View>
                 </View>

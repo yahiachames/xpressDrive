@@ -11,4 +11,5 @@ export default Object.freeze({
   SETTINGS: "Settings",
   PROFILE: "Profile",
   HOME_RIDER: "Home",
+  PICK_UP: "Pick Up",
 });
