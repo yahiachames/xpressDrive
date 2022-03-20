@@ -5,6 +5,7 @@ const {width, height} = Dimensions.get("window");
 export default {
     // global sizes
     base: 8,
+    tiny: 5,
     font: 15,
     radius: 10,
     padding: 10,
@@ -13,8 +14,9 @@ export default {
     // font sizes
     h1: 30,
     h2: 22,
-    h3: 16,
+    h3: 17,
     h4: 14,
+    h5: 12,
     body1: 30,
     body2: 22,
     body3: 16,

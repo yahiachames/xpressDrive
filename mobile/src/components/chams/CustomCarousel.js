@@ -33,7 +33,7 @@ const CustomCarousel = () => {
         <ImageBackground
           resizeMode="cover"
           style={styles.bgi}
-          source={require("../../../assets/images/user.png")}
+          source={require("../../../assets/images/default-user.jpg")}
         />
       ),
       title: " Xpress Food",
