@@ -1,21 +1,27 @@
 import {Fontisto} from "@expo/vector-icons";
 import {colors, sizes} from "../constants";
-import {StyleSheet, Switch, Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import * as React from "react";
 
-const CustomHeader = ({navigation}) => {
+const CustomHeader = ({title = '', navigation, children, goBack = false}) => {
     return (
         <View style={styles.header}>
-            <Fontisto
-                name="nav-icon-a"
-                size={sizes.h3}
-                color={colors.black}
-                onPress={() => navigation.openDrawer()}
-            />
-            <Text style={styles.title}>Offline</Text>
-            <Switch
-                style={styles.switch}
-            />
+            {goBack ?
+                <Fontisto
+                    name="angle-left"
+                    size={sizes.h3}
+                    color={colors.black}
+                    onPress={() => navigation.goBack()}
+                /> :
+                <Fontisto
+                    name="nav-icon-a"
+                    size={sizes.h3}
+                    color={colors.black}
+                    onPress={() => navigation.openDrawer()}
+                />
+            }
+            <Text style={styles.title}>{title}</Text>
+            {children}
         </View>
     );
 };
@@ -24,10 +30,11 @@ export default CustomHeader;
 
 const styles = StyleSheet.create({
     header: {
-        padding: sizes.padding,
+        padding: sizes.padding * 1.5,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        backgroundColor: colors.white
     },
     title: {
         fontFamily: "latoBold",

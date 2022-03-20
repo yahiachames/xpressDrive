@@ -1,4 +1,5 @@
 export default {
+    transparent: 'transparent',
     primary: '#5ab925',
     secondary: '#f36526',
     black: '#242A37',
@@ -10,7 +11,9 @@ export default {
     redLight: '#f5beab',
     light: '#F9F9F9',
     dark: '#0c0c0c',
-    danger: '#E81A1A',
+    danger: '#f2494f',
+    pink: '#E81A1A',
     blue: '#4564a1',
+    blueLight: '#59c8fb',
     yellow: '#FFD428',
 }
