@@ -4,8 +4,10 @@ import AppContainer from "./AppContainer";
 import store from "./src/redux/store/store";
 import { Provider } from "react-redux";
 import * as Location from "expo-location";
+import AuthContext from "./src/context/AuthContext";
 
 const App = () => {
+  const [user, setUser] = useState(null);
   useEffect(() => {
     (async () => {
       Location.enableNetworkProviderAsync();
@@ -20,9 +22,11 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store()}>
-      <AppContainer />
-    </Provider>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <Provider store={store()}>
+        <AppContainer />
+      </Provider>
+    </AuthContext.Provider>
   );
 };
 

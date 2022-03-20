@@ -18,5 +18,11 @@ export const signupApi = ({ username, password, email, phone, role }) =>
   });
 
 export const getDrivers = () => {
-  return api.get("user/all");
+  return api.get("user/drivers");
+};
+
+export const updateLocation = ({ latitude, longitude, id }) => {
+  return api.post(`/user/location/update/${id}`, {
+    location: { latitude, longitude },
+  });
 };

@@ -3,6 +3,12 @@ import storage from "../../config/storage";
 import { AUTH_KEY } from "../../config/config";
 import jwt_decode from "jwt-decode";
 
+
+
+export const logout = () => ({
+  type: "LOGOUT",
+});
+
 export function isLoading(bool) {
   return {
     type: "LOGIN_ATTEMPT",
@@ -33,6 +39,7 @@ export function login(username, password) {
         if (response.ok) {
           dispatch(isLoading(false));
           const user = jwt_decode(response.data.token);
+
           dispatch(loginSuccess(user));
           storage.storeKey(AUTH_KEY, response.data.token);
         } else {

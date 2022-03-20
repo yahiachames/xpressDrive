@@ -23,6 +23,15 @@ export default function auth(state = INITIAL_STATE, action) {
       return { ...state, currentPoint: action.payload };
     case "ADD_DESTINATION":
       return { ...state, destination: action.payload };
+    case "UPDATE_CURRENT_POSITION":
+      return {
+        ...INITIAL_STATE,
+        currentPoint: {
+          ...INITIAL_STATE.currentPoint,
+          latitude: action.payload.latitude,
+          longitude: action.payload.longitude,
+        },
+      };
 
     default:
       return state;

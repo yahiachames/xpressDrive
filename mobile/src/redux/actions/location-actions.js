@@ -10,3 +10,8 @@ export function setDestinationAction(location) {
     payload: location,
   };
 }
+
+export const updateLocation = (location) => ({
+  type: "UPDATE_CURRENT_POSITION",
+  payload: location,
+});

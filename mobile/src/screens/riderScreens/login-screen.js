@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import BasicInput from "../../components/basic-input";
@@ -6,9 +6,14 @@ import BasicButton from "../../components/basic-button";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import { colors } from "../../constants";
-import { APP_NAME } from "../../config/config";
+import { APP_NAME, SERVER_URL } from "../../config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/auth-actions";
+import useAuth from "../../hooks/useAuth";
+import jwt_decode from "jwt-decode";
+import AuthContext from "../../context/AuthContext";
+import { loginApi } from "../../controllers/userApis";
+import { io } from "socket.io-client";
 
 const initialValues = {
   username: "",
@@ -20,8 +25,11 @@ const image = {
 };
 
 const LoginScreen = ({ navigation }) => {
+  const socket = io(SERVER_URL);
+
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { user, setUser } = useContext(AuthContext);
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().label("Email"),
@@ -34,6 +42,15 @@ const LoginScreen = ({ navigation }) => {
   const onSubmit = (values) => {
     console.log(values);
     dispatch(login(values));
+    loginApi(values).then((res) => {
+      if (res.ok) {
+        const user = jwt_decode(res.data.token);
+        socket.emit("join", { id_user: user.sub });
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
   };
 
   const formik = useFormik({
@@ -88,7 +105,6 @@ const LoginScreen = ({ navigation }) => {
           color={colors.primary}
           onPress={handleSubmit}
           disabled={!isValid || isSubmitting}
-          loading={isSubmitting}
         />
         <View style={styles.ForgetPassword}>
           <BasicButton

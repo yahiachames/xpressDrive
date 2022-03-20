@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Image,
   ImageBackground,
@@ -16,28 +16,68 @@ import * as Location from "expo-location";
 import Shape from "../../components/shape";
 import ChoseDestCmpt from "../../components/chooseDestcmpt";
 import MapCustom from "../../components/MapCustom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BasicButton from "../../components/basic-button";
 import storage from "../../config/storage";
-import { AUTH_KEY } from "../../config/config";
+import { AUTH_KEY, SERVER_URL } from "../../config/config";
+import { geocodeLoc } from "../../utility/LocationUtility";
+import { setLocation } from "../../redux/actions/location-actions";
+import { updateLocation } from "../../controllers/userApis";
+import { io } from "socket.io-client";
+import NetInfo from "@react-native-community/netinfo";
+import { logout } from "../../redux/actions/auth-actions";
+import AuthContext from "../../context/AuthContext";
 
-const HomeScreen = () => {
-  let loc = useSelector((state) => state.location);
-  console.log(loc, " use seletor");
-  const [location, setLocation] = useState(null);
-  const ref = React.useRef(null);
+const HomeScreen = ({ navigation }) => {
+  const socket = io(SERVER_URL);
+  const { user, setUser } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const id_user = user.sub;
+
+  NetInfo.addEventListener((state) => {
+    console.log(state, "statteeeeeeeeee infooooooooo");
+    if (state.isConnected) {
+      console.log("join");
+      socket.emit("join", { id_user: user.sub, role: "driver" });
+    } else {
+      console.log("deconnect");
+      socket.emit("deconnect", { id_user: user.sub, role: "driver" });
+    }
+  });
   const getlocation = async () => {
-    try {
-      let location = await Location.getCurrentPositionAsync({
+    Location.watchPositionAsync(
+      {
         accuracy: Location.Accuracy.Highest,
         maximumAge: 10000,
-      });
-      setLocation(location);
-    } catch (e) {
-      console.log(e);
-    }
+      },
+      (resLocation) => {
+        geocodeLoc(
+          resLocation.coords.latitude,
+          resLocation.coords.longitude
+        ).then((resGeocode) => {
+          let address = resGeocode.data.address;
+          updateLocation({
+            latitude: resLocation.coords.latitude,
+            longitude: resLocation.coords.longitude,
+            id: id_user,
+          })
+            .then((res) => {
+              dispatch(
+                setLocation({
+                  latitude: resLocation.coords.latitude,
+                  longitude: resLocation.coords.longitude,
+                  region: address.state,
+                  subregion: address.county,
+                  street: address.road ? address.road : address.village,
+                  code_postale: address.postcode,
+                })
+              );
+            })
+            .catch((e) => console.log("update location failed with error ", e));
+        });
+      }
+    );
   };
-  console.log(location);
 
   useEffect(() => {
     getlocation();
@@ -59,7 +99,12 @@ const HomeScreen = () => {
         color={colors.danger}
         containerStyle={styles.btn}
         title="logout"
-        onPress={() => storage.removeKey(AUTH_KEY)}
+        onPress={() => {
+          socket.emit("deconnect", { id_user: user.sub });
+          dispatch(logout);
+          storage.removeKey(AUTH_KEY);
+          setUser(null);
+        }}
       />
     </View>
   );

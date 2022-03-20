@@ -17,3 +17,7 @@ export const createRide = ({
     total_price,
   });
 };
+
+export const checkStatus = (id) => api.get(`ride/status/${id}`);
+export const updateStatus = (id, status) =>
+  api.post(`ride/status/update/${id}`, { status });

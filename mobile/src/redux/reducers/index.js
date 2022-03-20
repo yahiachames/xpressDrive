@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import auth from '../reducers/auth-reducer'
-import location from "./location-rducer";
 
+import location from "./location-rducer";
+import RideId from "./ride-id-reducer";
 // Root Reducer
 const rootReducer = combineReducers({
-  auth,
   location,
+  RideId,
 });
 
 export default rootReducer;

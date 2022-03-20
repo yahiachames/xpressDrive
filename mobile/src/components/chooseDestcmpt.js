@@ -18,12 +18,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setDestinationAction,
   setLocation,
+  updateLocation,
 } from "../redux/actions/location-actions";
+import { autoCompleteLoc } from "../utility/LocationUtility";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const ChoseDestCmpt = () => {
+  const street = useSelector((state) => state.location.currentPoint.street);
   const dispatch = useDispatch();
   const [searchData, setSearchData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -38,56 +41,19 @@ const ChoseDestCmpt = () => {
     street: "",
   });
 
-  const ref = React.useRef(null);
-
-  const geocodeLoc = (lat, long) => {
-    axios
-      .get(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json`
-      )
-      .then((res) => {
-        setCurrentPosition(res.data.address.road);
-        dispatch(
-          setLocation({
-            latitude: lat,
-            longitude: long,
-            region: res.data.address.state,
-            subregion: res.data.address.county,
-            street: res.data.address.road,
-            code_postale: res.data.address.postcode,
-          })
-        );
-      });
-  };
-  const getlocation = async () => {
-    try {
-      let location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Highest,
-        maximumAge: 10000,
-      });
-      geocodeLoc(location.coords.latitude, location.coords.longitude);
-
-      dispatch();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const handleCHange = async (value) => {
     setToggleFlat(true);
     setSearchValue(value);
 
     setTimeout(() => {
-      axios
-        .get(`https://photon.komoot.io/api/?q=tunisie + ${value}`)
+      autoCompleteLoc(value)
         .then((res) => {
           return setSearchData(res.data.features.map((el) => el));
-        });
+        })
+        .catch((e) => console.log(e, "from autocomplete"));
     }, 500);
   };
-  useEffect(() => {
-    getlocation();
-  }, [currentPosition]);
+
   useEffect(() => {
     dispatch(setDestinationAction(destination));
   }, [JSON.stringify(destination)]);
@@ -122,7 +88,7 @@ const ChoseDestCmpt = () => {
           onPress={() => navigation.navigate("DestinationScreen")}
         >
           <View style={styles.view6}>
-            <Text style={styles.text1}>{currentPosition}</Text>
+            <Text style={styles.text1}>{street}</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.view7}>
@@ -204,13 +170,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
   },
-  view5: {
-    backgroundColor: colors.grey7,
-    width: SCREEN_WIDTH * 0.7,
-    height: 40,
-    justifyContent: "center",
-    marginTop: 10,
-  },
+
   view6: {
     backgroundColor: colors.grey1,
     width: SCREEN_WIDTH * 0.7,
@@ -223,9 +183,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: colors.white,
+    alignSelf: "center",
   },
 
-  image1: { height: 70, width: 30, marginRight: 10, marginTop: 10 },
   view7: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -236,28 +196,6 @@ const styles = StyleSheet.create({
   },
 
   icon: { paddingBottom: 2 },
-
-  image2: { height: 60, width: 60 },
-
-  view20: { marginRight: 10 },
-
-  text6: {
-    fontSize: 15,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-
-  text7: {
-    fontSize: 28,
-    color: colors.black,
-    marginRight: 5,
-  },
-
-  text8: {
-    fontSize: 15,
-    color: colors.grey2,
-    textDecorationLine: "line-through",
-  },
 
   inputstyleview: {
     borderRadius: 0,

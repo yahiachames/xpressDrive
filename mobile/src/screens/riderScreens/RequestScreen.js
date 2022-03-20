@@ -21,7 +21,7 @@ import { Avatar, Icon } from "react-native-elements";
 import MapComponent from "../../components/MapComponent";
 import { colors, parameters } from "../../global/styles.js";
 import { rideData } from "../../global/data";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BottomSheet from "../../components/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
@@ -29,12 +29,22 @@ import { getDrivers } from "../../controllers/userApis";
 import RequestRideModal from "../../components/Modals/RequestRideModal";
 import AppText from "../../components/Text";
 import AppButton from "../../components/Button";
-import { createRide } from "../../controllers/rideApis";
+import {
+  checkStatus,
+  createRide,
+  updateStatus,
+} from "../../controllers/rideApis";
+import { setRideId } from "../../redux/actions/RideId";
+import { io } from "socket.io-client";
+import { API_URL, SERVER_URL } from "../../config/config";
+import AuthContext from "../../context/AuthContext";
+import MapCustom from "../../components/MapCustom";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function RequestScreen({ navigation, route }) {
+  const socket = io(SERVER_URL);
   const location = useSelector((state) => state.location);
   const [toggleModal, handleToggleModal] = useState(false);
   const [drivers, setDrivers] = useState([]);
@@ -50,10 +60,29 @@ export default function RequestScreen({ navigation, route }) {
   });
   let isActive = bottomsheet1?.current?.isActive();
   const bottomsheet1 = useRef(null);
-  const id = useSelector((state) => state.auth.userData.sub);
+  const { user, setUser } = useContext(AuthContext);
+  const id = user.sub;
   const locationstate = useSelector((state) => state.location);
+  const RideId = useSelector((state) => state.RideId.id);
 
-  console.log(id, locationstate, "id");
+  const dispatch = useDispatch();
+  const [rideStatus, setRideStatus] = useState("pending");
+
+  socket.on("connection", (obj) => {
+    console.log("client connected");
+  });
+  socket.on("updatedSatatus", (status) =>
+    console.log(status, "status updated")
+  );
+  socket.on("locationUpdate", (obj) => {
+    getDriversAPi();
+  });
+  socket.on("join", (obj) => {
+    getDriversAPi();
+  });
+  socket.on("deconnect", (obj) => {
+    getDriversAPi();
+  });
 
   const getDriversAPi = async () => {
     getDrivers()
@@ -76,10 +105,25 @@ export default function RequestScreen({ navigation, route }) {
       distance: 6,
       total_price: 12,
     })
-      .then((res) => console.log(res))
+      .then((res) => {
+        checkStatus(res.data.data)
+          .then((res2) => dispatch(setRideId(res.data.data)))
+          .catch((e) => console.log(e));
+      })
       .catch((e) => console.log(e));
   };
 
+  // if (rideStatus == "pending") {
+  //   setInterval(() => {
+  //     console.log(RideId);
+  //     checkStatus(RideId)
+  //       .then((res) => {
+  //         setRideStatus(res.data.status);
+  //         console.log("ride status", rideStatus);
+  //       })
+  //       .catch((e) => console.log(e));
+  //   }, 200000);
+  // }
   useEffect(() => {
     bottomsheet1?.current?.scrollTo(-adaptToHeight(0.55));
   }, [isActive]);
@@ -132,49 +176,115 @@ export default function RequestScreen({ navigation, route }) {
       </View>
     );
   else {
-    return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <BottomSheet ref={bottomsheet1}>
-            <FlatList
-              keyboardShouldPersistTaps="always"
-              data={drivers}
-              keyExtractor={(item) => item.id}
-              renderItem={renderFlatListItems}
-              contentContainerStyle={styles.contentContainer}
+    if (drivers.length == 0) {
+      return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            {/* <AppButton
+              title="test"
+              styleCOntainer={styles.btnModal}
+              styleText={styles.textBtnModal}
+              onPress={async () => {
+                await updateStatus(RideId, "started");
+              }}
+            /> */}
+            <MapCustom
+              userOrigin={{
+                latitude: locationstate.currentPoint["latitude"],
+                longitude: locationstate.currentPoint["longitude"],
+              }}
+              userDestination={{
+                latitude: locationstate.destination["latitude"],
+                longitude: locationstate.destination["longitude"],
+              }}
             />
-          </BottomSheet>
+            <BottomSheet ref={bottomsheet1}>
+              <Text>No Drivers</Text>
+            </BottomSheet>
 
-          <RequestRideModal
-            visible={toggleModal}
-            child={
-              <View style={styles.Modalcontainer}>
-                <AppText>accapter votre demande ?</AppText>
-                <View style={styles.btnModalContainer}>
-                  <AppButton
-                    title="confirmer"
-                    styleCOntainer={styles.btnModal}
-                    styleText={styles.textBtnModal}
-                    onPress={async () => {
-                      handleToggleModal(false);
-                      createRideApi();
-                    }}
-                  />
-                  <AppButton
-                    title="annuler"
-                    styleCOntainer={styles.btnModal}
-                    styleText={styles.textBtnModal}
-                    onPress={() => {
-                      handleToggleModal(false);
-                    }}
-                  />
+            <RequestRideModal
+              visible={toggleModal}
+              child={
+                <View style={styles.Modalcontainer}>
+                  <AppText>accapter votre demande ?</AppText>
+                  <View style={styles.btnModalContainer}>
+                    <AppButton
+                      title="confirmer"
+                      styleCOntainer={styles.btnModal}
+                      styleText={styles.textBtnModal}
+                      onPress={async () => {
+                        handleToggleModal(false);
+                        createRideApi();
+                      }}
+                    />
+                    <AppButton
+                      title="annuler"
+                      styleCOntainer={styles.btnModal}
+                      styleText={styles.textBtnModal}
+                      onPress={() => {
+                        handleToggleModal(false);
+                      }}
+                    />
+                  </View>
                 </View>
-              </View>
-            }
-          />
-        </View>
-      </GestureHandlerRootView>
-    );
+              }
+            />
+          </View>
+        </GestureHandlerRootView>
+      );
+    } else {
+      return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <AppButton
+              title="test"
+              styleCOntainer={styles.btnModal}
+              styleText={styles.textBtnModal}
+              onPress={async () => {
+                await updateStatus(RideId, "started");
+              }}
+            />
+            <BottomSheet ref={bottomsheet1}>
+              <FlatList
+                keyboardShouldPersistTaps="always"
+                data={drivers}
+                keyExtractor={(item) => item.id}
+                renderItem={renderFlatListItems}
+                contentContainerStyle={styles.contentContainer}
+              />
+            </BottomSheet>
+
+            <RequestRideModal
+              visible={toggleModal}
+              child={
+                <View style={styles.Modalcontainer}>
+                  <AppText>accapter votre demande ?</AppText>
+                  <View style={styles.btnModalContainer}>
+                    <AppButton
+                      title="confirmer"
+                      styleCOntainer={styles.btnModal}
+                      styleText={styles.textBtnModal}
+                      onPress={async () => {
+                        handleToggleModal(false);
+                        createRideApi();
+                      }}
+                    />
+                    <AppButton
+                      title="annuler"
+                      styleCOntainer={styles.btnModal}
+                      styleText={styles.textBtnModal}
+                      onPress={() => {
+                        handleToggleModal(false);
+                      }}
+                    />
+                  </View>
+                </View>
+              }
+            />
+          </View>
+        </GestureHandlerRootView>
+      );
+    }
   }
 }
 

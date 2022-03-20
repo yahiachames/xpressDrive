@@ -1,5 +1,6 @@
-export const APP_NAME= 'Xpress Drive';
-export const API_URL = "http://192.168.1.104:1999/api/";
-export const GOOGLE_MAPS_KEY = "AIzaSyBJhorPEbTDcnX4fH4sobWv_aLiUkawKU0";
+export const SERVER_URL = "http://192.168.1.16:1999/";
+export const APP_NAME = "Xpress Drive";
+export const API_URL = SERVER_URL + "api/";
+export const GOOGLE_MAPS_KEY = "AIzaSyDVkCvEx5QMLFAYx45LGWX7XlM5_yC8MJI";
 export const AUTH_KEY = "auth";
 export const USER_Key = "user";

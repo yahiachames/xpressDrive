@@ -1,267 +1,62 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import MapView from "react-native-maps";
+import React, { Component, useRef, useState } from "react";
+import { Text, StyleSheet, View, Image } from "react-native";
+import { mapStyle } from "../global/mapStyle";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { colors, parameters } from "../global/styles";
+import MapViewDirections from "react-native-maps-directions";
+import { GOOGLE_MAPS_KEY } from "../config/config";
 
-var mapStyle = [
-  {
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#1d2c4d",
-      },
-    ],
-  },
-  {
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#8ec3b9",
-      },
-    ],
-  },
-  {
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#1a3646",
-      },
-    ],
-  },
-  {
-    featureType: "administrative.country",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#4b6878",
-      },
-    ],
-  },
-  {
-    featureType: "administrative.land_parcel",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#64779e",
-      },
-    ],
-  },
-  {
-    featureType: "administrative.province",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#4b6878",
-      },
-    ],
-  },
-  {
-    featureType: "landscape.man_made",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#334e87",
-      },
-    ],
-  },
-  {
-    featureType: "landscape.natural",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#023e58",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#283d6a",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#6f9ba5",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#1d2c4d",
-      },
-    ],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry.fill",
-    stylers: [
-      {
-        color: "#023e58",
-      },
-    ],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#3C7680",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#304a7d",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#98a5be",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#1d2c4d",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#2c6675",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#255763",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#b0d5ce",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#023e58",
-      },
-    ],
-  },
-  {
-    featureType: "transit",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#98a5be",
-      },
-    ],
-  },
-  {
-    featureType: "transit",
-    elementType: "labels.text.stroke",
-    stylers: [
-      {
-        color: "#1d2c4d",
-      },
-    ],
-  },
-  {
-    featureType: "transit.line",
-    elementType: "geometry.fill",
-    stylers: [
-      {
-        color: "#283d6a",
-      },
-    ],
-  },
-  {
-    featureType: "transit.station",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#3a4762",
-      },
-    ],
-  },
-  {
-    featureType: "water",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#0e1626",
-      },
-    ],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#4e6d70",
-      },
-    ],
-  },
-];
-
-const MapCustom = ({ mapStyle, containerStyle, latitude, longitude }) => {
+const MapCustom = ({
+  mapStyle,
+  containerStyle,
+  latitude,
+  longitude,
+  userDestination,
+  userOrigin,
+}) => {
   const [location, setLocation] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
   });
+  const ref = useRef(35);
   return (
     <View style={[containerStyle]}>
       <MapView
-        userInterfaceStyle={"dark"}
-        style={[styles.map, mapStyle]}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        mapStyle={mapStyle}
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        customMapStyle={mapStyle}
+        ref={ref}
       >
-        <MapView.Marker
-          title="YIKES, Inc."
-          description="Web Design and Development"
-          coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-          }}
-        />
+        {userOrigin.latitude != null && (
+          <MapView.Marker coordinate={userOrigin} anchor={{ x: 0.5, y: 0.5 }}>
+            <Image
+              source={require("../../assets/location.png")}
+              style={styles.markerOrigin2}
+              resizeMode="cover"
+            />
+          </MapView.Marker>
+        )}
+        {userDestination.latitude != null && (
+          <MapView.Marker
+            coordinate={userDestination}
+            anchor={{ x: 0.5, y: 0.5 }}
+          >
+            <Image
+              source={require("../../assets/location.png")}
+              style={styles.markerDestination}
+              resizeMode="cover"
+            />
+          </MapView.Marker>
+        )}
+        {userDestination.latitude !== null && (
+          <MapViewDirections
+            origin={userOrigin}
+            destination={userDestination}
+            apikey={GOOGLE_MAPS_KEY}
+            strokeWidth={4}
+            strokeColor={colors.black}
+          />
+        )}
       </MapView>
     </View>
   );
@@ -271,8 +66,99 @@ export default MapCustom;
 
 const styles = StyleSheet.create({
   map: {
-    width: "100%",
     height: "100%",
-    backgroundColor: "#000",
+    width: "100%",
   },
+
+  markerWrapOrigin: {
+    //  alignItems: "center",
+    // justifyContent: "center",
+    width: 40,
+    height: 20,
+    // marginTop:0
+  },
+  markerOrigin: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+  },
+
+  destination: {
+    width: 20,
+    height: 20,
+    backgroundColor: colors.black,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  view1: {
+    width: 7,
+    height: 7,
+    backgroundColor: colors.white,
+  },
+  markerDestination: {
+    width: 16,
+    height: 16,
+  },
+
+  markerOrigin2: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+  },
+
+  car: {
+    paddingTop: 0,
+    width: 40,
+    height: 20,
+  },
+
+  view2: {
+    position: "absolute",
+    top: 10,
+    right: 12,
+    backgroundColor: colors.white,
+    height: 40,
+    width: 180,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+    zIndex: 8,
+  },
+
+  view3: {
+    flexDirection: "row",
+    alignItems: "center",
+    //marginRight:15,
+    //backgroundColor:"white",
+    //paddingHorizontal:2,
+    paddingVertical: 2,
+    //borderRadius:20
+  },
+
+  view4: {
+    position: "absolute",
+    top: 50,
+    left: 12,
+    backgroundColor: colors.white,
+    height: 40,
+    width: 140,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+    zIndex: 8,
+  },
+
+  location: {
+    width: 20,
+    height: 20,
+    borderRadius: 9,
+    backgroundColor: colors.black,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  view9: { width: 6, height: 6, borderRadius: 4, backgroundColor: "white" },
 });
