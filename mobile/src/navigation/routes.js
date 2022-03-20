@@ -7,4 +7,7 @@ export default Object.freeze({
   RESET_PASSWORD: "Reset_Password",
   CODE_VERIFICATION: "Code_Verification",
   MAP: "Map",
+  REQUESTS: "Requests",
+  SETTINGS: "Settings",
+  PROFILE: "Profile",
 });

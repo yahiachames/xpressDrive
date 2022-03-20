@@ -4,10 +4,11 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 // components
 import CustomDrawerContent from '../components/custom-drawer';
 import HomeScreen from "../screens/driver/home/home-screen";
-import {colors, images, sizes} from "../constants";
+import {colors, sizes} from "../constants";
 import {Ionicons} from "@expo/vector-icons";
 import ProfileScreen from "../screens/account/profile-screen";
 import SettingsScreen from "../screens/settings-screen";
+import RequestsScreen from "../screens/driver/requests-screen";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,14 +26,15 @@ export default () => (
                 fontSize: sizes.font,
             },
         }}
-        >
+    >
         <Drawer.Screen
             name="Home"
             component={HomeScreen}
             options={{
                 drawerIcon: ({color}) => (
-                    <Ionicons name="home-outline" size={sizes.icon} color={color} />
+                    <Ionicons name="home-outline" size={sizes.icon} color={color}/>
                 ),
+                //headerShown: true
             }}
         />
         <Drawer.Screen
@@ -40,8 +42,18 @@ export default () => (
             component={ProfileScreen}
             options={{
                 drawerIcon: ({color}) => (
-                    <Ionicons name="person-outline" size={sizes.icon} color={color} />
+                    <Ionicons name="person-outline" size={sizes.icon} color={color}/>
                 ),
+            }}
+        />
+        <Drawer.Screen
+            name="Requests"
+            component={RequestsScreen}
+            options={{
+                drawerIcon: ({color}) => (
+                    <Ionicons name="git-pull-request" size={sizes.icon} color={color}/>
+                ),
+                headerShown: true
             }}
         />
         <Drawer.Screen
@@ -49,7 +61,7 @@ export default () => (
             component={SettingsScreen}
             options={{
                 drawerIcon: ({color}) => (
-                    <Ionicons name="settings-outline" size={sizes.icon} color={color} />
+                    <Ionicons name="settings-outline" size={sizes.icon} color={color}/>
                 ),
             }}
         />
