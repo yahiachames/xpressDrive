@@ -4,8 +4,8 @@ const {width, height} = Dimensions.get("window");
 
 export default {
     // global sizes
-    base: 8,
     tiny: 5,
+    base: 8,
     font: 15,
     radius: 10,
     padding: 10,

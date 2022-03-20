@@ -9,6 +9,7 @@ import {Ionicons} from "@expo/vector-icons";
 import ProfileScreen from "../screens/account/profile-screen";
 import SettingsScreen from "../screens/settings-screen";
 import RequestsScreen from "../screens/driver/requests-screen";
+import CustomHeader from "../components/custom-header";
 
 const Drawer = createDrawerNavigator();
 
@@ -34,7 +35,10 @@ export default () => (
                 drawerIcon: ({color}) => (
                     <Ionicons name="home-outline" size={sizes.icon} color={color}/>
                 ),
-                //headerShown: true
+                headerShown: true,
+                header: ({scene, previous, navigation}) => (
+                    <CustomHeader navigation={navigation}/>
+                ),
             }}
         />
         <Drawer.Screen
@@ -43,6 +47,10 @@ export default () => (
             options={{
                 drawerIcon: ({color}) => (
                     <Ionicons name="person-outline" size={sizes.icon} color={color}/>
+                ),
+                headerShown: true,
+                header: ({scene, previous, navigation}) => (
+                    <CustomHeader navigation={navigation}/>
                 ),
             }}
         />
@@ -53,8 +61,10 @@ export default () => (
                 drawerIcon: ({color}) => (
                     <Ionicons name="git-pull-request" size={sizes.icon} color={color}/>
                 ),
-                headerShown: true
-            }}
+                headerShown: true,
+                header: ({scene, previous, navigation}) => (
+                    <CustomHeader navigation={navigation}/>
+                ),            }}
         />
         <Drawer.Screen
             name="Settings"
@@ -62,6 +72,10 @@ export default () => (
             options={{
                 drawerIcon: ({color}) => (
                     <Ionicons name="settings-outline" size={sizes.icon} color={color}/>
+                ),
+                headerShown: true,
+                header: ({scene, previous, navigation}) => (
+                    <CustomHeader navigation={navigation}/>
                 ),
             }}
         />

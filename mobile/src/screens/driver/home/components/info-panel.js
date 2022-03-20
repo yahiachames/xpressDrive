@@ -1,13 +1,13 @@
 import {FlatList, Image, StyleSheet, Text, View} from "react-native";
 import React from "react";
-import {FontAwesome5} from "@expo/vector-icons";
+import {AntDesign, FontAwesome5} from "@expo/vector-icons";
 import {colors, images, sizes} from "../../../../constants";
 import {adaptToHeight, adaptToWidth} from "../../../../config/dimensions";
 
 const indicators = [
-    {icon: "clock", value: "10.2", label: "Hours Online"},
-    {icon: "rocket", value: "30 KM", label: "Total Distance"},
-    {icon: "bookmark", value: "20", label: "Total Jobs"}
+    {icon: "clockcircleo", value: "10.2", label: "Hours Online"},
+    {icon: "linechart", value: "30 KM", label: "Total Distance"},
+    {icon: "book", value: "20", label: "Total Jobs"}
 ]
 
 const {defaultUser} = images
@@ -15,7 +15,7 @@ const {defaultUser} = images
 const indicator = ({item}) => {
     return (
         <View style={styles.stats}>
-            <FontAwesome5
+            <AntDesign
                 name={item.icon}
                 size={sizes.h2}
                 color={colors.white}
@@ -63,15 +63,15 @@ export default InfoPanel;
 const styles = StyleSheet.create({
     box: {
         flex: 1,
-        borderTopStartRadius: sizes.radius * 2,
+        /*borderTopStartRadius: sizes.radius * 2,
         borderTopEndRadius: sizes.radius * 2,
-        backgroundColor: colors.white,
-        padding: sizes.padding * 2,
         elevation: 10,
         shadowColor: colors.black,
         shadowOffset: {width: 0, height: 3},
         shadowOpacity: 0.8,
-        shadowRadius: sizes.radius,
+        shadowRadius: sizes.radius,*/
+        backgroundColor: colors.white,
+        padding: sizes.padding * 2,
     },
     boxHeader: {
         flexDirection: "row",
