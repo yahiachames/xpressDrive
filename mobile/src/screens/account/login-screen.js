@@ -131,7 +131,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 55,
     tintColor: colors.white,
-    width: sizes.width
+    width: sizes.width,
+    right: 0,
+    left: 0
   },
   form: {
     marginHorizontal: sizes.margin * 3,
