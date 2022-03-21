@@ -279,6 +279,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     width: "90%",
+    height: adaptToHeight(0.12),
   },
   itemTextBox: {
     flexDirection: "column",
@@ -343,7 +344,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     opacity: 0.6,
   },
-  contentContainer: {},
+  contentContainer: {
+    height: adaptToHeight(0.6),
+  },
 
   view1: {
     position: "absolute",
