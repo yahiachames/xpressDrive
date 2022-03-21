@@ -101,7 +101,7 @@ const RegisterScreen = ({navigation}) => {
     };
 
     return (
-        <Screen>
+        <Screen style={{backgroundColor: colors.white}}>
             <CustomForm
                 validationSchema={validationSchema}
                 initialValues={initialValues}

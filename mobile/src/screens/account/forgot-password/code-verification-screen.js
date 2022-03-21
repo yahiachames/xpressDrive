@@ -29,7 +29,7 @@ const CodeVerificationScreen = ({navigation}) => {
     };
 
     return (
-        <Screen>
+        <Screen style={{backgroundColor: colors.white}}>
             <Image
                 source={forgerPassword2}
                 style={styles.image}

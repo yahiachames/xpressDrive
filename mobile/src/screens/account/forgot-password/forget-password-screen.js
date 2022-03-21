@@ -29,7 +29,7 @@ const ForgetPasswordScreen = ({navigation}) => {
     };
 
     return (
-        <Screen>
+        <Screen style={{backgroundColor: colors.white}}>
             <Image
                 source={forgerPassword1}
                 style={styles.image}
