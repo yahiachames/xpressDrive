@@ -51,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <Screen>
+    <Screen style={{backgroundColor: colors.white}}>
       <ImageBackground
         source={login1}
         resizeMode={"cover"}
