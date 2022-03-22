@@ -37,7 +37,7 @@ const ResetPasswordScreen = ({navigation}) => {
     };
 
     return (
-        <Screen>
+        <Screen style={{backgroundColor: colors.white}}>
             <Image
                 source={forgerPassword3}
                 style={styles.image}

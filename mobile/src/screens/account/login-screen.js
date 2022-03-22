@@ -51,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <Screen>
+    <Screen style={{backgroundColor: colors.white}}>
       <ImageBackground
         source={login1}
         resizeMode={"cover"}
@@ -131,6 +131,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 55,
     tintColor: colors.white,
+    width: sizes.width,
+    right: 0,
+    left: 0
   },
   form: {
     marginHorizontal: sizes.margin * 3,
