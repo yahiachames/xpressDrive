@@ -1,50 +1,109 @@
 import {Image, StyleSheet, Text, View} from "react-native";
-import React from "react";
-import {colors, images, sizes} from "../../../../constants";
-import {adaptToHeight, adaptToWidth} from "../../../../config/dimensions";
+import React, { useEffect, useState } from "react";
+import { colors, images, sizes } from "../../../../constants";
+import { adaptToHeight, adaptToWidth } from "../../../../config/dimensions";
 import BasicButton from "../../../../components/basic-button";
+import { geocodeLoc } from "../../../../utility/LocationUtility";
 
-const {defaultUser} = images
+const { defaultUser } = images;
 
-const RequestItem = () => {
+const RequestItem = ({
+  username,
+  total_price,
+  distance_per_km,
+  currentPoint,
+  destination,
+  ride_id,
+}) => {
+  console.log({
+    username,
+    total_price,
+    distance_per_km,
+    currentPoint,
+    destination,
+    ride_id,
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  if (loading) {
     return (
-        <View style={{marginBottom: sizes.margin}}>
-            <View style={styles.header}>
-                <View style={styles.user}>
-                    <Image source={defaultUser} style={styles.avatar}/>
-                    <Text style={styles.name}>John Doe</Text>
-                </View>
-                <View>
-                    <Text style={styles.amount}>$ 15.00</Text>
-                    <Text style={styles.distance}>2.5 km</Text>
-                </View>
-            </View>
-            <View style={styles.details}>
-                <View style={styles.info}>
-                    <Text style={styles.action}>Pick Up</Text>
-                    <Text style={styles.address}>4896 Free Ocean St, New York, US</Text>
-                </View>
-                <View style={styles.info}>
-                    <Text style={styles.action}>Drop Off</Text>
-                    <Text style={styles.address}>105 William St, New York, US</Text>
-                </View>
-                <View style={styles.buttonsContainer}>
-                    <BasicButton
-                        style={styles.button}
-                        bgColor={colors.primary}
-                        title={"Accept"}
-                    />
-                    <View style={{flex: .1}}/>
-                    <BasicButton
-                        style={styles.button}
-                        bgColor={colors.danger}
-                        title={"Cancel"}
-                    />
-                </View>
-            </View>
+      <View style={{ marginBottom: sizes.margin }}>
+        <View style={styles.header}>
+          <View style={styles.user}>
+            <Image source={defaultUser} style={styles.avatar} />
+            <Text style={styles.name}>{username}</Text>
+          </View>
+          <View>
+            <Text style={styles.amount}>${total_price}</Text>
+            <Text style={styles.distance}>{distance_per_km}km</Text>
+          </View>
         </View>
-    )
-}
+        <View style={styles.details}>
+          <View style={styles.info}>
+            <Text style={styles.action}>Pick Up</Text>
+            <Text style={styles.address}>...</Text>
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.action}>Drop Off</Text>
+            <Text style={styles.address}>...</Text>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <BasicButton
+              style={styles.button}
+              bgColor={colors.primary}
+              title={"Accept"}
+            />
+            <View style={{ flex: 0.1 }} />
+            <BasicButton
+              style={styles.button}
+              bgColor={colors.danger}
+              title={"Cancel"}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <View style={{ marginBottom: sizes.margin }}>
+        <View style={styles.header}>
+          <View style={styles.user}>
+            <Image source={defaultUser} style={styles.avatar} />
+            <Text style={styles.name}>{username}</Text>
+          </View>
+          <View>
+            <Text style={styles.amount}>${total_price}</Text>
+            <Text style={styles.distance}>{distance_per_km}km</Text>
+          </View>
+        </View>
+        <View style={styles.details}>
+          <View style={styles.info}>
+            <Text style={styles.action}>Pick Up</Text>
+            <Text style={styles.address}>{currentPoint}</Text>
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.action}>Drop Off</Text>
+            <Text style={styles.address}>{destination}</Text>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <BasicButton
+              style={styles.button}
+              bgColor={colors.primary}
+              title={"Accept"}
+            />
+            <View style={{ flex: 0.1 }} />
+            <BasicButton
+              style={styles.button}
+              bgColor={colors.danger}
+              title={"Cancel"}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+};
 
 export default RequestItem;
 

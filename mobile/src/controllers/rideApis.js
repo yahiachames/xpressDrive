@@ -18,6 +18,9 @@ export const createRide = ({
   });
 };
 
-export const checkStatus = (id) => api.get(`ride/status/${id}`);
+export const getPendingRides = (id) => api.get(`ride/status/pending/${id}`);
+export const acceptRide = (id) => api.post(`ride/accept/${id}`);
+export const declineRide = (id) => api.post(`ride/decline/${id}`);
+
 export const updateStatus = (id, status) =>
   api.post(`ride/status/update/${id}`, { status });

@@ -50,32 +50,38 @@ const HomeScreen = ({ navigation }) => {
         accuracy: Location.Accuracy.Highest,
         maximumAge: 10000,
       },
-      (resLocation) => {
-        geocodeLoc(
-          resLocation.coords.latitude,
-          resLocation.coords.longitude
-        ).then((resGeocode) => {
-          let address = resGeocode.data.address;
-          updateLocation({
-            latitude: resLocation.coords.latitude,
-            longitude: resLocation.coords.longitude,
-            id: id_user,
-          })
-            .then((res) => {
-              dispatch(
-                setLocation({
-                  latitude: resLocation.coords.latitude,
-                  longitude: resLocation.coords.longitude,
-                  region: address.state,
-                  subregion: address.county,
-                  street: address.road ? address.road : address.village,
-                  code_postale: address.postcode,
-                })
-              );
+      (resLocation) =>
+        setTimeout(() => {
+          geocodeLoc(
+            resLocation.coords.latitude,
+            resLocation.coords.longitude
+          ).then((resGeocode) => {
+            console.log(resGeocode, "geocode");
+            let address = resGeocode.data.address;
+            updateLocation({
+              latitude: resLocation.coords.latitude,
+              longitude: resLocation.coords.longitude,
+              id: id_user,
             })
-            .catch((e) => console.log("update location failed with error ", e));
-        });
-      }
+              .then((res) => {
+                if (resGeocode.data.display_name !== undefined) {
+                  dispatch(
+                    setLocation({
+                      latitude: resLocation.coords.latitude,
+                      longitude: resLocation.coords.longitude,
+                      region: address.state,
+                      subregion: address.county,
+                      street: resGeocode.data.display_name,
+                      code_postale: address.postcode,
+                    })
+                  );
+                }
+              })
+              .catch((e) =>
+                console.log("update location failed with error ", e)
+              );
+          });
+        }, 7000)
     );
   };
   useEffect(() => {

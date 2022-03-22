@@ -99,10 +99,12 @@ export default function RequestScreen({ navigation, route }) {
       currentPoint: {
         latitude: locationstate.currentPoint["latitude"],
         longitude: locationstate.currentPoint["longitude"],
+        text: locationstate.currentPoint["street"],
       },
       destination: {
         latitude: locationstate.destination["latitude"],
         longitude: locationstate.destination["longitude"],
+        text: locationstate.destination["street"],
       },
       driver_id: driver_id,
       rider_id: id,
@@ -110,9 +112,7 @@ export default function RequestScreen({ navigation, route }) {
       total_price: 12,
     })
       .then((res) => {
-        checkStatus(res.data.data)
-          .then((res2) => dispatch(setRideId(res.data.data)))
-          .catch((e) => console.log(e));
+        dispatch(setRideId(res.data.data));
       })
       .catch((e) => console.log(e));
   };
@@ -132,6 +132,7 @@ export default function RequestScreen({ navigation, route }) {
     return (
       <TouchableOpacity
         onPress={() => {
+          console.log(item, "itemmmmmmmmmmm");
           setDriver_id(item.id);
           handleToggleModal(true);
         }}

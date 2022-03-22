@@ -99,6 +99,7 @@ const ChoseDestCmpt = ({ navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => {
+          console.log(item);
           setToggleFlat(false);
           setSearchValue(item.item.properties.name);
           setDestination({
@@ -107,9 +108,20 @@ const ChoseDestCmpt = ({ navigation }) => {
             longitude: item.item.geometry.coordinates[1],
             region: item.item.properties.state,
             subregion: item.item.properties.city,
-            street: item.item.properties.street,
+            street: item.item.properties.name,
             code_postale: item.item.properties.postcode,
           });
+          dispatch(
+            setDestinationAction({
+              latitude: item.item.geometry.coordinates[0],
+
+              longitude: item.item.geometry.coordinates[1],
+              region: item.item.properties.state,
+              subregion: item.item.properties.city,
+              street: item.item.properties.name,
+              code_postale: item.item.properties.postcode,
+            })
+          );
         }}
       >
         <View style={styles.item}>
