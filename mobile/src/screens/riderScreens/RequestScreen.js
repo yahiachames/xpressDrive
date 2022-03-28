@@ -25,7 +25,6 @@ import { useDispatch, useSelector } from "react-redux";
 import BottomSheet from "../../components/BottomSheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
-import { getDrivers } from "../../controllers/userApis";
 import RequestRideModal from "../../components/Modals/RequestRideModal";
 import AppText from "../../components/Text";
 import AppButton from "../../components/Button";
@@ -41,7 +40,10 @@ import AuthContext from "../../context/AuthContext";
 import MapCustom from "../../components/MapCustom";
 import ListItemSeparator from "../../components/chames/list/ListItemSep";
 import { FontAwesome } from "@expo/vector-icons";
-import { color } from "react-native-reanimated";
+import { getDrivers } from "../../controllers/DriversAPis";
+import ChildModal from "../../components/Modals/Modalschildes/ChildModal";
+import LoadingChildModal from "../../components/Modals/Modalschildes/LoadingChildModal";
+
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -63,34 +65,36 @@ export default function RequestScreen({ navigation, route }) {
   let isActive = bottomsheet1?.current?.isActive();
   const bottomsheet1 = useRef(null);
   const { user, setUser } = useContext(AuthContext);
-  const id = user.sub;
+  const id = user.user_id;
   const locationstate = useSelector((state) => state.location);
   const origin = useSelector((state) => state.location.currentPoint);
-  console.log(origin, "origiiiiiiiiiin");
   const RideId = useSelector((state) => state.RideId.id);
-  console.log(drivers);
   const dispatch = useDispatch();
-  const [rideStatus, setRideStatus] = useState("pending");
-
-  socket.on("connection", (obj) => {
-    console.log("client connected");
+  const [rideStatus, setRideStatus] = useState(null);
+  socket.on("private", (obj) => {
+    console.log(obj);
   });
-  socket.on("updatedSatatus", (status) =>
-    console.log(status, "status updated")
-  );
+  socket.on("connection", (obj) => {
+    socket.emit("connection", id_user);
+  });
+
+  socket.on("rideStatusUpdated", (obj) => {
+    setRideStatus(obj);
+    console.log("updated", obj);
+  });
+
   socket.on("locationUpdate", (obj) => {
     getDriversAPi();
   });
-  socket.on("join", (obj) => {
-    getDriversAPi();
-  });
-  socket.on("deconnect", (obj) => {
+  socket.on("onlineUpdate", (obj) => {
     getDriversAPi();
   });
 
   const getDriversAPi = async () => {
     getDrivers()
-      .then((res) => setDrivers(res.data))
+      .then((res) => {
+        setDrivers(res.data);
+      })
       .catch((e) => console.log(e));
   };
 
@@ -118,22 +122,65 @@ export default function RequestScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    bottomsheet1?.current?.scrollTo(-adaptToHeight(0.55));
+    bottomsheet1?.current?.scrollTo(-adaptToHeight(0.35));
   }, [isActive]);
+
+  const handleRideStatusModal = () => {
+    if (drivers.length == 0) {
+      return <Text>No drivers</Text>;
+    } else {
+      if (rideStatus == null)
+        return (
+          <FlatList
+            data={drivers}
+            keyExtractor={(item, index) => {
+              return index;
+            }}
+            renderItem={renderFlatListItems}
+            ItemSeparatorComponent={ListItemSeparator}
+            contentContainerStyle={styles.contentContainer}
+          />
+        );
+      else if (rideStatus == "pending")
+        return (
+          <LoadingChildModal
+            visible={true}
+            message="waiting for driver response..."
+          />
+        );
+      else if (rideStatus == "started")
+        return (
+          <ChildModal
+            nameIcon="checkcircle"
+            message="accepted by driver"
+            colorIcon={colors.darkBlue}
+          />
+        );
+      else if (rideStatus == "refused")
+        return (
+          <ChildModal
+            nameIcon="closecircle"
+            message="refused by driver"
+            colorIcon={colors.danger}
+          />
+        );
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
     getDriversAPi();
     setLoading(false);
   }, []);
-  useEffect(() => {}, [drivers.length]);
+  useEffect(() => {
+    console.log(rideStatus, "rideStatus");
+  }, [rideStatus]);
 
   const renderFlatListItems = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log(item, "itemmmmmmmmmmm");
-          setDriver_id(item.id);
+          setDriver_id(item._id);
           handleToggleModal(true);
         }}
       >
@@ -167,49 +214,10 @@ export default function RequestScreen({ navigation, route }) {
       </View>
     );
   else {
-    if (drivers.length == 0) {
-      return (
+    return (
+      <>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <View style={styles.container}>
-            <MapComponent drivers={drivers} origin={origin} />
-            <BottomSheet ref={bottomsheet1}>
-              <Text>No Drivers</Text>
-            </BottomSheet>
-
-            <RequestRideModal
-              visible={toggleModal}
-              child={
-                <View style={styles.Modalcontainer}>
-                  <AppText>accapter votre demande ?</AppText>
-                  <View style={styles.btnModalContainer}>
-                    <AppButton
-                      title="confirmer"
-                      styleCOntainer={styles.btnModal}
-                      styleText={styles.textBtnModal}
-                      onPress={async () => {
-                        handleToggleModal(false);
-                        createRideApi();
-                      }}
-                    />
-                    <AppButton
-                      title="annuler"
-                      styleCOntainer={styles.btnModal}
-                      styleText={styles.textBtnModal}
-                      onPress={() => {
-                        handleToggleModal(false);
-                      }}
-                    />
-                  </View>
-                </View>
-              }
-            />
-          </View>
-        </GestureHandlerRootView>
-      );
-    } else {
-      return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <View style={styles.container}>
+          <View style={[styles.container]}>
             <MapComponent
               drivers={drivers}
               mapStyle={styles.MapView}
@@ -217,48 +225,40 @@ export default function RequestScreen({ navigation, route }) {
             />
 
             <BottomSheet ref={bottomsheet1}>
-              <FlatList
-                data={drivers}
-                keyExtractor={(item, index) => {
-                  return index;
-                }}
-                renderItem={renderFlatListItems}
-                ItemSeparatorComponent={ListItemSeparator}
-                contentContainerStyle={styles.contentContainer}
-              />
+              {handleRideStatusModal()}
             </BottomSheet>
-
-            <RequestRideModal
-              visible={toggleModal}
-              child={
-                <View style={styles.Modalcontainer}>
-                  <AppText>accapter votre demande ?</AppText>
-                  <View style={styles.btnModalContainer}>
-                    <AppButton
-                      title="confirmer"
-                      styleCOntainer={styles.btnModal}
-                      styleText={styles.textBtnModal}
-                      onPress={async () => {
-                        handleToggleModal(false);
-                        createRideApi();
-                      }}
-                    />
-                    <AppButton
-                      title="annuler"
-                      styleCOntainer={styles.btnModal}
-                      styleText={styles.textBtnModal}
-                      onPress={() => {
-                        handleToggleModal(false);
-                      }}
-                    />
-                  </View>
-                </View>
-              }
-            />
           </View>
         </GestureHandlerRootView>
-      );
-    }
+        <RequestRideModal
+          visible={toggleModal}
+          child={
+            <View style={styles.Modalcontainer}>
+              <AppText>accapter votre demande ?</AppText>
+              <View style={styles.btnModalContainer}>
+                <AppButton
+                  title="confirmer"
+                  styleCOntainer={styles.btnModal}
+                  styleText={styles.textBtnModal}
+                  onPress={async () => {
+                    handleToggleModal(false);
+                    socket.emit("create", RideId);
+                    createRideApi();
+                  }}
+                />
+                <AppButton
+                  title="annuler"
+                  styleCOntainer={styles.btnModal}
+                  styleText={styles.textBtnModal}
+                  onPress={() => {
+                    handleToggleModal(false);
+                  }}
+                />
+              </View>
+            </View>
+          }
+        />
+      </>
+    );
   }
 }
 

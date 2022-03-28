@@ -10,6 +10,7 @@ import AuthContext from "../context/AuthContext";
 import storage from "../config/storage";
 import { io } from "socket.io-client";
 import { AUTH_KEY, SERVER_URL } from "../config/config";
+import { updateOnline } from "../controllers/DriversAPis";
 
 const { defaultUser } = images;
 
@@ -67,9 +68,9 @@ const CustomDrawer = (props) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            socket.emit("deconnect", { id_user: user.sub });
-            storage.removeKey(AUTH_KEY);
+          onPress={async () => {
+            await updateOnline(false, user.user_id);
+            await storage.removeKey(AUTH_KEY);
             setUser(null);
           }}
           style={{ paddingVertical: sizes.padding }}

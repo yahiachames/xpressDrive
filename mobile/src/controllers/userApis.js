@@ -14,12 +14,10 @@ export const signupApi = ({ username, password, email, phone, role }) =>
     phone,
     email,
     password,
-    role,
+    role: role.toLowerCase(),
   });
 
-export const getDrivers = () => {
-  return api.get("user/drivers");
-};
+
 
 export const updateLocation = ({ latitude, longitude, id }) => {
   console.log("workedddd", { latitude, longitude, id });

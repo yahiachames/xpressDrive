@@ -16,17 +16,18 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import OfflineBar from "./components/offline-bar";
 import * as Location from "expo-location";
 import { geocodeLoc } from "../../../utility/LocationUtility";
-import { updateLocation } from "../../../controllers/userApis";
 import AuthContext from "../../../context/AuthContext";
+
 import { useDispatch } from "react-redux";
 import { setLocation } from "../../../redux/actions/location-actions";
+import { updateLocation, updateOnline } from "../../../controllers/DriversAPis";
 
 const HomeScreen = () => {
   const { user, setUser } = useContext(AuthContext);
   const bottomSheet = useRef(1);
   const snapPoints = useMemo(() => ["32%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
-  const id_user = user.sub;
+  const id_user = user.user_id;
   const dispatch = useDispatch();
 
   const getlocation = () => {
@@ -41,12 +42,15 @@ const HomeScreen = () => {
           resLocation.coords.longitude
         ).then((resGeocode) => {
           let address = resGeocode.data.address;
-          updateLocation({
-            latitude: resLocation.coords.latitude,
-            longitude: resLocation.coords.longitude,
-            id: id_user,
-          })
+          updateLocation(
+            {
+              latitude: resLocation.coords.latitude,
+              longitude: resLocation.coords.longitude,
+            },
+            id_user
+          )
             .then((res) => {
+              console.log(res);
               dispatch(
                 setLocation({
                   latitude: resLocation.coords.latitude,
@@ -63,8 +67,16 @@ const HomeScreen = () => {
       }
     );
   };
+
+  const updateOnlineApi = () => {
+    updateOnline(true, id_user)
+      .then((res) => console.log(res))
+      .catch((e) => console.log(error));
+  };
+
   useEffect(() => {
     getlocation();
+    updateOnlineApi();
   }, []);
 
   return (

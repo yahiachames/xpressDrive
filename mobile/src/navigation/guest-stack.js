@@ -12,14 +12,38 @@ import ResetPasswordScreen from "../screens/account/forgot-password/reset-passwo
 const GuestStack = () => {
     const Stack = createNativeStackNavigator();
     return (
-        <Stack.Navigator>
-            <Stack.Screen name={routes.BOARDING} component={OnBoardingScreen} options={{headerShown: false}}/>
-            <Stack.Screen name={routes.LOGIN} component={LoginScreen} options={{headerShown: false}}/>
-            <Stack.Screen name={routes.REGISTER} component={RegisterScreen} options={{headerShown: false}}/>
-            <Stack.Screen name={routes.FORGET_PASSWORD} component={ForgetPasswordScreen} options={{headerShown: false}}/>
-            <Stack.Screen name={routes.CODE_VERIFICATION} component={CodeVerificationScreen} options={{headerShown: false}}/>
-            <Stack.Screen name={routes.RESET_PASSWORD} component={ResetPasswordScreen} options={{headerShown: false}}/>
-        </Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name={routes.BOARDING}
+          component={OnBoardingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.LOGIN}
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.REGISTER}
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.FORGET_PASSWORD}
+          component={ForgetPasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.CODE_VERIFICATION}
+          component={CodeVerificationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.RESET_PASSWORD}
+          component={ResetPasswordScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
     );
 };
 

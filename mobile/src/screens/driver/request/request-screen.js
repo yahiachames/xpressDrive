@@ -5,8 +5,8 @@ import { colors, sizes } from "../../../constants";
 import RequestItem from "./components/requestItem";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "../../../config/config";
-import { getPendingRides } from "../../../controllers/rideApis";
 import AuthContext from "../../../context/AuthContext";
+import { getDrivers } from "../../../controllers/DriversAPis";
 
 const RequestScreen = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -20,7 +20,7 @@ const RequestScreen = () => {
   const getApiPendingRides = () => {
     console.log("executed");
     setLoading(true);
-    getPendingRides(user.sub)
+    getDrivers()
       .then((res) => {
         console.log(pendingRides);
         setPendingRides(res.data);

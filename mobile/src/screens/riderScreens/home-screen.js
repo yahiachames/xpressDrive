@@ -31,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
   const socket = io(SERVER_URL);
   const { user, setUser } = useContext(AuthContext);
   const dispatch = useDispatch();
-  const id_user = user.sub;
+  const id_user = user.user_id;
   const origin = useSelector((state) => state.location.currentPoint);
 
   NetInfo.addEventListener((state) => {
@@ -52,35 +52,24 @@ const HomeScreen = ({ navigation }) => {
       },
       (resLocation) =>
         setTimeout(() => {
-          geocodeLoc(
-            resLocation.coords.latitude,
-            resLocation.coords.longitude
-          ).then((resGeocode) => {
-            console.log(resGeocode, "geocode");
-            let address = resGeocode.data.address;
-            updateLocation({
-              latitude: resLocation.coords.latitude,
-              longitude: resLocation.coords.longitude,
-              id: id_user,
+          geocodeLoc(resLocation.coords.latitude, resLocation.coords.longitude)
+            .then((resGeocode) => {
+              console.log(resGeocode, "geocode");
+              let address = resGeocode.data.address;
+              if (resGeocode.data.display_name !== undefined) {
+                dispatch(
+                  setLocation({
+                    latitude: resLocation.coords.latitude,
+                    longitude: resLocation.coords.longitude,
+                    region: address.state,
+                    subregion: address.county,
+                    street: resGeocode.data.display_name,
+                    code_postale: address.postcode,
+                  })
+                );
+              }
             })
-              .then((res) => {
-                if (resGeocode.data.display_name !== undefined) {
-                  dispatch(
-                    setLocation({
-                      latitude: resLocation.coords.latitude,
-                      longitude: resLocation.coords.longitude,
-                      region: address.state,
-                      subregion: address.county,
-                      street: resGeocode.data.display_name,
-                      code_postale: address.postcode,
-                    })
-                  );
-                }
-              })
-              .catch((e) =>
-                console.log("update location failed with error ", e)
-              );
-          });
+            .catch((e) => console.log("update location failed with error ", e));
         }, 7000)
     );
   };
