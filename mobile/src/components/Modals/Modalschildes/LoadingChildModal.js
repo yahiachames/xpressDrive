@@ -1,6 +1,6 @@
 import React from "react";
 import LottieView from "lottie-react-native";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { adaptToHeight } from "../../../config/dimensions";
 import { colors } from "../../../constants";
 
@@ -9,12 +9,7 @@ function LoadingChildModal({ visible = false, message = "hello" }) {
 
   return (
     <View style={styles.overlay}>
-      <LottieView
-        autoPlay
-        loop
-        source={require("../../../../assets/animations/loader.json")}
-        style={styles.loading}
-      />
+      <ActivityIndicator autoPlay loop style={styles.loading} />
       <Text style={styles.text}>{message}</Text>
     </View>
   );
@@ -22,6 +17,7 @@ function LoadingChildModal({ visible = false, message = "hello" }) {
 
 const styles = StyleSheet.create({
   overlay: {
+    padding: adaptToHeight(0.04),
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",

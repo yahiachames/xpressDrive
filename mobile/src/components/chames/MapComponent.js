@@ -50,6 +50,7 @@ const MapComponent = ({
         )} */}
 
         {isReady &&
+          drivers !== null &&
           drivers.map((el, index) => (
             <MapView.Marker
               title={el.username}

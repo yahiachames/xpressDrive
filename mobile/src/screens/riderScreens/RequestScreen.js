@@ -74,8 +74,9 @@ export default function RequestScreen({ navigation, route }) {
   socket.on("private", (obj) => {
     console.log(obj);
   });
-  socket.on("connection", (obj) => {
-    socket.emit("connection", id_user);
+  socket.on("connect", (obj) => {
+    console.log(obj, " obj");
+    socket.emit("joined", { username: id, room: id });
   });
 
   socket.on("rideStatusUpdated", (obj) => {
@@ -117,6 +118,10 @@ export default function RequestScreen({ navigation, route }) {
     })
       .then((res) => {
         dispatch(setRideId(res.data.data));
+        if (res.data.success) {
+          console.log(res.data, "res.data");
+          socket.emit("rideCreated", { user_id: id, room: res.data.data });
+        }
       })
       .catch((e) => console.log(e));
   };
@@ -126,7 +131,7 @@ export default function RequestScreen({ navigation, route }) {
   }, [isActive]);
 
   const handleRideStatusModal = () => {
-    if (drivers.length == 0) {
+    if (drivers == null || drivers.length == 0) {
       return <Text>No drivers</Text>;
     } else {
       if (rideStatus == null)
@@ -241,7 +246,7 @@ export default function RequestScreen({ navigation, route }) {
                   styleText={styles.textBtnModal}
                   onPress={async () => {
                     handleToggleModal(false);
-                    socket.emit("create", RideId);
+
                     createRideApi();
                   }}
                 />
