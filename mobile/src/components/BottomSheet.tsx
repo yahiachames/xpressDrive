@@ -9,6 +9,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { colors } from "../constants";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     height: SCREEN_HEIGHT,
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     position: "absolute",
     top: SCREEN_HEIGHT,
     borderRadius: 25,

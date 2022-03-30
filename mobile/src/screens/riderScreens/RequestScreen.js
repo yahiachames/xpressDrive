@@ -43,6 +43,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { getDrivers } from "../../controllers/DriversAPis";
 import ChildModal from "../../components/Modals/Modalschildes/ChildModal";
 import LoadingChildModal from "../../components/Modals/Modalschildes/LoadingChildModal";
+import BarNavCmpt from "../../components/chames/BarNavCmpt";
+import BasicButton from "../../components/basic-button";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -69,6 +71,7 @@ export default function RequestScreen({ navigation, route }) {
   const locationstate = useSelector((state) => state.location);
   const origin = useSelector((state) => state.location.currentPoint);
   const RideId = useSelector((state) => state.RideId.id);
+  const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState(null);
   socket.on("private", (obj) => {
@@ -127,7 +130,7 @@ export default function RequestScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    bottomsheet1?.current?.scrollTo(-adaptToHeight(0.35));
+    bottomsheet1?.current?.scrollTo(-adaptToHeight(0.62));
   }, [isActive]);
 
   const handleRideStatusModal = () => {
@@ -136,15 +139,28 @@ export default function RequestScreen({ navigation, route }) {
     } else {
       if (rideStatus == null)
         return (
-          <FlatList
-            data={drivers}
-            keyExtractor={(item, index) => {
-              return index;
-            }}
-            renderItem={renderFlatListItems}
-            ItemSeparatorComponent={ListItemSeparator}
-            contentContainerStyle={styles.contentContainer}
-          />
+          <View>
+            <BarNavCmpt />
+            <FlatList
+              data={drivers}
+              keyExtractor={(item, index) => {
+                return index;
+              }}
+              renderItem={renderFlatListItems}
+              contentContainerStyle={styles.contentContainer}
+            />
+            <BasicButton
+              title="Book"
+              style={{
+                width: adaptToWidth(0.6),
+                height: adaptToHeight(0.06),
+                position: "absolute",
+                top: adaptToHeight(0.45),
+                alignSelf: "center",
+              }}
+              bgColor={colors.blueSelect}
+            />
+          </View>
         );
       else if (rideStatus == "pending")
         return (
@@ -187,25 +203,40 @@ export default function RequestScreen({ navigation, route }) {
         onPress={() => {
           setDriver_id(item._id);
           handleToggleModal(true);
+          setSelected(item._id);
         }}
       >
-        <View style={styles.itemFlatContainer}>
-          <View style={styles.itemIconBox}>
-            <FontAwesome
-              name="car"
-              size={adaptToHeight(0.04)}
-              color={colors.darkBlue}
-            />
-          </View>
+        <View
+          style={[
+            styles.itemFlatContainer,
+            {
+              backgroundColor:
+                selected == item._id ? colors.blueSelect : colors.white,
+            },
+          ]}
+        >
+          <Image
+            source={require("../../../assets/taxi1.jpg")}
+            style={styles.itemIconBox}
+          />
+
           <View style={styles.itemTextBox}>
-            <View style={styles.ItemFlatTitleBox}>
-              <AppText style={styles.itemtitleFlat}>Just Go</AppText>
-              <AppText style={styles.itemtitleFlat}>50TND</AppText>
-            </View>
-            <View style={styles.ItemFlatDescBox}>
-              <AppText style={styles.itemdescFlat}>Near by you</AppText>
-              <AppText style={styles.itemdescFlat}>2min</AppText>
-            </View>
+            <AppText
+              style={[
+                styles.ItemFlatTitleBox,
+                { color: selected == item._id ? colors.white : colors.grey3 },
+              ]}
+            >
+              Shared
+            </AppText>
+            <AppText
+              style={[
+                styles.itemdescFlat,
+                { color: selected == item._id ? colors.white : colors.grey1 },
+              ]}
+            >
+              25TND
+            </AppText>
           </View>
         </View>
       </TouchableOpacity>
@@ -280,12 +311,23 @@ const styles = StyleSheet.create({
   BottomsheetView: {},
   itemFlatContainer: {
     padding: adaptToHeight(0.01),
-    flexDirection: "row",
+
     justifyContent: "center",
-    justifyContent: "space-around",
     alignItems: "center",
-    width: "90%",
-    height: adaptToHeight(0.12),
+    justifyContent: "space-around",
+    width: adaptToWidth(0.31),
+    height: adaptToHeight(0.2),
+    borderWidth: 1,
+    borderColor: colors.grey,
+    borderRadius: adaptToHeight(0.02),
+    shadowColor: colors.grey1,
+    shadowOffset: {
+      width: 10,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 10,
   },
   itemTextBox: {
     flexDirection: "column",
@@ -296,29 +338,20 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   itemIconBox: {
-    borderRadius: adaptToWidth(0.6),
-    backgroundColor: colors.grey10,
-    width: "16%",
-    height: "100%",
+    width: adaptToWidth(0.3),
+    height: adaptToHeight(0.1),
     alignItems: "center",
     justifyContent: "center",
   },
   ItemFlatTitleBox: {
-    width: "100%",
-
-    flexDirection: "row",
-
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.grey2,
   },
   ItemFlatDescBox: {
-    width: "100%",
+    fontSize: 16,
 
-    flexDirection: "row",
-
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    fontSize: adaptToHeight(0.5),
+    color: colors.grey2,
   },
   itemdescFlat: {
     color: colors.grey1,
@@ -352,6 +385,9 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     height: adaptToHeight(0.6),
+    width: adaptToWidth(1),
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 
   view1: {

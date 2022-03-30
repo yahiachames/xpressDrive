@@ -33,6 +33,7 @@ export const colors = {
   darkBlue: "#2d328a",
   pagebackground: "white",
   danger: "red",
+  blueSelect: "dodgerblue",
 };
 
 
