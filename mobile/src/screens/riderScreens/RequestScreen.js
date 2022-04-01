@@ -14,6 +14,8 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
+  TouchableWithoutFeedbackBase,
+  TouchableHighlight,
 } from "react-native";
 
 import { Avatar, Icon } from "react-native-elements";
@@ -23,7 +25,10 @@ import { colors, parameters } from "../../global/styles.js";
 import { rideData } from "../../global/data";
 import { useDispatch, useSelector } from "react-redux";
 import BottomSheet from "../../components/BottomSheet";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import RequestRideModal from "../../components/Modals/RequestRideModal";
 import AppText from "../../components/Text";
@@ -45,6 +50,7 @@ import ChildModal from "../../components/Modals/Modalschildes/ChildModal";
 import LoadingChildModal from "../../components/Modals/Modalschildes/LoadingChildModal";
 import BarNavCmpt from "../../components/chames/BarNavCmpt";
 import BasicButton from "../../components/basic-button";
+import DriverChildModal from "../../components/Modals/Modalschildes/DriverChildModal";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -151,6 +157,11 @@ export default function RequestScreen({ navigation, route }) {
             />
             <BasicButton
               title="Book"
+              onPress={async () => {
+                handleToggleModal(false);
+
+                createRideApi();
+              }}
               style={{
                 width: adaptToWidth(0.6),
                 height: adaptToHeight(0.06),
@@ -199,11 +210,14 @@ export default function RequestScreen({ navigation, route }) {
 
   const renderFlatListItems = ({ item }) => {
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         onPress={() => {
           setDriver_id(item._id);
-          handleToggleModal(true);
+
           setSelected(item._id);
+        }}
+        onLongPress={() => {
+          handleToggleModal(true);
         }}
       >
         <View
@@ -239,7 +253,7 @@ export default function RequestScreen({ navigation, route }) {
             </AppText>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -267,31 +281,11 @@ export default function RequestScreen({ navigation, route }) {
         </GestureHandlerRootView>
         <RequestRideModal
           visible={toggleModal}
+          height="50%"
           child={
-            <View style={styles.Modalcontainer}>
-              <AppText>accapter votre demande ?</AppText>
-              <View style={styles.btnModalContainer}>
-                <AppButton
-                  title="confirmer"
-                  styleCOntainer={styles.btnModal}
-                  styleText={styles.textBtnModal}
-                  onPress={async () => {
-                    handleToggleModal(false);
-
-                    createRideApi();
-                  }}
-                />
-                <AppButton
-                  title="annuler"
-                  styleCOntainer={styles.btnModal}
-                  styleText={styles.textBtnModal}
-                  onPress={() => {
-                    handleToggleModal(false);
-                  }}
-                />
-              </View>
-            </View>
+            <DriverChildModal onPressCancel={() => handleToggleModal(false)} />
           }
+          styleModal={{ height: "20%" }}
         />
       </>
     );
@@ -301,7 +295,7 @@ export default function RequestScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container1: { flex: 1, paddingTop: parameters.statusBarHeight },
   Modalcontainer: {
-    flex: 1,
+    height: "40%",
   },
   MapView: {
     width: adaptToWidth(1),

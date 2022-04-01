@@ -9,7 +9,7 @@ function LoadingChildModal({ visible = false, message = "hello" }) {
 
   return (
     <View style={styles.overlay}>
-      <ActivityIndicator autoPlay loop style={styles.loading} />
+      <ActivityIndicator size={adaptToHeight(0.08)} color={colors.blue} />
       <Text style={styles.text}>{message}</Text>
     </View>
   );
@@ -17,23 +17,19 @@ function LoadingChildModal({ visible = false, message = "hello" }) {
 
 const styles = StyleSheet.create({
   overlay: {
-    padding: adaptToHeight(0.04),
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
   },
   text: {
-    padding: adaptToHeight(0.02),
-    fontSize: adaptToHeight(0.04),
+    paddingTop: adaptToHeight(0.03),
     color: colors.grey,
+    fontSize: adaptToHeight(0.03),
   },
   loading: {
-    position: "absolute",
-
-    height: "50%",
-
-    width: "100%",
-    zIndex: 1,
+    height: 150,
+    fontSize: 30,
+    width: 150,
   },
 });
 

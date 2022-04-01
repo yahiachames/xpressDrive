@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   DrawerContentScrollView,
@@ -10,34 +10,72 @@ import AuthContext from "../../context/AuthContext";
 import storage from "../../config/storage";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import { io } from "socket.io-client";
+import RequestRideModal from "../Modals/RequestRideModal";
+import ProfileChildModal from "../Modals/Modalschildes/ProfileChildModal";
+import { adaptToHeight } from "../../config/dimensions";
+import { useSelector } from "react-redux";
+import { checkKeyInObject } from "../../utility/checkKeyinObject";
 
 const { defaultUser } = images;
 
 const RiderCustomDrawer = (props) => {
   const { user, setUser } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+  // const [profile, setProfile] = useState({});
+  let profile = useSelector((state) => state.Profile);
+
   const socket = io(SERVER_URL);
+  const handleModal = (value) => {
+    setShowModal(false);
+  };
+  // console.log("component");
+  // useEffect(() => {
+  //   console.log("executedd");
+  //   console.log(profile.user);
+  // }, [JSON.stringify(profile)]);
+  console.log(profile.user, "from component");
+
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView
-        {...props}
-        contentContainerStyle={{ backgroundColor: colors.primary }}
-      >
+      <DrawerContentScrollView {...props}>
+        <RequestRideModal
+          visible={showModal}
+          child={<ProfileChildModal closeModal={handleModal} />}
+        />
         <View style={styles.header}>
           <View style={styles.user}>
-            <Image source={defaultUser} style={styles.avatar} />
+            <Image
+              source={
+                checkKeyInObject(profile, "documents")
+                  ? profile.documents.photo
+                    ? {
+                        uri: `data:image/jpg;base64,${profile.documents.photo}`,
+                      }
+                    : defaultUser
+                  : defaultUser
+              }
+              style={styles.avatar}
+            />
             <View style={{ justifyContent: "center" }}>
               <Text style={styles.name}>John Doe</Text>
-              <View style={styles.rankContainer}>
-                <Ionicons
-                  name="star"
-                  size={sizes.icon}
-                  color={colors.secondary}
-                />
-                <Text style={styles.rank}>Gold Member</Text>
-              </View>
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(true);
+              }}
+              style={{ paddingVertical: sizes.padding }}
+            >
+              <Text
+                style={{
+                  color: "dodgerblue",
+                  fontSize: sizes.h3,
+                  fontWeight: "bold",
+                }}
+              >
+                Edit Profile
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.stats}></View>
         </View>
         <View
           style={{
@@ -52,19 +90,8 @@ const RiderCustomDrawer = (props) => {
       <View
         style={{
           padding: sizes.padding,
-          borderTopWidth: 1,
-          borderTopColor: colors.greyLight,
         }}
       >
-        <TouchableOpacity
-          onPress={() => {}}
-          style={{ paddingVertical: sizes.padding }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="share-social-outline" size={sizes.icon} />
-            <Text style={styles.action}>Invite Friends</Text>
-          </View>
-        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             socket.emit("deconnect", { id_user: user.sub });
@@ -74,7 +101,6 @@ const RiderCustomDrawer = (props) => {
           style={{ paddingVertical: sizes.padding }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="exit-outline" size={sizes.icon} />
             <Text style={styles.action}>Logout</Text>
           </View>
         </TouchableOpacity>
@@ -88,25 +114,25 @@ export default RiderCustomDrawer;
 const styles = StyleSheet.create({
   header: {
     padding: sizes.padding,
-    backgroundColor: colors.primary,
   },
   user: {
-    flexDirection: "row",
     justifyContent: "space-around",
+    padding: 30,
   },
   avatar: {
     height: 70,
     width: 70,
     borderRadius: 40,
-    marginBottom: sizes.margin,
+    marginBottom: 10,
     borderWidth: 2,
     borderColor: colors.white,
   },
   name: {
-    color: colors.white,
-    fontSize: sizes.h3,
-    fontFamily: "latoMedium",
-    marginBottom: sizes.margin,
+    color: colors.black,
+    fontSize: sizes.h2,
+    fontFamily: "Avenir",
+
+    fontWeight: "bold",
   },
   rankContainer: {
     backgroundColor: colors.white,
@@ -124,9 +150,11 @@ const styles = StyleSheet.create({
   },
   stats: {},
   action: {
-    fontSize: sizes.font,
+    fontSize: sizes.h2,
     fontFamily: "latoBold",
     marginLeft: sizes.base,
+    marginBottom: 20,
     color: colors.grey,
+    fontWeight: "bold",
   },
 });

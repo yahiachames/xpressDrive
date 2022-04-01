@@ -11,6 +11,8 @@ import CustomHeader from "../components/custom-header";
 import HomeNavigator from "./home-rider";
 import RiderCustomDrawr from "../components/chames/RiderCustomDrawer";
 import CustomRiderHeader from "../components/CustomRiderHeader";
+import { adaptToHeight } from "../config/dimensions";
+import RequestRideModal from "../components/Modals/RequestRideModal";
 
 const Drawer = createDrawerNavigator();
 
@@ -19,13 +21,14 @@ export default () => (
     drawerContent={RiderCustomDrawr}
     screenOptions={{
       headerShown: false,
-      drawerActiveBackgroundColor: colors.primary,
+
       drawerActiveTintColor: colors.white,
-      drawerInactiveTintColor: colors.black,
+      drawerInactiveTintColor: colors.white,
       drawerLabelStyle: {
-        marginLeft: -25,
         fontFamily: "latoMedium",
-        fontSize: sizes.font,
+        fontSize: adaptToHeight(0.025),
+        margin: 5,
+        color: colors.black,
       },
     }}
   >
@@ -33,9 +36,6 @@ export default () => (
       name="Home"
       component={HomeNavigator}
       options={{
-        drawerIcon: ({ color }) => (
-          <Ionicons name="home-outline" size={sizes.icon} color={color} />
-        ),
         headerShown: true,
         header: ({ scene, previous, navigation }) => (
           <CustomRiderHeader navigation={navigation} />

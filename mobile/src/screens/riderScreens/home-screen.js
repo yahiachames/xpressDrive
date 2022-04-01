@@ -35,12 +35,9 @@ const HomeScreen = ({ navigation }) => {
   const origin = useSelector((state) => state.location.currentPoint);
 
   NetInfo.addEventListener((state) => {
-    console.log(state, "statteeeeeeeeee infooooooooo");
     if (state.isConnected) {
-      console.log("join");
       socket.emit("join", { id_user: user.sub, role: "driver" });
     } else {
-      console.log("deconnect");
       socket.emit("deconnect", { id_user: user.sub, role: "driver" });
     }
   });
@@ -54,7 +51,6 @@ const HomeScreen = ({ navigation }) => {
         setTimeout(() => {
           geocodeLoc(resLocation.coords.latitude, resLocation.coords.longitude)
             .then((resGeocode) => {
-              console.log(resGeocode, "geocode");
               let address = resGeocode.data.address;
               if (resGeocode.data.display_name !== undefined) {
                 dispatch(

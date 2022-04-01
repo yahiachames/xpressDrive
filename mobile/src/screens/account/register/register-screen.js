@@ -15,7 +15,6 @@ import CustomForm from "../../../components/forms/Form";
 import { signupApi } from "../../../controllers/userApis";
 import { useDispatch } from "react-redux";
 import { useFormikContext } from "formik";
-import { phone_register } from "../../../redux/actions/phone-acions";
 
 const initialValues = {
   email: "",
@@ -47,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
   const onSubmit = (values) => {
     const pre_values = { ...values, phone: "+216" + values.phone };
     console.log(pre_values);
-    dispatch(phone_register(pre_values.phone));
+
     signupApi(pre_values)
       .then((res) => {
         console.log(res);

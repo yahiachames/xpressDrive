@@ -1,11 +1,12 @@
 const INITIAL_STATE = {
-  phone: "",
+  profile: {},
 };
 
 export default function PhoneNumber(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "PHONE_REGISTER":
-      return { phone: action.payload };
+    case "ADD_PROFILE":
+      console.log(action.payload.user);
+      return { ...action.payload };
 
     default:
       return state;

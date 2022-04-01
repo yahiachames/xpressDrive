@@ -6,23 +6,24 @@ import RequestItem from "./components/requestItem";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "../../../config/config";
 import AuthContext from "../../../context/AuthContext";
-import { getDrivers } from "../../../controllers/DriversAPis";
+import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
 
 const RequestScreen = () => {
   const { user, setUser } = useContext(AuthContext);
   const [pendingRides, setPendingRides] = useState([]);
   const [loading, setLoading] = useState(false);
   const socket = io(SERVER_URL);
+
   socket.on("updatedSatatus", () => {
     getApiPendingRides();
   });
 
   const getApiPendingRides = () => {
-    console.log("executed");
+    console.log("executed", user.user_id);
     setLoading(true);
-    getDrivers()
+    getRidesPending(user.user_id)
       .then((res) => {
-        console.log(pendingRides);
+        console.log(res, user.user_id);
         setPendingRides(res.data);
       })
       .catch((e) => console.log(e));

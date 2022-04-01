@@ -11,11 +11,12 @@ const RequestRideModal = ({
   onDismiss,
   child,
   height,
+  styleModal,
 }) => {
   return (
     <Modal animationType={animationType} transparent={true} visible={visible}>
       <TouchableWithoutFeedback onPress={() => onDismiss()}>
-        <View style={styles.modal}>
+        <View style={[styles.modal, styleModal]}>
           <TouchableWithoutFeedback>
             <View
               style={[

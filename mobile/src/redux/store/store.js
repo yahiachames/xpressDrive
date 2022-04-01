@@ -4,7 +4,7 @@ import rootReducer from '../reducers';
 import loggingMiddleware from './middleware/logging';
 
 const store = (initialState) => {
-    const middleware = applyMiddleware(thunk, loggingMiddleware);
+    const middleware = applyMiddleware(thunk);
     return createStore(rootReducer, initialState, middleware);
 };
 

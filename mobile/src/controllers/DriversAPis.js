@@ -18,7 +18,7 @@ export const updateOnline = (online, id) => {
   });
 };
 export const getRidesPending = (id) => {
-  api.get(`driver/rides/pending/${id}`);
+  return api.get(`driver/rides/pending/${id}`);
 };
 export const getRidesCompleted = (id) => {
   api.get(`driver/rides/completed/${id}`);
@@ -32,3 +32,7 @@ export const getDriverTotalDistance = (driver_id) =>
   api.get(`driver/rides/distance/${driver_id}`);
 export const getDriverTotalRate = (driver_id) =>
   api.get(`driver/rides/rate/${driver_id}`);
+export const getOneDriver = (id) => {
+  return api.get(`driver/one/${id}`);
+};
+

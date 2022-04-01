@@ -14,6 +14,9 @@ import jwt_decode from "jwt-decode";
 import AuthContext from "./src/context/AuthContext";
 import { io } from "socket.io-client";
 import AppNavigator from "./src/navigation/AppNavigator";
+import { getOneDriver } from "./src/controllers/DriversAPis";
+import { profile_add } from "./src/redux/actions/profile-acions";
+import { getOneRider } from "./src/controllers/RiderAPis";
 
 export default function AppContainer() {
   const [permLocation, setPermLocation] = useState(false);
@@ -22,7 +25,9 @@ export default function AppContainer() {
   const dispatch = useDispatch();
   const [fontsLoaded] = useFonts(fonts);
   const { user, setUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const restoreUser = async () => {
+    setLoading(true);
     const token = await storage.getKey(AUTH_KEY);
 
     //decode token
@@ -30,9 +35,22 @@ export default function AppContainer() {
     setUser(user);
     user && setUser(user) && socket.emit("join", { id_user: user.sub });
 
-    console.log(user);
+    console.log(user, "userrrrrrrrrr");
+    if (user.role == "driver") {
+      getOneDriver(user.user_id).then((res) => {
+        console.log(res.status);
+        dispatch(profile_add(res.data.data));
+        setLoading(false);
+      });
+    } else {
+      getOneRider(user.user_id).then((res) => {
+        console.log(res.status);
+        dispatch(profile_add(res.data.data));
+        setLoading(false);
+      });
 
-    // call user
+      // call user
+    }
   };
 
   useEffect(() => {
@@ -45,17 +63,21 @@ export default function AppContainer() {
       {fontsLoaded ? (
         <>
           <StatusBar barStyle="dark-content" />
-          <NavigationContainer>
-            {user ? (
-              user.role == "driver" ? (
-                <MainStack />
+          {loading ? (
+            <></>
+          ) : (
+            <NavigationContainer>
+              {user ? (
+                user.role == "driver" ? (
+                  <MainStack />
+                ) : (
+                  <AppNavigator />
+                )
               ) : (
-                <AppNavigator />
-              )
-            ) : (
-              <GuestStack />
-            )}
-          </NavigationContainer>
+                <GuestStack />
+              )}
+            </NavigationContainer>
+          )}
         </>
       ) : (
         <AppLoading />

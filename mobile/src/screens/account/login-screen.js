@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
     password: Yup.string()
       .label("Password")
       .required()
-      .min(5, "Password must have more than 4 characters "),
+      .min(4, "Password must have more than 4 characters "),
   });
 
   const onSubmit = (values) => {
