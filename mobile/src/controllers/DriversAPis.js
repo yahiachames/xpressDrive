@@ -35,4 +35,14 @@ export const getDriverTotalRate = (driver_id) =>
 export const getOneDriver = (id) => {
   return api.get(`driver/one/${id}`);
 };
+export const updateDriverProfile = (driver_id, formdata) => {
+  return api.post(`driver/update/${driver_id}`, formdata, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+
+
 

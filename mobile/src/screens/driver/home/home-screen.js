@@ -21,14 +21,22 @@ import AuthContext from "../../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { setLocation } from "../../../redux/actions/location-actions";
 import { updateLocation, updateOnline } from "../../../controllers/DriversAPis";
+import { io } from "socket.io-client";
+import { SERVER_URL } from "../../../config/config";
 
 const HomeScreen = () => {
+  const socket = io(SERVER_URL);
   const { user, setUser } = useContext(AuthContext);
   const bottomSheet = useRef(1);
   const snapPoints = useMemo(() => ["32%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
   const id_user = user.user_id;
   const dispatch = useDispatch();
+  socket.on("connect", (obj) => {
+    console.log(obj, " obj");
+    socket.emit("joined", { username: user.user_id, room: user.user_id });
+  });
+  console.log(user, "userrrrrrrrrr");
 
   const getlocation = () => {
     Location.watchPositionAsync(

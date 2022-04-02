@@ -8,6 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { updateRiderProfile } from "../../../controllers/RiderAPis";
 import AuthContext from "../../../context/AuthContext";
+import { updateDriverProfile } from "../../../controllers/DriversAPis";
 
 const ProfileChildModal = ({ closeModal, handleSave }) => {
   const { user, setUser } = useContext(AuthContext);
@@ -46,40 +47,52 @@ const ProfileChildModal = ({ closeModal, handleSave }) => {
 
   const handleSubmit = (initValues) => {
     console.log(initValues);
+    console.log(user);
     const formData = new FormData();
-    let formatImage = {
-      // originalname: image.uri
-      //   .split("/")
-      //   [image.uri.split("/").length - 1].split(".")[0],
-      // path: image.uri,
-      // mimetype:
-      //   "image/" +
-      //   image.uri.split("/")[image.uri.split("/").length - 1].split(".")[
-      //     image.uri.split("/")[image.uri.split("/").length - 1].split(".")
-      //       .length - 1
-      //   ],
-      name: image.uri.split("/")[image.uri.split("/").length - 1],
-      uri: image.uri,
-      type:
-        "image/" +
-        image.uri.split("/")[image.uri.split("/").length - 1].split(".")[
-          image.uri.split("/")[image.uri.split("/").length - 1].split(".")
-            .length - 1
-        ],
-    };
+    if (image) {
+      let formatImage = {
+        // originalname: image.uri
+        //   .split("/")
+        //   [image.uri.split("/").length - 1].split(".")[0],
+        // path: image.uri,
+        // mimetype:
+        //   "image/" +
+        //   image.uri.split("/")[image.uri.split("/").length - 1].split(".")[
+        //     image.uri.split("/")[image.uri.split("/").length - 1].split(".")
+        //       .length - 1
+        //   ],
+        name: image.uri.split("/")[image.uri.split("/").length - 1],
+        uri: image.uri,
+        type:
+          "image/" +
+          image.uri.split("/")[image.uri.split("/").length - 1].split(".")[
+            image.uri.split("/")[image.uri.split("/").length - 1].split(".")
+              .length - 1
+          ],
+      };
 
-    formData.append("photo", formatImage);
+      formData.append("photo", formatImage);
+    }
     formData.append("username", initValues.username);
     formData.append("fullname", initValues.fullname);
     formData.append("email", initValues.email);
     formData.append("phone", initValues.phone);
 
-    updateRiderProfile(user.user_id, formData)
-      .then((res) => {
-        closeModal();
-        console.log(res);
-      })
-      .catch((e) => console.log(e));
+    if (user.role == "driver") {
+      updateDriverProfile(user.user_id, formData)
+        .then((res) => {
+          closeModal();
+          console.log(res);
+        })
+        .catch((e) => console.log(e));
+    } else {
+      updateRiderProfile(user.user_id, formData)
+        .then((res) => {
+          closeModal();
+          console.log(res);
+        })
+        .catch((e) => console.log(e));
+    }
 
     closeModal();
   };

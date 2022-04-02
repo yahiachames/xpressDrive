@@ -33,12 +33,17 @@ const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const id_user = user.user_id;
   const origin = useSelector((state) => state.location.currentPoint);
+  socket.on("connect", (obj) => {
+    console.log(obj, " obj");
+    socket.emit("joined", { username: user.user_id, room: user.user_id });
+  });
+  console.log(user, "userrrrrrrrrr");
 
   NetInfo.addEventListener((state) => {
     if (state.isConnected) {
-      socket.emit("join", { id_user: user.sub, role: "driver" });
+      socket.emit("joined", { id_user: user.user_id, role: user.role });
     } else {
-      socket.emit("deconnect", { id_user: user.sub, role: "driver" });
+      socket.emit("deconnect", { id_user: user.user_id, role: user.role });
     }
   });
   const getlocation = () => {
