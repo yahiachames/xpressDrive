@@ -29,70 +29,67 @@ const CodeVerificationScreen = ({ navigation }) => {
   };
 
   return (
-    <Screen style={{ backgroundColor: colors.white }}>
-      <Image
-        source={forgerPassword2}
-        style={styles.image}
-        resizeMode="center"
-      />
-      <View style={styles.content}>
-        <Text style={styles.title}>Verification</Text>
-        <Text style={styles.description}>
-          Enter the verification code we just sent you on your email address
-        </Text>
-        <CustomForm
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
-          <ConfirmationCode name={"code"} />
-          <SubmitButton
-            title={"Verify"}
-            style={styles.button}
-            color={colors.primary}
+      <Screen style={styles.container}>
+        <View style={{flex: .3, alignItems: 'center'}}>
+          <Image
+              style={styles.image}
+              source={forgerPassword2}
+              resizeMode="center"
           />
-        </CustomForm>
-      </View>
-      <View styles={styles.footer}>
-        <BasicButton
-          bgColor={"transparent"}
-          title={"Resend code?"}
-          textColor={colors.grey}
-          textStyle={styles.resendBtn}
-        />
-      </View>
-    </Screen>
+        </View>
+        <View style={{flex: .6, justifyContent: 'center'}}>
+          <Text style={styles.title}>Verification</Text>
+          <Text style={styles.description}>
+            Enter the verification code we just sent you on your email address
+          </Text>
+          <CustomForm
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
+          >
+            <ConfirmationCode name={"code"} />
+            <SubmitButton
+                title={"Verify"}
+                style={styles.button}
+                color={colors.primary}
+            />
+          </CustomForm>
+        </View>
+        <View style={{flex: .1}}>
+          <BasicButton
+              bgColor={"transparent"}
+              title={"Resend code?"}
+              textColor={colors.grey}
+              textStyle={styles.resendBtn}
+          />
+        </View>
+      </Screen>
   );
 };
 
 export default CodeVerificationScreen;
 
 const styles = StyleSheet.create({
-  image: {
-    height: adaptToWidth(0.6),
-    flex: 0.4,
-    alignSelf: "center",
-    width: adaptToWidth(0.6),
+  container: {
+    padding: sizes.padding,
   },
-  content: {
-    flex: 0.5,
-    margin: sizes.margin * 3,
+  image: {
+    width: adaptToWidth(.4),
+    height: adaptToWidth(.4),
   },
   title: {
     fontFamily: "latoBold",
-    fontSize: sizes.h2,
+    fontSize: sizes.h3,
     color: colors.black,
-    textAlign: "center",
+    textAlign: 'center',
     letterSpacing: 1,
-    marginBottom: sizes.margin * 2,
+    marginBottom: sizes.margin
   },
   description: {
     fontFamily: "latoBold",
-    fontSize: sizes.h3,
+    fontSize: sizes.h4,
     color: colors.grey,
-    textAlign: "center",
-    letterSpacing: 0.3,
-    marginBottom: sizes.margin * 2,
+    letterSpacing: .3,
   },
   input: {
     borderWidth: 2,
@@ -101,13 +98,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.dark,
-    marginTop: sizes.margin * 2,
-  },
-  footer: {
-    flex: 0.2,
-    backgroundColor: "red",
   },
   resendBtn: {
-    textDecorationLine: "underline",
+    textDecorationLine: "underline"
   },
 });

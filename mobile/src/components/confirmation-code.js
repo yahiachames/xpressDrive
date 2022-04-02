@@ -2,7 +2,7 @@ import {Animated, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 
 import {CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell,} from 'react-native-confirmation-code-field';
-import {colors} from "../constants";
+import {colors, sizes} from "../constants";
 import {useFormikContext} from "formik";
 
 const {Value, Text: AnimatedText} = Animated;
@@ -64,7 +64,7 @@ const ConfirmationCode = ({name}) => {
                 {
                     scale: animationsScale[index].interpolate({
                         inputRange: [0, 1],
-                        outputRange: [0.2, 1],
+                        outputRange: [.2, 1],
                     }),
                 },
             ],
@@ -109,13 +109,12 @@ export default ConfirmationCode;
 
 const styles = StyleSheet.create({
     codeFiledRoot: {
+        marginVertical: sizes.margin,
         height: CELL_SIZE,
-        marginTop: 30,
-        paddingHorizontal: 20,
         justifyContent: 'center',
     },
     cell: {
-        marginHorizontal: 8,
+        marginHorizontal: sizes.tiny,
         height: CELL_SIZE,
         width: CELL_SIZE,
         lineHeight: CELL_SIZE - 5,
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
             width: 0,
             height: 1,
         },
-        shadowOpacity: 0.22,
+        shadowOpacity: .22,
         shadowRadius: 2.22,
 
         // Android

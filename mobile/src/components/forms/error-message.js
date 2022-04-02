@@ -9,8 +9,8 @@ function ErrorMessage({ error, visible, style }) {
 
 const styles = StyleSheet.create({
   error: {
-    paddingTop: sizes.base,
     color: colors.danger,
+    marginBottom: sizes.margin
   },
 });
 

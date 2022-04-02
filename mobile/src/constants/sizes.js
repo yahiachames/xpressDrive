@@ -11,18 +11,18 @@ export default {
     padding: 10,
     margin: 10,
 
+    // input
+    inputHeight: height * .08,
+
     // font sizes
-    h1: 30,
-    h2: 22,
-    h3: 17,
-    h4: 14,
-    h5: 12,
-    body1: 30,
-    body2: 22,
-    body3: 16,
-    body4: 14,
-    input: 15,
-    icon: 15,
+    h1: width * .078,
+    h2: width * .062,
+    h3: width * .058,
+    h4: width * .052,
+    h5: width * .048,
+    h6: width * .042,
+    input: width * .04,
+    icon: width * .04,
 
     // app dimensions
     width,

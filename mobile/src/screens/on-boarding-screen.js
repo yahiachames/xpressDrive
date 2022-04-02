@@ -13,6 +13,7 @@ import {
 import {colors, images, sizes} from '../constants'
 import {adaptToHeight, adaptToWidth} from '../config/dimensions'
 import routes from "../navigation/routes";
+import Screen from "../components/screen";
 
 const {onBoarding1, onBoarding2, onBoarding3, onBoarding4} = images
 
@@ -108,13 +109,13 @@ const OnBoarding = ({navigation}) => {
                 {onBoardings.map((item, index) => {
                     const opacity = dotPosition.interpolate({
                         inputRange: [index - 1, index, index + 1],
-                        outputRange: [0.3, 1, 0.3],
+                        outputRange: [.3, 1, .3],
                         extrapolate: 'clamp',
                     })
 
                     const dotSize = dotPosition.interpolate({
                         inputRange: [index - 1, index, index + 1],
-                        outputRange: [adaptToWidth(0.03), 20, adaptToWidth(0.03)],
+                        outputRange: [adaptToWidth(.025), sizes.h6, adaptToWidth(.025)],
                         extrapolate: 'clamp',
                     })
 
@@ -131,23 +132,24 @@ const OnBoarding = ({navigation}) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View>{renderContent()}</View>
-            <View style={styles.dotsRootContainer}>{renderDots()}</View>
-        </SafeAreaView>
+        <Screen>
+            <View style={styles.container}>
+                <View>{renderContent()}</View>
+                <View style={styles.dotsRootContainer}>{renderDots()}</View>
+            </View>
+        </Screen>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.white,
     },
     image: {
-        width: '100%',
-        height: '100%',
+        width: '80%',
+        height: '80%',
+        top: -adaptToHeight(.04)
     },
     imageAndTextContainer: {
         width: sizes.width,
@@ -160,9 +162,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: adaptToHeight(0.01) / 2,
-        marginBottom: adaptToHeight(0.01) * 3,
-        height: adaptToHeight(0.01),
     },
     dot: {
         borderRadius: sizes.radius,
@@ -176,20 +175,20 @@ const styles = StyleSheet.create({
         right: 40,
     },
     title: {
-        fontSize: sizes.h1,
+        fontSize: sizes.h2,
         fontFamily: 'latoMedium',
         color: colors.black,
         textAlign: 'center',
     },
     description: {
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         textAlign: 'center',
         fontFamily: 'latoRegular',
-        marginTop: adaptToHeight(0.04),
+        marginTop: adaptToHeight(.04),
         color: colors.gray,
     },
     textButton: {
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         color: colors.greyMedium,
         fontFamily: 'latoBold',
         textAlign: 'center',

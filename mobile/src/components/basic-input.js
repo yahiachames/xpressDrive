@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         borderRadius: sizes.radius,
         flexDirection: "row",
         paddingHorizontal: sizes.margin,
-        height: adaptToHeight(0.08),
+        height: sizes.inputHeight,
+        marginBottom: sizes.margin,
     },
     icon: {
         marginRight: sizes.margin,

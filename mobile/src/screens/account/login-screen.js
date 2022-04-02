@@ -42,7 +42,6 @@ const LoginScreen = ({ navigation }) => {
         storage.storeKey(AUTH_KEY, res.data.token);
         const user = jwt_decode(res.data.token);
         socket.emit("join", { id_user: user.sub });
-
         setUser(user);
       } else {
         setUser(null);
@@ -51,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <Screen style={{backgroundColor: colors.white}}>
+    <Screen style={styles.container}>
       <ImageBackground
         source={login1}
         resizeMode={"cover"}
@@ -69,12 +68,12 @@ const LoginScreen = ({ navigation }) => {
           initialValues={initialValues}
         >
           <FormInput
-            style={styles.input}
+            style={[styles.input]}
             name={"username"}
             placeholder={"Username"}
           />
           <FormInput
-            style={[styles.input, { marginTop: sizes.margin * 2 }]}
+            style={[styles.input]}
             placeholder={"Password"}
             name={"password"}
             secureTextEntry
@@ -83,7 +82,6 @@ const LoginScreen = ({ navigation }) => {
             title={"Login"}
             style={{
               backgroundColor: colors.primary,
-              marginTop: sizes.margin * 2,
             }}
             color={colors.white}
           />
@@ -113,8 +111,12 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    padding: sizes.padding,
+  },
   image: {
-    flex: 0.35,
+    flex: .35,
+    margin: -sizes.margin * 2,
     position: "relative",
   },
   filter: {
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: sizes.width,
-    opacity: 0.4,
+    opacity: .4,
   },
   wave: {
     position: "absolute",
@@ -136,32 +138,29 @@ const styles = StyleSheet.create({
     left: 0
   },
   form: {
-    marginHorizontal: sizes.margin * 3,
-    marginVertical: sizes.margin,
-    flex: 0.4,
+    flex: .55,
+    justifyContent: 'center',
   },
   title: {
     fontFamily: "latoMedium",
     color: colors.primary,
-    fontSize: sizes.h1 * 1.1,
+    fontSize: sizes.h1,
     alignSelf: "flex-start",
     letterSpacing: 1,
-    marginBottom: sizes.margin * 3,
+    marginBottom: sizes.margin * 2,
   },
   input: {
     borderWidth: 2,
     borderColor: colors.greyLight,
   },
   footer: {
-    marginTop: sizes.margin,
-    marginHorizontal: sizes.margin * 3,
-    flex: 0.3,
+    flex: .2,
     justifyContent: "center",
   },
   footerText: {
     fontFamily: "latoRegular",
     color: colors.grey,
-    fontSize: sizes.h3,
+    fontSize: sizes.h5,
   },
   signUp: {
     flexDirection: "row",

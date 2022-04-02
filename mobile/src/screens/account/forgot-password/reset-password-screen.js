@@ -4,8 +4,6 @@ import {adaptToWidth} from "../../../config/dimensions";
 import Screen from "../../../components/screen";
 import * as Yup from "yup";
 import {colors, images, sizes} from "../../../constants";
-
-import Routes from "../../../navigation/routes";
 import CustomForm from "../../../components/forms/Form";
 import FormInput from "../../../components/forms/form-input";
 import SubmitButton from "../../../components/forms/submit-button";
@@ -37,13 +35,15 @@ const ResetPasswordScreen = ({navigation}) => {
     };
 
     return (
-        <Screen style={{backgroundColor: colors.white}}>
-            <Image
-                source={forgerPassword3}
-                style={styles.image}
-                resizeMode="center"
-            />
-            <View style={styles.content}>
+        <Screen style={styles.container}>
+            <View style={{flex: .3, alignItems: 'center'}}>
+                <Image
+                    source={forgerPassword3}
+                    style={styles.image}
+                    resizeMode="center"
+                />
+            </View>
+            <View style={{flex: .7, justifyContent: 'center'}}>
                 <Text style={styles.title}>Create New Password</Text>
                 <Text style={styles.description}>New password must be different from previously used password</Text>
                 <CustomForm
@@ -57,7 +57,7 @@ const ResetPasswordScreen = ({navigation}) => {
                         placeholder={"New Password"}
                     />
                     <FormInput
-                        style={[styles.input, { marginTop: sizes.margin }]}
+                        style={styles.input}
                         name={"changePassword"}
                         placeholder={"Confirm Password"}
                     />
@@ -75,31 +75,27 @@ const ResetPasswordScreen = ({navigation}) => {
 export default ResetPasswordScreen;
 
 const styles = StyleSheet.create({
-    image: {
-        flex: .4,
-        width: adaptToWidth(.6),
-        alignSelf: 'center',
-        height: adaptToWidth(.6),
+    container: {
+        padding: sizes.padding,
     },
-    content: {
-        flex: .6,
-        margin: sizes.margin * 3
+    image: {
+        width: adaptToWidth(.5),
+        height: adaptToWidth(.5),
     },
     title: {
         fontFamily: "latoBold",
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         color: colors.black,
         textAlign: 'center',
         letterSpacing: 1,
-        marginBottom: sizes.margin * 2
+        marginBottom: sizes.margin
     },
     description: {
         fontFamily: "latoBold",
-        fontSize: sizes.h3,
+        fontSize: sizes.h4,
         color: colors.grey,
-        textAlign: 'center',
         letterSpacing: .3,
-        marginBottom: sizes.margin * 2
+        marginBottom: sizes.margin
     },
     input: {
         borderWidth: 2,
@@ -107,6 +103,6 @@ const styles = StyleSheet.create({
         borderRadius: sizes.radius,
     },
     button: {
-        backgroundColor: colors.dark, marginTop: sizes.margin * 2
+        backgroundColor: colors.dark,
     },
 });

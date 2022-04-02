@@ -4,6 +4,7 @@ import React from "react";
 import {adaptToHeight, adaptToWidth} from "../../../../config/dimensions";
 import BasicButton from "../../../../components/basic-button";
 import {useFormikContext} from "formik";
+import Screen from "../../../../components/screen";
 
 export const FunctionSelect = ({name, onPress}) => {
 
@@ -27,12 +28,12 @@ export const FunctionSelect = ({name, onPress}) => {
     const {values, setFieldValue} = useFormikContext();
 
     return (
-        <View style={{flex: 1, margin: adaptToWidth(.06)}}>
-            <View style={{flex: .3, justifyContent: 'center'}}>
+        <Screen>
+            <View style={{flex: .25}}>
                 <Text style={styles.title}>Select Function</Text>
                 <Text style={styles.description}>Choose the right function for you!</Text>
             </View>
-            <View style={styles.container}>
+            <View style={{flex: .65}}>
                 <FlatList
                     keyExtractor={(item, index) => String(index)}
                     data={items}
@@ -41,10 +42,10 @@ export const FunctionSelect = ({name, onPress}) => {
                             onPress={() => {
                                 setFieldValue(name, item.value)
                             }}
-                            activeOpacity={0.7}
+                            activeOpacity={.7}
                             style={[styles.card, values[name] === item.value ? styles.selected : null]}
                         >
-                            <View style={{flex: .5, padding: adaptToWidth(.02)}}>
+                            <View style={{flex: .5, padding: sizes.padding}}>
                                 <Text style={styles.itemText}>{item.text}</Text>
                                 <Text style={styles.itemDescription}>{item.description}</Text>
                             </View>
@@ -56,7 +57,7 @@ export const FunctionSelect = ({name, onPress}) => {
                         </TouchableOpacity>
                     }}/>
             </View>
-            <BasicButton style={styles.button}
+            <BasicButton style={{flex: .1}}
                          bgColor={'transparent'}
                          onPress={() => {
                              if(values[name]) {
@@ -64,67 +65,55 @@ export const FunctionSelect = ({name, onPress}) => {
                              }
                          }}
                          textStyle={[styles.buttonText, values[name] ? {color: colors.primary} : null]} title={"Next"}/>
-        </View>
+        </Screen>
     );
 };
 
 const styles = StyleSheet.create({
     title: {
         fontFamily: 'latoMedium',
-        fontSize: sizes.h1,
+        fontSize: sizes.h2,
         color: colors.black,
-        marginBottom: adaptToHeight(.01)
+        marginBottom: sizes.margin
     },
     description: {
         fontFamily: 'latoRegular',
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         color: colors.grey
-    },
-    container: {
-        flex: .5,
     },
     selected: {
         borderRadius: sizes.radius,
         borderColor: colors.primary,
-        borderWidth: 3
+        borderWidth: 2
     },
     card: {
-        marginVertical: adaptToWidth(.03),
+        marginBottom: sizes.margin,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.white,
         borderRadius: sizes.radius,
         borderColor: colors.greyLight,
-        borderWidth: 2
+        borderWidth: 1
     },
     itemText: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         color: colors.black,
         marginVertical: sizes.margin,
     },
     itemDescription: {
         fontFamily: 'latoRegular',
-        fontSize: sizes.h3,
+        fontSize: sizes.h4,
         color: colors.grey
     },
     itemImage: {
-        height: 100,
+        height: adaptToHeight(.15),
+        width: 'auto',
         flex: .5,
-        margin: 1,
-        borderRadius: sizes.radius
-    },
-    button: {
-        alignItems: 'center',
-        flex: .2,
-        textAlign: 'center',
-        width: '100%',
-        justifyContent: 'flex-start',
     },
     buttonText: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         color: colors.grey
     }
 })

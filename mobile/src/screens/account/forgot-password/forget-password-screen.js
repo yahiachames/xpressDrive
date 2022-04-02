@@ -29,31 +29,41 @@ const ForgetPasswordScreen = ({navigation}) => {
     };
 
     return (
-        <Screen style={{backgroundColor: colors.white}}>
+        <Screen style={styles.container}>
             <Image
                 source={forgerPassword1}
                 style={styles.image}
                 resizeMode="center"
             />
-            <View style={styles.content}>
-                <Text style={styles.title}>Forgot Password?</Text>
-                <Text style={styles.description}>Please enter your email address to receive a verification code</Text>
-                <CustomForm
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
-                >
-                    <FormInput
-                        style={styles.input}
-                        name={"email"}
-                        placeholder={"Email"}
-                    />
-                    <SubmitButton
-                        title={"Reset password"}
-                        style={styles.button}
-                        color={colors.primary}
-                    />
-                </CustomForm>
+            <View style={{flex: .7}}>
+                <View style={{flex: .5, justifyContent: 'center'}}>
+                    <Text style={styles.title}>Forgot Password?</Text>
+                    <Text style={styles.description}>Please enter your email address to receive a verification code</Text>
+                </View>
+                <View style={{flex: .5, justifyContent: 'center'}}>
+                    <CustomForm
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={onSubmit}
+                    >
+                        <View style={{flex: 1}}>
+                            <View style={{justifyContent: 'flex-start', flex: .9}}>
+                                <FormInput
+                                    style={styles.input}
+                                    name={"email"}
+                                    placeholder={"Email"}
+                                />
+                            </View>
+                            <View style={{justifyContent: 'flex-end', flex: .1}}>
+                                <SubmitButton
+                                    title={"Reset password"}
+                                    style={styles.button}
+                                    color={colors.primary}
+                                />
+                            </View>
+                        </View>
+                    </CustomForm>
+                </View>
             </View>
         </Screen>
     );
@@ -62,31 +72,29 @@ const ForgetPasswordScreen = ({navigation}) => {
 export default ForgetPasswordScreen;
 
 const styles = StyleSheet.create({
+    container: {
+        padding: sizes.padding,
+    },
     image: {
-        flex: .4,
+        flex: .3,
         alignSelf: 'center',
         width: adaptToWidth(.6),
         height: adaptToWidth(.6),
     },
-    content: {
-        flex: .7,
-        margin: sizes.margin * 3
-    },
     title: {
         fontFamily: "latoBold",
-        fontSize: sizes.h2,
+        fontSize: sizes.h3,
         color: colors.black,
         textAlign: 'center',
         letterSpacing: 1,
-        marginBottom: sizes.margin * 2
+        marginBottom: sizes.margin
     },
     description: {
         fontFamily: "latoBold",
-        fontSize: sizes.h3,
+        fontSize: sizes.h4,
         color: colors.grey,
-        textAlign: 'center',
         letterSpacing: .3,
-        marginBottom: sizes.margin * 2
+        marginBottom: sizes.margin
     },
     input: {
         borderWidth: 2,
@@ -94,6 +102,6 @@ const styles = StyleSheet.create({
         borderRadius: sizes.radius,
     },
     button: {
-        backgroundColor: colors.dark, marginTop: sizes.margin * 2
+        backgroundColor: colors.dark,
     },
 });
