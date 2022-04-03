@@ -15,6 +15,7 @@ import ProfileChildModal from "../Modals/Modalschildes/ProfileChildModal";
 import { adaptToHeight } from "../../config/dimensions";
 import { useSelector } from "react-redux";
 import { checkKeyInObject } from "../../utility/checkKeyinObject";
+import SocketContext from "../../context/SocketContext";
 
 const { defaultUser } = images;
 
@@ -24,7 +25,7 @@ const RiderCustomDrawer = (props) => {
   // const [profile, setProfile] = useState({});
   let profile = useSelector((state) => state.Profile);
 
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
   const handleModal = (value) => {
     setShowModal(false);
   };

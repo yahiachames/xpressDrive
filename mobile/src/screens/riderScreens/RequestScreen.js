@@ -73,9 +73,6 @@ export default function RequestScreen({ navigation, route }) {
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState(null);
-  socket.on("private", (obj) => {
-    console.log(obj);
-  });
 
   socket.on("rideStatusUpdated", (obj) => {
     setRideStatus(obj);
@@ -84,10 +81,6 @@ export default function RequestScreen({ navigation, route }) {
 
   socket.on("locationUpdate", (obj) => {
     console.log("first");
-    getDriversAPi();
-  });
-  socket.on("onlineUpdate", (obj) => {
-    console.log("2");
     getDriversAPi();
   });
 

@@ -23,29 +23,24 @@ import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import { geocodeLoc } from "../../utility/LocationUtility";
 import { setLocation } from "../../redux/actions/location-actions";
 import { updateLocation } from "../../controllers/userApis";
-import { io } from "socket.io-client";
-import NetInfo from "@react-native-community/netinfo";
+
 import AuthContext from "../../context/AuthContext";
+import SocketContext from "../../context/SocketContext";
 
 const HomeScreen = ({ navigation }) => {
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
   const { user, setUser } = useContext(AuthContext);
   const dispatch = useDispatch();
   const id_user = user.user_id;
   const origin = useSelector((state) => state.location.currentPoint);
-  socket.on("connect", (obj) => {
-    console.log(obj, " obj");
-    socket.emit("joined", { username: user.user_id, room: user.user_id });
-  });
-  console.log(user, "userrrrrrrrrr");
 
-  NetInfo.addEventListener((state) => {
-    if (state.isConnected) {
-      socket.emit("joined", { id_user: user.user_id, role: user.role });
-    } else {
-      socket.emit("deconnect", { id_user: user.user_id, role: user.role });
-    }
+  socket.on("connect", () => {
+    io.emit("joined", { username: user.user_id, room: user.user_id });
   });
+  socket.on("disconnect", () => {
+    io.emit("deconnect", { id_user: user.user_id, role: user.role });
+  });
+
   const getlocation = () => {
     Location.watchPositionAsync(
       {

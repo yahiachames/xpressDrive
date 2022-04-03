@@ -29,12 +29,10 @@ export default function AppContainer() {
     //decode token
     const user = token ? jwt_decode(token.split(" ")[1]) : undefined;
     setUser(user);
-    user &&
-      setUser(user) &&
-      socket.emit("joined", { username: user.user_id, room: user.user_id }) &&
-      socket.emit("join", { id_user: user.user_id, role: user.role });
+    user && setUser(user);
 
     console.log(user, "userrrrrrrrrr");
+
     // if (user.role == "driver") {
     //   getOneDriver(user.user_id).then((res) => {
     //     console.log(res.status);
@@ -48,7 +46,7 @@ export default function AppContainer() {
 
     //   // call user
     // }
-  };;
+  };
 
   useEffect(() => {
     console.log("dispatch executed");
