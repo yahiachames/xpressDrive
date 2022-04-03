@@ -24,3 +24,5 @@ export const declineRide = (id) => api.post(`ride/decline/${id}`);
 
 export const updateStatus = (id, status) =>
   api.post(`ride/status/update/${id}`, { status });
+
+  export const DeleteRide = (id) => api.post(`ride/delete/${id}`);

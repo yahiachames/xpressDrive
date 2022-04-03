@@ -35,10 +35,10 @@ const HomeScreen = ({ navigation }) => {
   const origin = useSelector((state) => state.location.currentPoint);
 
   socket.on("connect", () => {
-    io.emit("joined", { username: user.user_id, room: user.user_id });
+    socket.emit("joined", { username: user.user_id, room: user.user_id });
   });
   socket.on("disconnect", () => {
-    io.emit("deconnect", { id_user: user.user_id, role: user.role });
+    socket.emit("deconnect", { id_user: user.user_id, role: user.role });
   });
 
   const getlocation = () => {
