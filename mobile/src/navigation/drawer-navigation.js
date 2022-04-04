@@ -15,6 +15,7 @@ import routes from "./routes";
 import BasicButton from "../components/basic-button";
 import PickUpScreen from "../screens/driver/pick-up-screen";
 import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
+import SettingStack from "./settings-navigation";
 
 const Drawer = createDrawerNavigator();
 
@@ -103,20 +104,13 @@ export default () => (
       }}
     />
     <Drawer.Screen
-      name={routes.SETTINGS}
-      component={SettingsScreen}
+      name={routes.SETTINGS_NAVIGATION}
+      component={SettingStack}
       options={{
         drawerIcon: ({ color }) => (
           <Ionicons name="settings-outline" size={sizes.icon} color={color} />
         ),
-        headerShown: true,
-        header: ({ scene, previous, navigation }) => (
-          <CustomHeader
-            title={routes.SETTINGS}
-            navigation={navigation}
-            children={<View />}
-          />
-        ),
+        headerShown: false,
       }}
     />
   </Drawer.Navigator>

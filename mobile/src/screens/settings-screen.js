@@ -4,20 +4,22 @@ import {FontAwesome} from "@expo/vector-icons";
 import {colors, images, sizes} from "../constants";
 import Screen from "../components/screen";
 import {adaptToWidth} from "../config/dimensions";
+import VehicleManagementScreen from "./driver/settings/vehicle-management-screen";
+import routes from "../navigation/routes";
 
 const SettingsScreen = ({navigation}) => {
 
     const items1 = [
-        {icon: 'car', name: 'Vehicle Management', link: '', color: colors.secondary},
-        {icon: 'vcard', name: 'Document Management', link: '', color: colors.primary},
-        {icon: 'star', name: 'Reviews', link: '', color: colors.yellow},
-        {icon: 'globe', name: 'Language', link: '', color: colors.blue}
+        {icon: 'car', name: routes.VEHICLE_MANAGEMENT, color: colors.secondary},
+        {icon: 'vcard', name: routes.DOCUMENT_MANAGEMENT, color: colors.primary},
+        {icon: 'star', name: routes.REVIEWS, color: colors.yellow},
+        {icon: 'globe', name: routes.LANGUAGE, color: colors.blue}
     ]
 
     const items2 = [
-        {icon: 'bell', name: 'Notifications', link: '', color: colors.blueLight},
-        {icon: 'gavel', name: 'Terms & Privacy Policy', link: '', color: colors.greyMedium},
-        {icon: 'question-circle-o', name: 'Contact Us', link: '', color: colors.pink},
+        {icon: 'bell', name: routes.NOTIFICATION, color: colors.blueLight},
+        {icon: 'gavel', name: routes.TERMS_PRIVACY, color: colors.greyMedium},
+        {icon: 'question-circle-o', name: routes.CONTACT_US, color: colors.pink},
     ]
 
     const {defaultUser} = images
@@ -25,7 +27,7 @@ const SettingsScreen = ({navigation}) => {
     const boxItem = (item) => {
         return (
             <TouchableOpacity style={styles.item} activeOpacity={.8}
-                              onPress={() => navigation.navigate(item.link)}>
+                              onPress={() => navigation.navigate(item.name)}>
                 <View style={[styles.textContainer]}>
                     <FontAwesome name={item.icon} size={sizes.icon} color={colors.white}
                                  style={[styles.icon, {backgroundColor: item.color}]}/>
@@ -38,7 +40,7 @@ const SettingsScreen = ({navigation}) => {
 
     return (
         <Screen>
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={styles.user}>
                     <View style={{alignItems: 'center', flexDirection: 'row'}}>
                         <Image source={defaultUser} style={styles.avatar}/>
@@ -49,25 +51,21 @@ const SettingsScreen = ({navigation}) => {
                     </View>
                     <FontAwesome name={"chevron-right"} size={sizes.icon} color={colors.grey}/>
                 </View>
-                <ScrollView>
-                    <View>
-                        <FlatList
-                            style={styles.box}
-                            data={items1}
-                            renderItem={({item}) => boxItem(item)}
-                            _keyExtractor={(item, index) => item.name
-                            }
-                        />
-                        <FlatList
-                            style={styles.box}
-                            data={items2}
-                            renderItem={({item}) => boxItem(item)}
-                            _keyExtractor={(item, index) => item.name
-                            }
-                        />
-                    </View>
-                </ScrollView>
-            </View>
+                <FlatList
+                    style={{marginBottom: sizes.margin}}
+                    data={items1}
+                    renderItem={({item}) => boxItem(item)}
+                    _keyExtractor={(item, index) => item.name
+                    }
+                />
+                <FlatList
+                    style={styles.box}
+                    data={items2}
+                    renderItem={({item}) => boxItem(item)}
+                    _keyExtractor={(item, index) => item.name
+                    }
+                />
+            </ScrollView>
         </Screen>
     );
 };
@@ -77,10 +75,6 @@ export default SettingsScreen;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.light
-    },
-    box: {
-        marginBottom: sizes.margin * 2,
-        elevation: 10,
     },
     item: {
         alignItems: 'center',
@@ -112,12 +106,11 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderBottomColor: colors.greyLight,
         borderTopColor: colors.greyLight,
-        paddingVertical: sizes.padding * 2,
-        paddingHorizontal: sizes.padding,
+        padding: sizes.padding,
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: sizes.margin * 2,
-        justifyContent: "space-between"
+        marginBottom: sizes.margin,
+        justifyContent: "space-between",
     },
     avatar: {
         borderWidth: 1,

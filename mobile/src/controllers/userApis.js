@@ -17,11 +17,12 @@ export const signupApi = ({ username, password, email, phone, role }) =>
     role: role.toLowerCase(),
   });
 
-
+export const updateProfile = (id, user) => {
+    api.post(`user/update/${id}`, user);
+};
 
 export const updateLocation = ({ latitude, longitude, id }) => {
-  console.log("workedddd", { latitude, longitude, id });
-  return api.post(`/user/location/update/${id}`, {
+  api.post(`user/location/update/${id}`, {
     location: { latitude, longitude },
   });
 };

@@ -1,46 +1,52 @@
 import {FlatList, Image, StyleSheet, Text, View} from "react-native";
-import React from "react";
+import React, {useContext} from "react";
 import Screen from "../../../components/screen";
 import {colors, images, sizes} from "../../../constants";
 import {adaptToHeight, adaptToWidth} from "../../../config/dimensions";
+import ProfileContext from "../../../context/ProfileContext";
 
 const {defaultUser} = images
 
-const items = [
-    {
-        label: "Username",
-        value: "John Doe"
-    },
-    {
-        label: "Phone number",
-        value: "+216-25664455"
-    },
-    {
-        label: "Email",
-        value: "test@test.com"
-    },
-    {
-        label: "Gender",
-        value: "Male"
-    },
-    {
-        label: "Birthday",
-        value: "April 15, 1987"
-    }
-]
-
 const ProfileScreen = () => {
+
+    const { profile, setProfile } = useContext(ProfileContext);
+
+    const {data} = profile
+
+    const items = [
+        {
+            label: "Full name",
+            value: data.user.fullName ? data.user.fullName : "Unknown"
+        },
+        {
+            label: "Phone number",
+            value: data.user.phone
+        },
+        {
+            label: "Email",
+            value: data.user.email
+        },
+        {
+            label: "Gender",
+            value: data.user.gender ? data.user.gender : "Not set"
+        },
+        {
+            label: "Birthday",
+            value: data.user.birthday ? data.user.birthday : "Not set"
+        }
+    ]
+
     return (
         <Screen>
             <View style={styles.user}>
                 <Image source={defaultUser} style={styles.avatar}/>
                 <View>
-                    <Text style={styles.name}>John Doe</Text>
-                    <Text style={styles.rank}>Basic Level</Text>
+                    <Text style={styles.name}>{data.user.fullName ? data.user.fullName : "Unknown"}</Text>
+                    <Text style={styles.rank}>{data.user.rank ? data.user.rank : "Unranked"}</Text>
                 </View>
             </View>
             <View style={styles.details}>
-                <Text style={styles.title}>Informations</Text>
+                <Text style={styles.title}>Information</Text>
                 <FlatList data={items} renderItem={({item}) => {
                     return (
                         <View style={styles.item}>

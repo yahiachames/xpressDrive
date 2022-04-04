@@ -44,7 +44,6 @@ const RequestScreen = () => {
         console.log(res);
         getApiPendingRides();
       })
-
       .catch((e) => console.log(e));
   };
 
@@ -90,7 +89,6 @@ const RequestScreen = () => {
     return (
       <Screen>
         <Text style={styles.alert}>You have 10 new requests.</Text>
-
         <FlatList
           data={pendingRides}
           keyExtractor={({ index, item }) => {
@@ -123,6 +121,6 @@ const styles = StyleSheet.create({
     padding: sizes.padding * 1.2,
     color: colors.black,
     fontFamily: "latoBold",
-    fontSize: sizes.h3,
+    fontSize: sizes.h5,
   },
 });

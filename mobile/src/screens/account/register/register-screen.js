@@ -91,16 +91,14 @@ const RegisterScreen = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.footer}>
-                    <View style={styles.signIn}>
-                        <Text style={styles.footerText}>Already have an account?</Text>
-                        <BasicButton
-                            textColor={colors.black}
-                            title={"Sign In"}
-                            onPress={() => navigation.navigate(routes.LOGIN)}
-                            bgColor="transparent"
-                            type="clear"
-                        />
-                    </View>
+                    <Text style={styles.footerText}>Already have an account?</Text>
+                    <BasicButton
+                        style={{padding: 0}}
+                        textColor={colors.black}
+                        title={"Sign In"}
+                        onPress={() => navigation.navigate(routes.LOGIN)}
+                        bgColor="transparent"
+                    />
                 </View>
             </>
         );
@@ -154,19 +152,15 @@ const styles = StyleSheet.create({
     },
     footer: {
         flex: .1,
-        justifyContent: 'center',
-        paddingHorizontal: sizes.padding * 2.5,
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'space-around'
     },
     footerText: {
         fontFamily: 'latoRegular',
         color: colors.grey,
         fontSize: sizes.h5
     },
-    signIn: {
-        flexDirection: "row",
-        alignItems: 'center',
-        justifyContent: 'space-around'
-    }
 });
 
 export default RegisterScreen;

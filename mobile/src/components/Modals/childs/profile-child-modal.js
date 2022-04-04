@@ -11,44 +11,62 @@ import AuthContext from "../../../context/AuthContext";
 import {updateDriverProfile} from "../../../controllers/DriversAPis";
 import sizes from "../../../constants/sizes";
 import BasicButton from "../../basic-button";
+import ProfileContext from "../../../context/ProfileContext";
 
-const ProfileChildModal = ({closeModal, handleSave}) => {
+const ProfileChildModal = ({closeModal}) => {
 
     const {user, setUser} = useContext(AuthContext);
 
+    const { profile, setProfile } = useContext(ProfileContext);
+
+    const {data} = profile
+
     const initValues = {
-        firstname: "",
-        lastname: "",
-        gender: "",
-        birthday: "",
-        phone: "",
-        email: "",
+        username: data.user.username ? data.user.username : "",
+        firstname: data.user.firstname ? data.user.firstname : "",
+        lastname: data.user.lastname ? data.user.lastname : "",
+        gender: data.user.gender ? data.user.gender : "",
+        birthday: data.user.birthday ? data.user.birthday : "",
+        phone: data.user.phone ? data.user.phone : "",
+        email: data.user.email ? data.user.email : "",
     };
 
     const items = [
         {
+            name: 'username',
+            label: 'Username',
+            disabled: true
+        },
+        {
             name: 'email',
             label: 'Email',
+            disabled: true
         },
         {
             name: 'phone',
             label: 'Phone Number',
+            disabled: false
         },
         {
             name: 'gender',
             label: 'Gender',
+            disabled: false
         },
         {
             name: 'birthday',
             label: 'Birthday',
+            disabled: false
         }
     ]
 
     const validationSchema = Yup.object({
-        lastname: Yup.string().label("Lastname"),
-        firstname: Yup.string().label("Firstname"),
+        lastname: Yup.string().label("Lastname").required(),
+        firstname: Yup.string().label("Firstname").required(),
+        username: Yup.string().label("username"),
         email: Yup.string().email().label("Email"),
         phone: Yup.number().min(8).label("Phone Number"),
+        gender: Yup.string().label("Gender"),
+        birthDay: Yup.string().label("BirthDay"),
     });
 
     const {defaultUser} = images;
@@ -84,21 +102,22 @@ const ProfileChildModal = ({closeModal, handleSave}) => {
             formData.append("photo", formatImage);
         }
         formData.append("username", initValues.username);
-        formData.append("fullname", initValues.fullname);
+        formData.append("firstName", initValues.firstName);
+        formData.append("lastName", initValues.lastName);
         formData.append("email", initValues.email);
         formData.append("phone", initValues.phone);
+        formData.append("gender", initValues.gender);
+        formData.append("birthDay", initValues.birthDay);
         if (user.role === "driver") {
             updateDriverProfile(user.user_id, formData)
                 .then((res) => {
                     closeModal();
-                    console.log(res);
                 })
                 .catch((e) => console.log(e));
         } else {
             updateRiderProfile(user.user_id, formData)
                 .then((res) => {
                     closeModal();
-                    console.log(res);
                 })
                 .catch((e) => console.log(e));
         }
@@ -185,6 +204,7 @@ const ProfileChildModal = ({closeModal, handleSave}) => {
                             </View>
                             <View style={{flex: 1}}>
                                 <FormField
+                                    editable={item.disabled}
                                     name={item.name}
                                     placeholder={item.label}
                                     styleView={styles.input}

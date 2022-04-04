@@ -75,7 +75,7 @@ const RequestItem = ({
               title={"Accept"}
               onPress={() => onAccept(id)}
             />
-            <View style={{ flex: 0.1 }} />
+            <View style={{ flex: .1 }} />
             <BasicButton
               style={styles.button}
               bgColor={colors.danger}
@@ -115,7 +115,7 @@ const RequestItem = ({
               title={"Accept"}
               onPress={() => onAccept(id)}
             />
-            <View style={{ flex: 0.1 }} />
+            <View style={{ flex: .1 }} />
             <BasicButton
               style={styles.button}
               bgColor={colors.danger}
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        padding: sizes.padding * 1.5,
+        padding: sizes.padding * 1.2,
         backgroundColor: colors.light
     },
     user: {
@@ -152,21 +152,21 @@ const styles = StyleSheet.create({
     name: {
         color: colors.black,
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
         marginHorizontal: sizes.margin
     },
     amount: {
         color: colors.black,
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
     },
     distance: {
         color: colors.greyMedium,
         fontFamily: 'latoBold',
-        fontSize: sizes.h4,
+        fontSize: sizes.h6,
     },
     details: {
-        padding: sizes.padding * 1.5,
+        padding: sizes.padding * 1.2,
         backgroundColor: colors.white,
     },
     info: {
@@ -179,13 +179,13 @@ const styles = StyleSheet.create({
         color: colors.greyMedium,
         fontFamily: 'latoBold',
         paddingBottom: sizes.tiny,
-        fontSize: sizes.h4,
+        fontSize: sizes.h6,
         textTransform: 'uppercase'
     },
     address: {
         color: colors.black,
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
     },
     buttonsContainer: {
         flexDirection: 'row',

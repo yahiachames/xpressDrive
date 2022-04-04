@@ -11,7 +11,7 @@ const {defaultUser} = images
 const PickUpScreen = () => {
 
     const bottomSheet = useRef(1);
-    const snapPoints = useMemo(() => ["15%", "32%", "90%"], []);
+    const snapPoints = useMemo(() => ["20%", "35%", "50%"], []);
     const handleSheetChange = useCallback((index) => {
     }, []);
 
@@ -84,18 +84,18 @@ const styles = StyleSheet.create({
     },
     distance: {
         color: colors.black,
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
         fontFamily: 'latoMedium',
     },
     description: {
         color: colors.black,
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
         fontFamily: 'latoRegular',
     },
     header: {
         alignItems: 'center',
         flexDirection: 'row',
-        padding: sizes.padding * 1.5,
+        padding: sizes.padding * 1.2,
         backgroundColor: colors.white,
         borderBottomWidth: 1,
         borderBottomColor: colors.greyLight
@@ -103,13 +103,13 @@ const styles = StyleSheet.create({
     address: {
         color: colors.black,
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
     },
     title: {
         color: colors.greyMedium,
         fontFamily: 'latoBold',
         paddingBottom: sizes.tiny,
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
         textTransform: 'capitalize'
     },
     avatar: {
@@ -120,27 +120,27 @@ const styles = StyleSheet.create({
         height: adaptToWidth(.13)
     },
     info: {
-        padding: sizes.padding * 1.5,
+        padding: sizes.padding * 1.2,
         backgroundColor: colors.white,
-        borderBottomWidth: 1,
+        borderBottomWidth: .7,
         borderBottomColor: colors.greyLight
     },
     details: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingBottom: sizes.padding * 1.5
+      paddingBottom: sizes.padding * 1.2
     },
     label: {
         color: colors.greyMedium,
         fontFamily: 'latoRegular',
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
         marginBottom: sizes.tiny
     },
     value: {
         color: colors.black,
         fontFamily: 'latoBold',
-        fontSize: sizes.h3 * 1.2,
+        fontSize: sizes.h4,
     },
     buttonsContainer: {
         flexDirection: 'row',
@@ -148,6 +148,5 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: .45,
-        height: adaptToHeight(.05)
     }
 });

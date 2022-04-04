@@ -20,6 +20,7 @@ export const forgerPassword3 = require("../../assets/images/forgot-password/secu
 // extra
 export const bg = require("../../assets/images/bg.png");
 export const defaultUser = require("../../assets/images/default-user.jpg");
+export const defaultVehicle = require("../../assets/images/default-vehicle.png");
 
 export default {
     // on boarding
@@ -39,5 +40,6 @@ export default {
     forgerPassword3,
     // extra
     bg,
-    defaultUser
+    defaultUser,
+    defaultVehicle,
 }
