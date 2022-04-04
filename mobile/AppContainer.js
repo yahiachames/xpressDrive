@@ -15,44 +15,49 @@ import AuthContext from "./src/context/AuthContext";
 import AppNavigator from "./src/navigation/AppNavigator";
 import Screen from "./src/components/screen";
 import SocketContext from "./src/context/SocketContext";
+import { getOneRider } from "./src/controllers/RiderAPis";
+import { getOneDriver } from "./src/controllers/DriversAPis";
+import ProfileContext from "./src/context/ProfileContext";
 
 export default function AppContainer() {
   const [permLocation, setPermLocation] = useState(false);
   const { socket, setSocket } = useContext(SocketContext);
+  const { profile, setProfile } = useContext(ProfileContext);
   const dispatch = useDispatch();
   const [fontsLoaded] = useFonts(fonts);
   const { user, setUser } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const getProfile = async (id, role) => {
+    if (role == "driver") {
+      getOneDriver(id)
+        .then((res) => {
+          setProfile(res.data);
+        })
+        .catch((e) => console.log(e));
+    } else {
+      getOneRider(id)
+        .then((res) => {
+          setProfile(res.data);
+        })
+        .catch((e) => console.log(e));
+    }
+  };
   const restoreUser = async () => {
     const token = await storage.getKey(AUTH_KEY);
 
     //decode token
-    const user = token ? jwt_decode(token.split(" ")[1]) : undefined;
-    setUser(user);
-    user &&
-      setUser(user) &&
-      socket.emit("joined", { username: user.user_id, room: user.user_id }) &&
-      socket.emit("join", { id_user: user.user_id, role: user.role });
-
-    console.log(user, "userrrrrrrrrr");
-    // if (user.role == "driver") {
-    //   getOneDriver(user.user_id).then((res) => {
-    //     console.log(res.status);
-    //     dispatch(profile_add(res.data.data));
-    //   });
-    // } else {
-    //   getOneRider(user.user_id).then((res) => {
-    //     console.log(res.status);
-    //     dispatch(profile_add(res.data.data));
-    //   });
-
-    //   // call user
-    // }
-  };;
+    if (token) {
+      const user = jwt_decode(token.split(" ")[1]);
+      setUser(user);
+      getProfile(user.user_id, user.role);
+    }
+  };
 
   useEffect(() => {
     console.log("dispatch executed");
-    return restoreUser();
+
+    restoreUser();
+    setLoading(false);
   }, []);
 
   return (

@@ -17,23 +17,21 @@ import OfflineBar from "./components/offline-bar";
 import * as Location from "expo-location";
 import { geocodeLoc } from "../../../utility/LocationUtility";
 import AuthContext from "../../../context/AuthContext";
+
 import { useDispatch } from "react-redux";
 import { setLocation } from "../../../redux/actions/location-actions";
 import { updateLocation, updateOnline } from "../../../controllers/DriversAPis";
-import { io } from "socket.io-client";
-import { SERVER_URL } from "../../../config/config";
+import SocketContext from "../../../context/SocketContext";
 
 const HomeScreen = () => {
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
   const { user, setUser } = useContext(AuthContext);
   const bottomSheet = useRef(1);
   const snapPoints = useMemo(() => ["20%", "48%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
   const id_user = user.user_id;
   const dispatch = useDispatch();
-  socket.on("connect", (obj) => {
-    socket.emit("joined", { username: user.user_id, room: user.user_id });
-  });
+
   const getlocation = () => {
     Location.watchPositionAsync(
       {
@@ -81,6 +79,25 @@ const HomeScreen = () => {
     getlocation();
     updateOnlineApi();
   }, []);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      socket.emit("joined", { username: user.user_id, room: user.user_id });
+    });
+    socket.on("disconnect", () => {
+      socket.emit("deconnect", { id_user: user.user_id, role: user.role });
+    });
+
+    return () => {
+      socket.off("connect", () => {
+        socket.emit("joined", { username: user.user_id, room: user.user_id });
+      });
+      socket.off("disconnect", () => {
+        socket.emit("deconnect", { id_user: user.user_id, role: user.role });
+      });
+    };
+  }, [socket]);
+
 
   return (
     <Screen>

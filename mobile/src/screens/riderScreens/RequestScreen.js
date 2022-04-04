@@ -35,6 +35,7 @@ import AppText from "../../components/Text";
 import {
   checkStatus,
   createRide,
+  DeleteRide,
   updateStatus,
 } from "../../controllers/rideApis";
 import { setRideId } from "../../redux/actions/RideId";
@@ -72,23 +73,42 @@ export default function RequestScreen({ navigation, route }) {
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState(null);
-  socket.on("private", (obj) => {
-    console.log(obj);
-  });
 
-  socket.on("rideStatusUpdated", (obj) => {
-    setRideStatus(obj);
-    console.log("updated", obj);
-  });
+  const handleCancelDriverResponse = () => {
+    DeleteRide(id).then((res) => {
+      setRideStatus(null);
+    });
+  };
 
-  socket.on("locationUpdate", (obj) => {
-    console.log("first");
-    getDriversAPi();
-  });
-  socket.on("onlineUpdate", (obj) => {
-    console.log("2");
-    getDriversAPi();
-  });
+  useEffect(() => {
+    socket.on("rideStatusUpdated", (obj) => {
+      setRideStatus(obj);
+      console.log("updated", obj);
+    });
+
+    socket.on("locationUpdate", (obj) => {
+      console.log("first");
+      getDriversAPi();
+    });
+    socket.on("onlineUpdate", () => {
+      getDriversAPi();
+    });
+
+    return () => {
+      socket.off("rideStatusUpdated", (obj) => {
+        setRideStatus(obj);
+        console.log("updated", obj);
+      });
+
+      socket.off("locationUpdate", (obj) => {
+        console.log("first");
+        getDriversAPi();
+      });
+      socket.off("onlineUpdate", () => {
+        getDriversAPi();
+      });
+    };
+  }, [socket]);
 
   const getDriversAPi = async () => {
     getDrivers()
@@ -118,7 +138,7 @@ export default function RequestScreen({ navigation, route }) {
       .then((res) => {
         dispatch(setRideId(res.data.data));
         if (res.data.success) {
-          socket.emit("rideCreated", { user_id: id, room: res.data.data });
+          setRideStatus("pending");
         }
       })
       .catch((e) => console.log(e));
@@ -127,6 +147,11 @@ export default function RequestScreen({ navigation, route }) {
   useEffect(() => {
     bottomsheet1?.current?.scrollTo(-adaptToHeight(0.62));
   }, [isActive]);
+
+
+useEffect(() => {
+  getDriversAPi();
+}, []);
 
   const handleRideStatusModal = () => {
     if (drivers == null || drivers.length == 0) {
@@ -167,6 +192,7 @@ export default function RequestScreen({ navigation, route }) {
           <LoadingChildModal
             visible={true}
             message="waiting for driver response..."
+            onPress={() => handleCancelDriverResponse()}
           />
         );
       else if (rideStatus == "started")
@@ -175,6 +201,7 @@ export default function RequestScreen({ navigation, route }) {
             nameIcon="checkcircle"
             message="accepted by driver"
             colorIcon={colors.darkBlue}
+            onPress={() => handleCancelDriverResponse()}
           />
         );
       else if (rideStatus == "refused")
@@ -183,6 +210,7 @@ export default function RequestScreen({ navigation, route }) {
             nameIcon="closecircle"
             message="refused by driver"
             colorIcon={colors.danger}
+            onPress={() => handleCancelDriverResponse()}
           />
         );
     }

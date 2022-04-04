@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -15,6 +22,8 @@ import ProfileChildModal from "../Modals/childs/profile-child-modal";
 import { adaptToHeight } from "../../config/dimensions";
 import { useSelector } from "react-redux";
 import { checkKeyInObject } from "../../utility/checkKeyinObject";
+import SocketContext from "../../context/SocketContext";
+import ProfileContext from "../../context/ProfileContext";
 
 const { defaultUser } = images;
 
@@ -22,18 +31,14 @@ const RiderCustomDrawer = (props) => {
   const { user, setUser } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   // const [profile, setProfile] = useState({});
-  let profile = useSelector((state) => state.Profile);
+  const { profile, setProfile } = useContext(ProfileContext);
 
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
   const handleModal = (value) => {
     setShowModal(false);
   };
-  // console.log("component");
-  // useEffect(() => {
-  //   console.log("executedd");
-  //   console.log(profile.user);
-  // }, [JSON.stringify(profile)]);
-  console.log(profile.user, "from component");
+
+  useEffect(() => {}, [JSON.stringify(profile)]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -49,7 +54,7 @@ const RiderCustomDrawer = (props) => {
                 checkKeyInObject(profile, "documents")
                   ? profile.documents.photo
                     ? {
-                        uri: `data:image/jpg;base64,${profile.documents.photo}`,
+                        uri: `data:image/jpg;base64,${profile.documents.photo.data}`,
                       }
                     : defaultUser
                   : defaultUser
@@ -57,7 +62,9 @@ const RiderCustomDrawer = (props) => {
               style={styles.avatar}
             />
             <View style={{ justifyContent: "center" }}>
-              <Text style={styles.name}>John Doe</Text>
+              <Text style={styles.name}>
+                {profile.user ? profile.user.username : "jhon"}
+              </Text>
             </View>
             <TouchableOpacity
               onPress={() => {
@@ -130,8 +137,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.black,
     fontSize: sizes.h2,
-    fontFamily: "Avenir",
-
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     fontWeight: "bold",
   },
   rankContainer: {

@@ -17,7 +17,6 @@ const { defaultUser } = images;
 
 const CustomDrawer = (props) => {
   const { user, setUser } = useContext(AuthContext);
-  const socket = io(SERVER_URL);
 
   return (
     <View style={{ flex: 1 }}>

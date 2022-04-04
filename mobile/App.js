@@ -8,10 +8,14 @@ import AuthContext from "./src/context/AuthContext";
 import SocketContext from "./src/context/SocketContext";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "./src/config/config";
+import useNotifcations from "./src/hooks/useNotifcations";
+import ProfileContext from "./src/context/ProfileContext";
 
 const App = () => {
+  const token = useNotifcations();
   const socketiNITI = io(SERVER_URL);
   const [socket, setSocket] = useState(socketiNITI);
+  const [profile, setProfile] = useState({});
 
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -28,13 +32,15 @@ const App = () => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      <SocketContext.Provider value={{ socket, setSocket }}>
-        <Provider store={store()}>
-          <AppContainer />
-        </Provider>
-      </SocketContext.Provider>
-    </AuthContext.Provider>
+    <ProfileContext.Provider value={{ profile, setProfile }}>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <SocketContext.Provider value={{ socket, setSocket }}>
+          <Provider store={store()}>
+            <AppContainer />
+          </Provider>
+        </SocketContext.Provider>
+      </AuthContext.Provider>
+    </ProfileContext.Provider>
   );
 };
 

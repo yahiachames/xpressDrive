@@ -3,21 +3,17 @@ import React, { useContext, useEffect, useState } from "react";
 import Screen from "../../../components/screen";
 import { colors, sizes } from "../../../constants";
 import RequestItem from "./components/requestItem";
-
+import * as Notifcations from "expo-notifications";
 import AuthContext from "../../../context/AuthContext";
 import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
+import { acceptRide, declineRide } from "../../../controllers/rideApis";
 
 const RequestScreen = () => {
   const { user, setUser } = useContext(AuthContext);
   const [pendingRides, setPendingRides] = useState([]);
   const [loading, setLoading] = useState(false);
   const { socket, setSocket } = useContext(SocketContext);
-
-  socket.on("NewRequest", () => {
-    console.log("new request pendinbg");
-    getApiPendingRides();
-  });
 
   const getApiPendingRides = () => {
     console.log("executed", user.user_id);
@@ -31,9 +27,62 @@ const RequestScreen = () => {
     setLoading(false);
   };
 
+  const handleAccept = (id) => {
+    console.log(id);
+    acceptRide(id)
+      .then((res) => {
+        console.log(res);
+        getApiPendingRides();
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const handleDecline = (id) => {
+    console.log(id);
+    declineRide(id)
+      .then((res) => {
+        console.log(res);
+        getApiPendingRides();
+      })
+
+      .catch((e) => console.log(e));
+  };
+
   useEffect(() => {
     getApiPendingRides();
   }, []);
+
+  useEffect(() => {
+    socket.on("NewRequest", () => {
+      console.log("new request pendinbg");
+      getApiPendingRides();
+      Notifcations.scheduleNotificationAsync({
+        content: {
+          title: "a new pending request !",
+          body: "test",
+          // sound: 'default',
+        },
+        trigger: {
+          seconds: 1,
+          repeats: false,
+        },
+      });
+    });
+
+    socket.on("RideCancel", () => {
+      getApiPendingRides();
+    });
+
+    return () => {
+      socket.off("NewRequest", () => {
+        console.log("new request pendinbg");
+        getApiPendingRides();
+      });
+      socket.off("RideCancel", () => {
+        getApiPendingRides();
+      });
+    };
+  }, [socket]);
 
   if (loading) {
     return <Text>Loading ...</Text>;
@@ -56,6 +105,8 @@ const RequestScreen = () => {
               username={item.rider_id.username}
               currentPoint={item.currentPoint.text}
               destination={item.destination.text}
+              onAccept={handleAccept}
+              onDecline={handleDecline}
             />
           )}
         />

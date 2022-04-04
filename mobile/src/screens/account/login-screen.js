@@ -8,12 +8,13 @@ import routes from "../../navigation/routes";
 import jwt_decode from "jwt-decode";
 import AuthContext from "../../context/AuthContext";
 import { loginApi } from "../../controllers/userApis";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import FormInput from "../../components/forms/form-input";
 import SubmitButton from "../../components/forms/submit-button";
 import CustomForm from "../../components/forms/Form";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import storage from "../../config/storage";
+import SocketContext from "../../context/SocketContext";
 
 const initialValues = {
   username: "",
@@ -23,7 +24,7 @@ const initialValues = {
 const { login1, login2 } = images;
 
 const LoginScreen = ({ navigation }) => {
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
 
   const { user, setUser } = useContext(AuthContext);
 
