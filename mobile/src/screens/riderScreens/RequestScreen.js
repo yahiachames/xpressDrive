@@ -139,7 +139,7 @@ export default function RequestScreen({ navigation, route }) {
       .then((res) => {
         dispatch(setRideId(res.data.data));
         if (res.data.success) {
-          socket.emit("rideCreated", { user_id: id, room: res.data.data });
+          setRideStatus("pending");
         }
       })
       .catch((e) => console.log(e));
@@ -148,6 +148,11 @@ export default function RequestScreen({ navigation, route }) {
   useEffect(() => {
     bottomsheet1?.current?.scrollTo(-adaptToHeight(0.62));
   }, [isActive]);
+
+
+useEffect(() => {
+  getDriversAPi();
+}, []);
 
   const handleRideStatusModal = () => {
     if (drivers == null || drivers.length == 0) {

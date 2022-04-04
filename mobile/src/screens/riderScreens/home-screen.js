@@ -34,12 +34,24 @@ const HomeScreen = ({ navigation }) => {
   const id_user = user.user_id;
   const origin = useSelector((state) => state.location.currentPoint);
 
-  socket.on("connect", () => {
-    socket.emit("joined", { username: user.user_id, room: user.user_id });
-  });
-  socket.on("disconnect", () => {
-    socket.emit("deconnect", { id_user: user.user_id, role: user.role });
-  });
+   useEffect(() => {
+     socket.on("connect", () => {
+       socket.emit("joined", { username: user.user_id, room: user.user_id });
+     });
+     socket.on("disconnect", () => {
+       socket.emit("deconnect", { id_user: user.user_id, role: user.role });
+     });
+
+     return () => {
+       socket.off("connect", () => {
+         socket.emit("joined", { username: user.user_id, room: user.user_id });
+       });
+       socket.off("disconnect", () => {
+         socket.emit("deconnect", { id_user: user.user_id, role: user.role });
+       });
+     };
+   }, [socket]);
+  
 
   const getlocation = () => {
     Location.watchPositionAsync(

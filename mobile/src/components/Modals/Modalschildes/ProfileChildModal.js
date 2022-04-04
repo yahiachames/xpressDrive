@@ -13,6 +13,7 @@ import { updateDriverProfile } from "../../../controllers/DriversAPis";
 const ProfileChildModal = ({ closeModal, handleSave }) => {
   const { user, setUser } = useContext(AuthContext);
   const initValues = {
+    username: "",
     fullname: "",
     email: "",
     phone: "",
