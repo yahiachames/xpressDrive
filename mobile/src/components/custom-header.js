@@ -9,7 +9,7 @@ const CustomHeader = ({ title = "", navigation, children, goBack = false }) => {
       {goBack ? (
         <Fontisto
           name="angle-left"
-          size={sizes.h3}
+          size={sizes.h4}
           color={colors.black}
           onPress={() => navigation.goBack()}
         />
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "latoBold",
-    fontSize: sizes.h3,
+    fontSize: sizes.h4,
     color: colors.black,
   },
 });

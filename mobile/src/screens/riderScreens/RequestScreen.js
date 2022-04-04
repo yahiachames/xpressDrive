@@ -30,33 +30,25 @@ import {
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
-import RequestRideModal from "../../components/Modals/RequestRideModal";
+import CustomModal from "../../components/Modals/custom-modal";
 import AppText from "../../components/Text";
-import AppButton from "../../components/Button";
 import {
   checkStatus,
   createRide,
   updateStatus,
 } from "../../controllers/rideApis";
 import { setRideId } from "../../redux/actions/RideId";
-import { io } from "socket.io-client";
-import { API_URL, SERVER_URL } from "../../config/config";
 import AuthContext from "../../context/AuthContext";
-import MapCustom from "../../components/MapCustom";
-import ListItemSeparator from "../../components/chames/list/ListItemSep";
-import { FontAwesome } from "@expo/vector-icons";
 import { getDrivers } from "../../controllers/DriversAPis";
-import ChildModal from "../../components/Modals/Modalschildes/ChildModal";
-import LoadingChildModal from "../../components/Modals/Modalschildes/LoadingChildModal";
+import ChildModal from "../../components/Modals/childs/ChildModal";
+import LoadingChildModal from "../../components/Modals/childs/LoadingChildModal";
 import BarNavCmpt from "../../components/chames/BarNavCmpt";
 import BasicButton from "../../components/basic-button";
-import DriverChildModal from "../../components/Modals/Modalschildes/DriverChildModal";
-
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-const SCREEN_WIDTH = Dimensions.get("window").width;
+import DriverChildModal from "../../components/Modals/childs/DriverChildModal";
+import SocketContext from "../../context/SocketContext";
 
 export default function RequestScreen({ navigation, route }) {
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
   const location = useSelector((state) => state.location);
   const [toggleModal, handleToggleModal] = useState(false);
   const [drivers, setDrivers] = useState([]);
@@ -83,10 +75,6 @@ export default function RequestScreen({ navigation, route }) {
   socket.on("private", (obj) => {
     console.log(obj);
   });
-  socket.on("connect", (obj) => {
-    console.log(obj, " obj");
-    socket.emit("joined", { username: id, room: id });
-  });
 
   socket.on("rideStatusUpdated", (obj) => {
     setRideStatus(obj);
@@ -94,9 +82,11 @@ export default function RequestScreen({ navigation, route }) {
   });
 
   socket.on("locationUpdate", (obj) => {
+    console.log("first");
     getDriversAPi();
   });
   socket.on("onlineUpdate", (obj) => {
+    console.log("2");
     getDriversAPi();
   });
 
@@ -128,7 +118,6 @@ export default function RequestScreen({ navigation, route }) {
       .then((res) => {
         dispatch(setRideId(res.data.data));
         if (res.data.success) {
-          console.log(res.data, "res.data");
           socket.emit("rideCreated", { user_id: id, room: res.data.data });
         }
       })
@@ -279,7 +268,7 @@ export default function RequestScreen({ navigation, route }) {
             </BottomSheet>
           </View>
         </GestureHandlerRootView>
-        <RequestRideModal
+        <CustomModal
           visible={toggleModal}
           height="50%"
           child={

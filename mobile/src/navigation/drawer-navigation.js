@@ -6,7 +6,7 @@ import CustomDrawerContent from '../components/custom-drawer';
 import HomeScreen from "../screens/driver/home/home-screen";
 import {colors, sizes} from "../constants";
 import {Ionicons} from "@expo/vector-icons";
-import ProfileScreen from "../screens/account/profile-screen";
+import ProfileScreen from "../screens/account/profile/profile-screen";
 import SettingsScreen from "../screens/settings-screen";
 import RequestScreen from "../screens/driver/request/request-screen";
 import CustomHeader from "../components/custom-header";
@@ -14,7 +14,7 @@ import {View} from "react-native";
 import routes from "./routes";
 import BasicButton from "../components/basic-button";
 import PickUpScreen from "../screens/driver/pick-up-screen";
-import ProfileEdit from "../components/ProfileEdit";
+import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 
 const Drawer = createDrawerNavigator();
 
@@ -61,7 +61,7 @@ export default () => (
         header: ({ scene, previous, navigation }) => (
           <CustomHeader
             goBack={true}
-            children={<ProfileEdit />}
+            children={<ProfileNavigation />}
             navigation={navigation}
           />
         ),

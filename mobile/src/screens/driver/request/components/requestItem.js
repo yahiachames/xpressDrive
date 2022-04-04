@@ -4,10 +4,12 @@ import { colors, images, sizes } from "../../../../constants";
 import { adaptToHeight, adaptToWidth } from "../../../../config/dimensions";
 import BasicButton from "../../../../components/basic-button";
 import { geocodeLoc } from "../../../../utility/LocationUtility";
+import { acceptRide, declineRide } from "../../../../controllers/rideApis";
 
 const { defaultUser } = images;
 
 const RequestItem = ({
+  id,
   username,
   total_price,
   distance_per_km,
@@ -15,14 +17,30 @@ const RequestItem = ({
   destination,
   ride_id,
 }) => {
-  console.log({
-    username,
-    total_price,
-    distance_per_km,
-    currentPoint,
-    destination,
-    ride_id,
-  });
+  console.log(
+    {
+      username,
+      total_price,
+      distance_per_km,
+      currentPoint,
+      destination,
+      ride_id,
+    },
+    "from item"
+  );
+
+  const acceptRideByDriver = () => {
+    console.log(id);
+    acceptRide(id)
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  };
+  const declineRideByDriver = () => {
+    console.log(id);
+    declineRide(id)
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
+  };
 
   const [loading, setLoading] = useState(false);
 
@@ -53,12 +71,14 @@ const RequestItem = ({
               style={styles.button}
               bgColor={colors.primary}
               title={"Accept"}
+              onPress={acceptRideByDriver}
             />
             <View style={{ flex: 0.1 }} />
             <BasicButton
               style={styles.button}
               bgColor={colors.danger}
               title={"Cancel"}
+              onPress={declineRideByDriver}
             />
           </View>
         </View>
@@ -91,12 +111,14 @@ const RequestItem = ({
               style={styles.button}
               bgColor={colors.primary}
               title={"Accept"}
+              onPress={acceptRideByDriver}
             />
             <View style={{ flex: 0.1 }} />
             <BasicButton
               style={styles.button}
               bgColor={colors.danger}
               title={"Cancel"}
+              onPress={declineRideByDriver}
             />
           </View>
         </View>

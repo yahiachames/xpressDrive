@@ -3,18 +3,19 @@ import React, { useContext, useEffect, useState } from "react";
 import Screen from "../../../components/screen";
 import { colors, sizes } from "../../../constants";
 import RequestItem from "./components/requestItem";
-import { io } from "socket.io-client";
-import { SERVER_URL } from "../../../config/config";
+
 import AuthContext from "../../../context/AuthContext";
 import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
+import SocketContext from "../../../context/SocketContext";
 
 const RequestScreen = () => {
   const { user, setUser } = useContext(AuthContext);
   const [pendingRides, setPendingRides] = useState([]);
   const [loading, setLoading] = useState(false);
-  const socket = io(SERVER_URL);
+  const { socket, setSocket } = useContext(SocketContext);
 
-  socket.on("updatedSatatus", () => {
+  socket.on("NewRequest", () => {
+    console.log("new request pendinbg");
     getApiPendingRides();
   });
 
@@ -23,7 +24,7 @@ const RequestScreen = () => {
     setLoading(true);
     getRidesPending(user.user_id)
       .then((res) => {
-        console.log(res, user.user_id);
+        console.log(res, user.user_id, "get pending rides");
         setPendingRides(res.data);
       })
       .catch((e) => console.log(e));
@@ -50,7 +51,7 @@ const RequestScreen = () => {
           renderItem={({ item }) => (
             <RequestItem
               distance_per_km={item.distance_per_km}
-              ride_id={item._id}
+              id={item._id}
               total_price={item.total_price}
               username={item.rider_id.username}
               currentPoint={item.currentPoint.text}

@@ -10,8 +10,8 @@ import AuthContext from "../../context/AuthContext";
 import storage from "../../config/storage";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import { io } from "socket.io-client";
-import RequestRideModal from "../Modals/RequestRideModal";
-import ProfileChildModal from "../Modals/Modalschildes/ProfileChildModal";
+import CustomModal from "../Modals/custom-modal";
+import ProfileChildModal from "../Modals/childs/profile-child-modal";
 import { adaptToHeight } from "../../config/dimensions";
 import { useSelector } from "react-redux";
 import { checkKeyInObject } from "../../utility/checkKeyinObject";
@@ -38,7 +38,7 @@ const RiderCustomDrawer = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
-        <RequestRideModal
+        <CustomModal
           visible={showModal}
           child={<ProfileChildModal closeModal={handleModal} />}
         />

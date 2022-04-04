@@ -11,6 +11,7 @@ import storage from "../config/storage";
 import { io } from "socket.io-client";
 import { AUTH_KEY, SERVER_URL } from "../config/config";
 import { updateOnline } from "../controllers/DriversAPis";
+import {adaptToWidth} from "../config/dimensions";
 
 const { defaultUser } = images;
 
@@ -76,7 +77,7 @@ const CustomDrawer = (props) => {
           style={{ paddingVertical: sizes.padding }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="exit-outline" size={sizes.icon} />
+            <Ionicons name="exit-outline" size={sizes.icon * 1.2} />
             <Text style={styles.action}>Logout</Text>
           </View>
         </TouchableOpacity>
@@ -97,8 +98,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   avatar: {
-    height: 70,
-    width: 70,
+    height: adaptToWidth(.2),
+    width: adaptToWidth(.2),
     borderRadius: 40,
     marginBottom: sizes.margin,
     borderWidth: 2,
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   },
   name: {
     color: colors.white,
-    fontSize: sizes.h3,
+    fontSize: sizes.h4,
     fontFamily: "latoMedium",
     marginBottom: sizes.margin,
   },
@@ -121,12 +122,12 @@ const styles = StyleSheet.create({
   },
   rank: {
     color: colors.secondary,
-    fontSize: sizes.h5,
+    fontSize: sizes.h6,
     fontFamily: "latoBold",
   },
   stats: {},
   action: {
-    fontSize: sizes.font,
+    fontSize: sizes.h6,
     fontFamily: "latoBold",
     marginLeft: sizes.base,
     color: colors.grey,

@@ -20,7 +20,6 @@ const MapComponent = ({
   const Mapref = React.createRef(35);
   const [isReady, setReady] = useState(false);
   const onMapLoaded = () => setReady(true);
-  console.log(drivers, "driverssss");
 
   return (
     <View style={[containerStyle]}>
@@ -56,7 +55,7 @@ const MapComponent = ({
           drivers.map((el, index) => (
             <MapView.Marker
               title={el.username}
-              description={el.phone}
+              description={String(el.phone)}
               coordinate={{
                 latitude: checkKeyInObject(el, "currentPosition")
                   ? el.currentPosition.latitude

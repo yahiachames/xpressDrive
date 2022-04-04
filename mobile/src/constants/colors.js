@@ -16,4 +16,5 @@ export default {
     blue: '#4564a1',
     blueLight: '#59c8fb',
     yellow: '#FFD428',
+    backdrop: "rgba(0,0,0,0.5)",
 }

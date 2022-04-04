@@ -17,19 +17,23 @@ import OfflineBar from "./components/offline-bar";
 import * as Location from "expo-location";
 import { geocodeLoc } from "../../../utility/LocationUtility";
 import AuthContext from "../../../context/AuthContext";
-
 import { useDispatch } from "react-redux";
 import { setLocation } from "../../../redux/actions/location-actions";
 import { updateLocation, updateOnline } from "../../../controllers/DriversAPis";
+import { io } from "socket.io-client";
+import { SERVER_URL } from "../../../config/config";
 
 const HomeScreen = () => {
+  const socket = io(SERVER_URL);
   const { user, setUser } = useContext(AuthContext);
   const bottomSheet = useRef(1);
-  const snapPoints = useMemo(() => ["32%"], []);
+  const snapPoints = useMemo(() => ["20%", "48%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
   const id_user = user.user_id;
   const dispatch = useDispatch();
-
+  socket.on("connect", (obj) => {
+    socket.emit("joined", { username: user.user_id, room: user.user_id });
+  });
   const getlocation = () => {
     Location.watchPositionAsync(
       {
@@ -50,7 +54,6 @@ const HomeScreen = () => {
             id_user
           )
             .then((res) => {
-              console.log(res);
               dispatch(
                 setLocation({
                   latitude: resLocation.coords.latitude,
@@ -87,7 +90,7 @@ const HomeScreen = () => {
         <TouchableOpacity style={styles.location}>
           <FontAwesome5
             name={"crosshairs"}
-            size={sizes.h2}
+            size={sizes.icon * 1.2}
             color={colors.black}
           />
         </TouchableOpacity>
@@ -98,9 +101,7 @@ const HomeScreen = () => {
         snapPoints={snapPoints}
         onChange={handleSheetChange}
       >
-        <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
           <InfoPanel />
-        </View>
       </BottomSheet>
     </Screen>
   );
@@ -115,16 +116,15 @@ const styles = StyleSheet.create({
   },
   location: {
     position: "absolute",
-    top: adaptToHeight(0.53),
+    top: adaptToHeight(.53),
     right: 20,
     backgroundColor: colors.white,
     borderRadius: 40,
-    paddingHorizontal: sizes.padding * 1.3,
-    paddingVertical: sizes.padding * 1.2,
+    padding: sizes.padding * 1.2,
     elevation: 10,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
+    shadowOpacity: .5,
     shadowRadius: sizes.radius,
   },
 });

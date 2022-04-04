@@ -1,4 +1,4 @@
-import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React from "react";
 import {FontAwesome} from "@expo/vector-icons";
 import {colors, images, sizes} from "../constants";
@@ -24,7 +24,7 @@ const SettingsScreen = ({navigation}) => {
 
     const boxItem = (item) => {
         return (
-            <TouchableOpacity style={styles.item} activeOpacity={0.8}
+            <TouchableOpacity style={styles.item} activeOpacity={.8}
                               onPress={() => navigation.navigate(item.link)}>
                 <View style={[styles.textContainer]}>
                     <FontAwesome name={item.icon} size={sizes.icon} color={colors.white}
@@ -49,20 +49,24 @@ const SettingsScreen = ({navigation}) => {
                     </View>
                     <FontAwesome name={"chevron-right"} size={sizes.icon} color={colors.grey}/>
                 </View>
-                <FlatList
-                    style={styles.box}
-                    data={items1}
-                    renderItem={({item}) => boxItem(item)}
-                    _keyExtractor={(item, index) => item.name
-                    }
-                />
-                <FlatList
-                    style={styles.box}
-                    data={items2}
-                    renderItem={({item}) => boxItem(item)}
-                    _keyExtractor={(item, index) => item.name
-                    }
-                />
+                <ScrollView>
+                    <View>
+                        <FlatList
+                            style={styles.box}
+                            data={items1}
+                            renderItem={({item}) => boxItem(item)}
+                            _keyExtractor={(item, index) => item.name
+                            }
+                        />
+                        <FlatList
+                            style={styles.box}
+                            data={items2}
+                            renderItem={({item}) => boxItem(item)}
+                            _keyExtractor={(item, index) => item.name
+                            }
+                        />
+                    </View>
+                </ScrollView>
             </View>
         </Screen>
     );
@@ -72,10 +76,11 @@ export default SettingsScreen;
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: sizes.margin * 2
+        backgroundColor: colors.light
     },
     box: {
-        marginBottom: sizes.margin * 2, elevation: 10,
+        marginBottom: sizes.margin * 2,
+        elevation: 10,
     },
     item: {
         alignItems: 'center',
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h6,
         paddingHorizontal: sizes.padding,
         color: colors.black
     },
@@ -123,12 +128,12 @@ const styles = StyleSheet.create({
     },
     name: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h5,
         color: colors.black
     },
     rank: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h4,
+        fontSize: sizes.h6,
         color: colors.grey
     },
 });

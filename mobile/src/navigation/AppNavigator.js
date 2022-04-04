@@ -12,7 +12,7 @@ import HomeNavigator from "./home-rider";
 import RiderCustomDrawr from "../components/chames/RiderCustomDrawer";
 import CustomRiderHeader from "../components/CustomRiderHeader";
 import { adaptToHeight } from "../config/dimensions";
-import RequestRideModal from "../components/Modals/RequestRideModal";
+import CustomModal from "../components/Modals/custom-modal";
 
 const Drawer = createDrawerNavigator();
 

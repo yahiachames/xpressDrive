@@ -4,13 +4,15 @@ import BasicButton from "../basic-button";
 import { colors } from "../../constants";
 import { adaptToWidth, adaptToHeight } from "../../config/dimensions";
 import { TouchableWithoutFeedback } from "react-native-web";
+import sizes from "../../constants/sizes";
 
-const RequestRideModal = ({
+const CustomModal = ({
   animationType = "slide",
   visible,
   onDismiss,
   child,
   height,
+  width,
   styleModal,
 }) => {
   return (
@@ -21,7 +23,8 @@ const RequestRideModal = ({
             <View
               style={[
                 styles.modalInner,
-                height ? { height: height } : { height: adaptToHeight(0.7) },
+                height ? { height: height } : { height: adaptToHeight(.7) },
+                width ? { width: width } : { width: adaptToWidth(.7) },
               ]}
             >
               {child}
@@ -33,27 +36,14 @@ const RequestRideModal = ({
   );
 };
 
-export default RequestRideModal;
+export default CustomModal;
 
 const styles = StyleSheet.create({
   modal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: colors.backdrop,
   },
   modalInner: {
-    width: adaptToWidth(0.8),
-    padding: adaptToWidth(0.1),
+    //padding: sizes.padding,
     backgroundColor: colors.light,
-    borderRadius: 10,
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
 });

@@ -21,6 +21,7 @@ export default {
     h4: width * .052,
     h5: width * .048,
     h6: width * .042,
+    h7: width * .038,
     input: width * .04,
     icon: width * .04,
 

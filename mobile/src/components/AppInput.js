@@ -2,6 +2,7 @@ import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../constants";
+import sizes from "../constants/sizes";
 
 function AppTextInput({
   icon,
@@ -15,26 +16,22 @@ function AppTextInput({
       {icon && (
         <MaterialCommunityIcons
           name={icon}
-          size={20}
+          size={sizes.icon}
           color={color}
-          style={styles.icon}
         />
       )}
-      <TextInput placeholderTextColor={colors.medium} {...otherProps} />
+      <TextInput style={{paddingHorizontal: sizes.tiny}} placeholderTextColor={colors.medium} {...otherProps} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.grayLight,
-    borderRadius: 25,
+    backgroundColor: colors.light,
+    borderRadius: sizes.radius,
+    padding: sizes.padding,
     flexDirection: "row",
-    padding: 15,
-    marginVertical: 10,
-  },
-  icon: {
-    marginRight: 10,
+    marginBottom: sizes.margin,
   },
 });
 

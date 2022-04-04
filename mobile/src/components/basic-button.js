@@ -19,7 +19,7 @@ function BasicButton({
 }) {
   return (
     <TouchableOpacity
-      activeOpacity={0.9}
+      activeOpacity={.9}
       style={[styles.button, { backgroundColor: bgColor }, style]}
       disabled={disabled}
       onPress={onPress}
@@ -47,13 +47,15 @@ const styles = StyleSheet.create({
         borderRadius: sizes.radius,
         justifyContent: "center",
         alignItems: "center",
-        height: adaptToHeight(.08),
+        padding: sizes.padding,
+        width: "auto",
+        marginVertical: sizes.margin,
     },
     text: {
-        color: "white",
-        fontSize: sizes.input,
+        color: colors.white,
+        fontSize: sizes.h6,
         textTransform: "capitalize",
-        fontWeight: "bold",
+        fontFamily: "latoBold",
         textAlign: "center",
 
     },

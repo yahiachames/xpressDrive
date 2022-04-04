@@ -12,46 +12,43 @@ import storage from "./src/config/storage";
 import { AUTH_KEY, SERVER_URL, USER_Key } from "./src/config/config";
 import jwt_decode from "jwt-decode";
 import AuthContext from "./src/context/AuthContext";
-import { io } from "socket.io-client";
 import AppNavigator from "./src/navigation/AppNavigator";
-import { getOneDriver } from "./src/controllers/DriversAPis";
-import { profile_add } from "./src/redux/actions/profile-acions";
-import { getOneRider } from "./src/controllers/RiderAPis";
+import Screen from "./src/components/screen";
+import SocketContext from "./src/context/SocketContext";
 
 export default function AppContainer() {
   const [permLocation, setPermLocation] = useState(false);
-  const socket = io(SERVER_URL);
-
+  const { socket, setSocket } = useContext(SocketContext);
   const dispatch = useDispatch();
   const [fontsLoaded] = useFonts(fonts);
   const { user, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const restoreUser = async () => {
-    setLoading(true);
     const token = await storage.getKey(AUTH_KEY);
 
     //decode token
     const user = token ? jwt_decode(token.split(" ")[1]) : undefined;
     setUser(user);
-    user && setUser(user) && socket.emit("join", { id_user: user.sub });
+    user &&
+      setUser(user) &&
+      socket.emit("joined", { username: user.user_id, room: user.user_id }) &&
+      socket.emit("join", { id_user: user.user_id, role: user.role });
 
     console.log(user, "userrrrrrrrrr");
-    if (user.role == "driver") {
-      getOneDriver(user.user_id).then((res) => {
-        console.log(res.status);
-        dispatch(profile_add(res.data.data));
-        setLoading(false);
-      });
-    } else {
-      getOneRider(user.user_id).then((res) => {
-        console.log(res.status);
-        dispatch(profile_add(res.data.data));
-        setLoading(false);
-      });
+    // if (user.role == "driver") {
+    //   getOneDriver(user.user_id).then((res) => {
+    //     console.log(res.status);
+    //     dispatch(profile_add(res.data.data));
+    //   });
+    // } else {
+    //   getOneRider(user.user_id).then((res) => {
+    //     console.log(res.status);
+    //     dispatch(profile_add(res.data.data));
+    //   });
 
-      // call user
-    }
-  };
+    //   // call user
+    // }
+  };;
 
   useEffect(() => {
     console.log("dispatch executed");
@@ -59,7 +56,7 @@ export default function AppContainer() {
   }, []);
 
   return (
-    <Fragment>
+    <Screen>
       {fontsLoaded ? (
         <>
           <StatusBar barStyle="dark-content" />
@@ -82,6 +79,7 @@ export default function AppContainer() {
       ) : (
         <AppLoading />
       )}
-    </Fragment>
+    </Screen>
   );
 }
+

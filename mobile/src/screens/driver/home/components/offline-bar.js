@@ -48,11 +48,11 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: "latoBold",
-        fontSize: sizes.h3
+        fontSize: sizes.h4
     },
     description: {
         fontFamily: "latoRegular",
         color: colors.black,
-        fontSize: sizes.h4
+        fontSize: sizes.h5
     }
 });

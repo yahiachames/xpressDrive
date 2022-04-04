@@ -17,7 +17,7 @@ const indicator = ({item}) => {
         <View style={styles.stats}>
             <AntDesign
                 name={item.icon}
-                size={sizes.h2}
+                size={sizes.icon * 1.5}
                 color={colors.white}
             />
             <Text style={styles.value}>{item.value}</Text>
@@ -63,15 +63,8 @@ export default InfoPanel;
 const styles = StyleSheet.create({
     box: {
         flex: 1,
-        /*borderTopStartRadius: sizes.radius * 2,
-        borderTopEndRadius: sizes.radius * 2,
-        elevation: 10,
-        shadowColor: colors.black,
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.8,
-        shadowRadius: sizes.radius,*/
         backgroundColor: colors.white,
-        padding: sizes.padding * 2,
+        padding: sizes.padding,
     },
     boxHeader: {
         flexDirection: "row",
@@ -93,12 +86,12 @@ const styles = StyleSheet.create({
     },
     textPrimary: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h4,
         color: colors.black
     },
     textSecondary: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h4,
+        fontSize: sizes.h5,
         color: colors.grey
     },
     boxFooter: {
@@ -106,24 +99,24 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
         paddingVertical: adaptToHeight(.025),
-        paddingHorizontal: adaptToWidth(.05),
+        paddingHorizontal: adaptToWidth(.025),
         backgroundColor: colors.primary,
         borderRadius: 5,
     },
     stats: {
         alignItems: "center",
-        justifyContent: "space-around",
         flex: 1
     },
     value: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h3,
+        fontSize: sizes.h4,
         color: colors.black,
-        paddingVertical: adaptToHeight(.01)
+        paddingVertical: sizes.padding
     },
     label: {
         fontFamily: 'latoBold',
-        fontSize: sizes.h5,
+        fontSize: sizes.h7,
         color: colors.white,
+        textAlign: 'center'
     }
 });

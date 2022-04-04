@@ -41,7 +41,9 @@ const LoginScreen = ({ navigation }) => {
       if (res.ok) {
         storage.storeKey(AUTH_KEY, res.data.token);
         const user = jwt_decode(res.data.token);
-        socket.emit("join", { id_user: user.sub });
+          socket.emit("joined", { id_user: user.user_id, role: user.role });
+
+
         setUser(user);
       } else {
         setUser(null);

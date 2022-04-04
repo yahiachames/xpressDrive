@@ -9,7 +9,8 @@ function SubmitButton({title, icon, color, style, textColor, disabled}) {
         <BasicButton
             title={title}
             width={"100%"}
-            color={textColor}
+            bgColor={color}
+            textColor={textColor}
             onPress={handleSubmit}
             disabled={disabled}
             style={style}
