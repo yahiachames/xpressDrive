@@ -18,35 +18,34 @@ const items = [
     },
 ]
 
-const openModal = (payload) => {
-    console.log(payload)
-}
-
-const VehicleItem = ({item}) => {
-    return (
-        <TouchableOpacity onPress={() => openModal({action: 'EDIT', id: item.id})} activeOpacity={.7}
-                          style={styles.box}>
-            <View style={styles.imageContainer}>
-                <Image resizeMode={'contain'} style={styles.image} source={defaultVehicle}/>
-            </View>
-            <View style={{flex: .05}}/>
-            <View style={{flex: .7}}>
-                <AppText>{item.brand}</AppText>
-                <AppText style={{color: colors.greyMedium, fontSize: sizes.h6}}>{item.number}</AppText>
-            </View>
-            <View style={{flex: .1}}>
-                <FontAwesome name={'arrow-right'} size={sizes.icon} color={colors.black}/>
-            </View>
-        </TouchableOpacity>
-    )
-}
-
 const VehicleManagementScreen = () => {
+
     const [visible, setVisible] = useState(false);
 
-    const onAdd = () => {
+    const openModal = (payload) => {
+        console.log(payload)
         setVisible(true);
-    };
+    }
+
+    const VehicleItem = ({item}) => {
+        return (
+            <TouchableOpacity onPress={() => openModal({action: 'EDIT', id: item.id})} activeOpacity={.7}
+                              style={styles.box}>
+                <View style={styles.imageContainer}>
+                    <Image resizeMode={'contain'} style={styles.image} source={defaultVehicle}/>
+                </View>
+                <View style={{flex: .05}}/>
+                <View style={{flex: .7}}>
+                    <AppText>{item.brand}</AppText>
+                    <AppText style={{color: colors.greyMedium, fontSize: sizes.h6}}>{item.number}</AppText>
+                </View>
+                <View style={{flex: .1}}>
+                    <FontAwesome name={'arrow-right'} size={sizes.icon} color={colors.black}/>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
     const onCancel = () => {
         setVisible(false);
     };
@@ -64,7 +63,7 @@ const VehicleManagementScreen = () => {
                     <FontAwesome name={'plus'} size={sizes.h1} color={colors.white}/>
                 </TouchableOpacity>
             </View>
-            <Cugit stomModal
+            <CustomModal
                 visible={visible}
                 width={sizes.width}
                 height={sizes.height}
