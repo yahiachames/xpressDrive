@@ -1,61 +1,83 @@
 import {FlatList, Image, StyleSheet, TouchableOpacity, View} from "react-native";
-import React from "react";
-import {colors, images, sizes} from "../../../constants";
-import {FontAwesome} from "@expo/vector-icons";
+import React, { useState } from "react";
+import { colors, images, sizes } from "../../../constants";
+import { FontAwesome } from "@expo/vector-icons";
 import AppText from "../../../components/Text";
-import {adaptToWidth} from "../../../config/dimensions";
+import { adaptToHeight, adaptToWidth } from "../../../config/dimensions";
 import Screen from "../../../components/screen";
+import CustomModal from "../../../components/Modals/custom-modal";
+import CarChildModal from "../../../components/Modals/childs/CarChildModal";
 
-const {defaultVehicle} = images
+const { defaultVehicle } = images;
 
 const items = [
-    {
-        brand: "Mazda",
-        number: "4123 CA 541"
-    },
-    {
-        brand: "Mazda",
-        number: "4123 CA 541"
-    },
-]
+  {
+    brand: "Mazda",
+    number: "4123 CA 541",
+  },
+  {
+    brand: "Mazda",
+    number: "4123 CA 541",
+  },
+];
 
-const onAdd = () => {
-}
-
-const VehicleItem = ({item}) => {
-    return (
-        <View style={styles.box}>
-            <View style={styles.imageContainer}>
-                <Image resizeMode={'contain'} style={styles.image} source={defaultVehicle}/>
-            </View>
-            <View style={{flex: .05}} />
-            <View style={{flex: .7}}>
-                <AppText>{item.brand}</AppText>
-                <AppText style={{color: colors.greyMedium, fontSize: sizes.h6}}>{item.number}</AppText>
-            </View>
-            <View style={{flex: .1}}>
-                <FontAwesome name={'arrow-right'} size={sizes.icon} color={colors.black}/>
-            </View>
-        </View>
-    )
-}
+const VehicleItem = ({ item }) => {
+  return (
+    <View style={styles.box}>
+      <View style={styles.imageContainer}>
+        <Image
+          resizeMode={"contain"}
+          style={styles.image}
+          source={defaultVehicle}
+        />
+      </View>
+      <View style={{ flex: 0.05 }} />
+      <View style={{ flex: 0.7 }}>
+        <AppText>{item.brand}</AppText>
+        <AppText style={{ color: colors.greyMedium, fontSize: sizes.h6 }}>
+          {item.number}
+        </AppText>
+      </View>
+      <View style={{ flex: 0.1 }}>
+        <FontAwesome
+          name={"arrow-right"}
+          size={sizes.icon}
+          color={colors.black}
+        />
+      </View>
+    </View>
+  );
+};
 
 const VehicleManagementScreen = () => {
-    return (
-        <Screen style={{padding: sizes.padding, backgroundColor: colors.light}}>
-            <View style={{flex: .85}}>
-                <FlatList
-                    data={items}
-                    renderItem={({item}) => <VehicleItem item={item}/>}
-                />
-            </View>
-            <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={onAdd}>
-                    <FontAwesome name={'plus'} size={sizes.h1} color={colors.white}/>
-                </TouchableOpacity>
-            </View>
-        </Screen>
-    );
+  const [visible, setVisible] = useState(false);
+  const onAdd = () => {
+    setVisible(true);
+  };
+  const onCancel = () => {
+    setVisible(false);
+  };
+  return (
+    <Screen style={{ padding: sizes.padding, backgroundColor: colors.light }}>
+      <View style={{ flex: 0.85 }}>
+        <FlatList
+          data={items}
+          renderItem={({ item }) => <VehicleItem item={item} />}
+        />
+      </View>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.button} onPress={onAdd}>
+          <FontAwesome name={"plus"} size={sizes.h1} color={colors.white} />
+        </TouchableOpacity>
+      </View>
+      <CustomModal
+        visible={visible}
+        width={sizes.width}
+        height={sizes.height}
+        child={<CarChildModal onCancel={onCancel} />}
+      />
+    </Screen>
+  );
 };
 
 export default VehicleManagementScreen;

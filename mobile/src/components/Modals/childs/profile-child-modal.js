@@ -19,7 +19,7 @@ const ProfileChildModal = ({closeModal}) => {
 
     const { profile, setProfile } = useContext(ProfileContext);
 
-    const {data} = profile
+    const data = profile;
 
     const initValues = {
         username: data.user.username ? data.user.username : "",
