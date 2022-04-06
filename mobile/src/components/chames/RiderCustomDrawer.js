@@ -46,13 +46,15 @@ const RiderCustomDrawer = (props) => {
         <CustomModal
           visible={showModal}
           child={<ProfileChildModal closeModal={handleModal} />}
+          height={sizes.height}
+          width={sizes.width}
         />
         <View style={styles.header}>
           <View style={styles.user}>
             <Image
               source={
-                checkKeyInObject(profile, "documents")
-                  ? profile.documents.photo
+                profile
+                  ? profile.documents
                     ? {
                         uri: `data:image/jpg;base64,${profile.documents.photo.data}`,
                       }

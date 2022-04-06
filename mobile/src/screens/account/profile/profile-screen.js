@@ -1,63 +1,82 @@
 import {FlatList, Image, StyleSheet, Text, View} from "react-native";
-import React, {useContext} from "react";
+import React, { useContext, useEffect } from "react";
 import Screen from "../../../components/screen";
-import {colors, images, sizes} from "../../../constants";
-import {adaptToHeight, adaptToWidth} from "../../../config/dimensions";
+import { colors, images, sizes } from "../../../constants";
+import { adaptToHeight, adaptToWidth } from "../../../config/dimensions";
 import ProfileContext from "../../../context/ProfileContext";
 
-const {defaultUser} = images
+const { defaultUser } = images;
 
 const ProfileScreen = () => {
+  const { profile, setProfile } = useContext(ProfileContext);
 
-    const { profile, setProfile } = useContext(ProfileContext);
+  const { user, documents } = profile;
 
-    const {data} = profile
+  console.log(user)
 
-    const items = [
-        {
-            label: "Full name",
-            value: data.user.fullName ? data.user.fullName : "Unknown"
-        },
-        {
-            label: "Phone number",
-            value: data.user.phone
-        },
-        {
-            label: "Email",
-            value: data.user.email
-        },
-        {
-            label: "Gender",
-            value: data.user.gender ? data.user.gender : "Not set"
-        },
-        {
-            label: "Birthday",
-            value: data.user.birthday ? data.user.birthday : "Not set"
-        }
-    ]
+  const items = [
+    {
+      label: "Full name",
+      value: user ? user.fullName : "Unknown",
+    },
+    {
+      label: "Phone number",
+      value: user ? user.phone : "",
+    },
+    {
+      label: "Email",
+      value: user ? user.email : "",
+    },
+    {
+      label: "Gender",
+      value: user ? user.gender : "Not set",
+    },
+    {
+      label: "Birthday",
+      value: user ? user.birthday : "Not set",
+    },
+  ];
 
+  if (user)
     return (
-        <Screen>
-            <View style={styles.user}>
-                <Image source={defaultUser} style={styles.avatar}/>
-                <View>
-                    <Text style={styles.name}>{data.user.fullName ? data.user.fullName : "Unknown"}</Text>
-                    <Text style={styles.rank}>{data.user.rank ? data.user.rank : "Unranked"}</Text>
+      <Screen>
+        <View style={styles.user}>
+          <Image
+            source={
+              documents.photo
+                ? {
+                    uri: `data:image/png;base64,${documents.photo[1]}`,
+                  }
+                : defaultUser
+            }
+            style={styles.avatar}
+          />
+          <View>
+            <Text style={styles.name}>
+              {user.fullName ? user.fullName : "Unknown"}
+            </Text>
+            <Text style={styles.rank}>
+              {user.rank ? user.rank : "Unranked"}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.details}>
+          <Text style={styles.title}>Information</Text>
+          <FlatList
+            data={items}
+            renderItem={({ item }) => {
+              return (
+                <View style={styles.item}>
+                  <Text style={styles.label}>{item.label}</Text>
+                  <Text style={styles.value}>{item.value}</Text>
                 </View>
-            </View>
-            <View style={styles.details}>
-                <Text style={styles.title}>Information</Text>
-                <FlatList data={items} renderItem={({item}) => {
-                    return (
-                        <View style={styles.item}>
-                            <Text style={styles.label}>{item.label}</Text>
-                            <Text style={styles.value}>{item.value}</Text>
-                        </View>
-                    )
-                }} />
-            </View>
-        </Screen>
+              );
+            }}
+          />
+        </View>
+      </Screen>
     );
+  else return <View/>;
 };
 
 export default ProfileScreen;

@@ -26,18 +26,18 @@ export default function AppContainer() {
   const dispatch = useDispatch();
   const [fontsLoaded] = useFonts(fonts);
   const { user, setUser } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const getProfile = async (id, role) => {
     if (role == "driver") {
       getOneDriver(id)
         .then((res) => {
-          setProfile(res.data);
+          setProfile(res.data.data);
         })
         .catch((e) => console.log(e));
     } else {
       getOneRider(id)
         .then((res) => {
-          setProfile(res.data);
+          setProfile(res.data.data);
         })
         .catch((e) => console.log(e));
     }
@@ -54,6 +54,9 @@ export default function AppContainer() {
   };
 
   useEffect(() => {
+    setLoading(true);
+    console.log("dispatch executed");
+
     restoreUser();
     setLoading(false);
   }, []);

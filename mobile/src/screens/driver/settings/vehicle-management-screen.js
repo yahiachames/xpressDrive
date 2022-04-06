@@ -1,12 +1,14 @@
 import {FlatList, Image, StyleSheet, TouchableOpacity, View} from "react-native";
-import React from "react";
-import {colors, images, sizes} from "../../../constants";
-import {FontAwesome} from "@expo/vector-icons";
+import React, { useState } from "react";
+import { colors, images, sizes } from "../../../constants";
+import { FontAwesome } from "@expo/vector-icons";
 import AppText from "../../../components/Text";
-import {adaptToWidth} from "../../../config/dimensions";
+import { adaptToWidth } from "../../../config/dimensions";
 import Screen from "../../../components/screen";
+import CustomModal from "../../../components/Modals/custom-modal";
+import VehicleManagementChildModal from "../../../components/Modals/childs/vehicle-management-child-modal";
 
-const {defaultVehicle} = images
+const { defaultVehicle } = images;
 
 const items = [
     {
@@ -40,6 +42,15 @@ const VehicleItem = ({item}) => {
 }
 
 const VehicleManagementScreen = () => {
+    const [visible, setVisible] = useState(false);
+
+    const onAdd = () => {
+        setVisible(true);
+    };
+    const onCancel = () => {
+        setVisible(false);
+    };
+
     return (
         <Screen style={{paddingHorizontal: sizes.padding, paddingTop: sizes.padding, backgroundColor: colors.light}}>
             <View style={{flex: .85}}>
@@ -53,6 +64,12 @@ const VehicleManagementScreen = () => {
                     <FontAwesome name={'plus'} size={sizes.h1} color={colors.white}/>
                 </TouchableOpacity>
             </View>
+            <Cugit stomModal
+                visible={visible}
+                width={sizes.width}
+                height={sizes.height}
+                child={<VehicleManagementChildModal onCancel={onCancel} />}
+            />
         </Screen>
     );
 };

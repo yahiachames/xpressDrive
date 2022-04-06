@@ -1,34 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormikContext } from "formik";
+import ErrorMessage from "./error-message";
+import * as ImagePicker from "expo-image-picker";
+import BasicButton from "../basic-button";
+import { Image, StyleSheet, View } from "react-native";
+import BasicPicker from "../basic-picker";
+import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 
-import ErrorMessage from "./ErrorMessage";
-import ImageInputList from "../ImageInputList";
-
-function FormImagePicker({ name }) {
+function FormImagePicker({
+  items,
+  numberOfColumns,
+  PickerItemComponent,
+  placeholder,
+  width,
+}) {
   const { errors, setFieldValue, touched, values } = useFormikContext();
-  const imageUris = values[name];
 
-  const handleAdd = (uri) => {
-    setFieldValue(name, [...imageUris, uri]);
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      let formatImage = {
+        name: result.uri.split("/")[result.uri.split("/").length - 1],
+        uri: result.uri,
+        type:
+          "image/" +
+          result.uri.split("/")[result.uri.split("/").length - 1].split(".")[
+            result.uri.split("/")[result.uri.split("/").length - 1].split(".")
+              .length - 1
+          ],
+      };
+
+      setFieldValue(values["imageName"], formatImage);
+    }
   };
 
-  const handleRemove = (uri) => {
-    setFieldValue(
-      name,
-      imageUris.filter((imageUri) => imageUri !== uri)
-    );
-  };
+  useEffect(() => {
+    console.log(values["imageName"], "from picker");
+  }, [values["imageName"]]);
 
   return (
-    <>
-      <ImageInputList
-        imageUris={imageUris}
-        onAddImage={handleAdd}
-        onRemoveImage={handleRemove}
+    <View style={styles.container}>
+      <BasicButton
+        icon={"camera"}
+        title="upload"
+        textStyle={{ padding: 10 }}
+        onPress={() => pickImage()}
+        style={{ width: adaptToWidth(0.4) }}
       />
-      <ErrorMessage error={errors[name]} visible={touched[name]} />
-    </>
+      <BasicPicker
+        items={items}
+        numberOfColumns={numberOfColumns}
+        onSelectItem={(item) => {
+          console.log(item);
+          return setFieldValue("imageName", item);
+        }}
+        PickerItemComponent={PickerItemComponent}
+        placeholder={"test"}
+        selectedItem={values["imageName"]}
+        style={{ width: adaptToWidth(0.4) }}
+      />
+
+      <ErrorMessage
+        error={errors[values["imageName"]]}
+        visible={touched[values["imageName"]]}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "center",
+    justifyContent: "space-around",
+  },
+  avatar: {
+    height: adaptToWidth(0.25),
+    width: adaptToWidth(0.25),
+  },
+});
 
 export default FormImagePicker;
