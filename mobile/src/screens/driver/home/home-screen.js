@@ -71,7 +71,7 @@ const HomeScreen = () => {
 
   const updateOnlineApi = () => {
     updateOnline(true, id_user)
-      .then((res) => console.log(res))
+      .then((res) => {})
       .catch((e) => console.log(error));
   };
 

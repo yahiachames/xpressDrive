@@ -19,7 +19,6 @@ const { forgerPassword2 } = images;
 
 const CodeVerificationScreen = ({ navigation }) => {
   const phone = useSelector((state) => state.PhoneNumber);
-  console.log(phone);
   const validationSchema = Yup.object().shape({
     code: Yup.number().label("Code").required("Enter a valid code number"),
   });

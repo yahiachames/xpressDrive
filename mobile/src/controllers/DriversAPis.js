@@ -5,14 +5,12 @@ export const getDrivers = () => {
 };
 
 export const updateLocation = (currentPosition, id) => {
-  console.log("workedddd", currentPosition);
   return api.post(`driver/localization/update/${id}`, {
     currentPosition: currentPosition,
     test: "test",
   });
 };
 export const updateOnline = (online, id) => {
-  console.log("workedddd", online);
   return api.post(`driver/online/update/${id}`, {
     online,
   });

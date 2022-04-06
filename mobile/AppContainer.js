@@ -54,8 +54,6 @@ export default function AppContainer() {
   };
 
   useEffect(() => {
-    console.log("dispatch executed");
-
     restoreUser();
     setLoading(false);
   }, []);

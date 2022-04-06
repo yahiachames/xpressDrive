@@ -99,7 +99,6 @@ const ChoseDestCmpt = ({ navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log(item);
           setToggleFlat(false);
           setSearchValue(item.item.properties.name);
           setDestination({

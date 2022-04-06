@@ -25,7 +25,6 @@ const CustomChooseDest = () => {
         return setSearchData(res.data.features.map((el) => el.properties.name));
       });
     }, 500);
-
     return console.log(value);
   };
 

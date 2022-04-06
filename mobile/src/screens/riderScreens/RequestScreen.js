@@ -83,11 +83,9 @@ export default function RequestScreen({ navigation, route }) {
   useEffect(() => {
     socket.on("rideStatusUpdated", (obj) => {
       setRideStatus(obj);
-      console.log("updated", obj);
     });
 
     socket.on("locationUpdate", (obj) => {
-      console.log("first");
       getDriversAPi();
     });
     socket.on("onlineUpdate", () => {
@@ -97,11 +95,9 @@ export default function RequestScreen({ navigation, route }) {
     return () => {
       socket.off("rideStatusUpdated", (obj) => {
         setRideStatus(obj);
-        console.log("updated", obj);
       });
 
       socket.off("locationUpdate", (obj) => {
-        console.log("first");
         getDriversAPi();
       });
       socket.off("onlineUpdate", () => {
@@ -222,7 +218,6 @@ useEffect(() => {
     setLoading(false);
   }, []);
   useEffect(() => {
-    console.log(rideStatus, "rideStatus");
   }, [rideStatus]);
 
   const renderFlatListItems = ({ item }) => {

@@ -16,11 +16,9 @@ const RequestScreen = () => {
   const { socket, setSocket } = useContext(SocketContext);
 
   const getApiPendingRides = () => {
-    console.log("executed", user.user_id);
     setLoading(true);
     getRidesPending(user.user_id)
       .then((res) => {
-        console.log(res, user.user_id, "get pending rides");
         setPendingRides(res.data);
       })
       .catch((e) => console.log(e));
@@ -28,20 +26,16 @@ const RequestScreen = () => {
   };
 
   const handleAccept = (id) => {
-    console.log(id);
     acceptRide(id)
       .then((res) => {
-        console.log(res);
         getApiPendingRides();
       })
       .catch((e) => console.log(e));
   };
 
   const handleDecline = (id) => {
-    console.log(id);
     declineRide(id)
       .then((res) => {
-        console.log(res);
         getApiPendingRides();
       })
       .catch((e) => console.log(e));
@@ -53,7 +47,6 @@ const RequestScreen = () => {
 
   useEffect(() => {
     socket.on("NewRequest", () => {
-      console.log("new request pendinbg");
       getApiPendingRides();
       Notifcations.scheduleNotificationAsync({
         content: {
@@ -74,7 +67,6 @@ const RequestScreen = () => {
 
     return () => {
       socket.off("NewRequest", () => {
-        console.log("new request pendinbg");
         getApiPendingRides();
       });
       socket.off("RideCancel", () => {
@@ -92,7 +84,6 @@ const RequestScreen = () => {
         <FlatList
           data={pendingRides}
           keyExtractor={({ index, item }) => {
-            console.log(index);
             return index;
           }}
           renderItem={({ item }) => (

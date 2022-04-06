@@ -42,10 +42,8 @@ const RegisterScreen = ({ navigation }) => {
 
     const onSubmit = (values) => {
         const pre_values = { ...values, phone: "+216" + values.phone };
-        console.log(pre_values);
         signupApi(pre_values)
             .then((res) => {
-                console.log(res);
                 navigation.navigate(routes.LOGIN);
             })
             .catch((e) => console.warn(e));

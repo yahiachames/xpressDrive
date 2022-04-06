@@ -37,7 +37,6 @@ const LoginScreen = ({ navigation }) => {
   });
 
   const onSubmit = (values) => {
-    console.log(values);
     loginApi(values).then((res) => {
       if (res.ok) {
         storage.storeKey(AUTH_KEY, res.data.token);

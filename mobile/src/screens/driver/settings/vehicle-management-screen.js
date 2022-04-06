@@ -10,25 +10,24 @@ const {defaultVehicle} = images
 
 const items = [
     {
-        brand: "Mazda",
-        number: "4123 CA 541"
-    },
-    {
+        id: "",
         brand: "Mazda",
         number: "4123 CA 541"
     },
 ]
 
-const onAdd = () => {
+const openModal = (payload) => {
+    console.log(payload)
 }
 
 const VehicleItem = ({item}) => {
     return (
-        <View style={styles.box}>
+        <TouchableOpacity onPress={() => openModal({action: 'EDIT', id: item.id})} activeOpacity={.7}
+                          style={styles.box}>
             <View style={styles.imageContainer}>
                 <Image resizeMode={'contain'} style={styles.image} source={defaultVehicle}/>
             </View>
-            <View style={{flex: .05}} />
+            <View style={{flex: .05}}/>
             <View style={{flex: .7}}>
                 <AppText>{item.brand}</AppText>
                 <AppText style={{color: colors.greyMedium, fontSize: sizes.h6}}>{item.number}</AppText>
@@ -36,13 +35,13 @@ const VehicleItem = ({item}) => {
             <View style={{flex: .1}}>
                 <FontAwesome name={'arrow-right'} size={sizes.icon} color={colors.black}/>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
 const VehicleManagementScreen = () => {
     return (
-        <Screen style={{padding: sizes.padding, backgroundColor: colors.light}}>
+        <Screen style={{paddingHorizontal: sizes.padding, paddingTop: sizes.padding, backgroundColor: colors.light}}>
             <View style={{flex: .85}}>
                 <FlatList
                     data={items}
@@ -50,7 +49,7 @@ const VehicleManagementScreen = () => {
                 />
             </View>
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={onAdd}>
+                <TouchableOpacity activeOpacity={.7} style={styles.button} onPress={() => openModal({action: 'ADD'})}>
                     <FontAwesome name={'plus'} size={sizes.h1} color={colors.white}/>
                 </TouchableOpacity>
             </View>
@@ -83,8 +82,10 @@ const styles = StyleSheet.create({
         width: 'auto',
     },
     footer: {
+        backgroundColor: colors.transparent,
         flex: .15,
         alignItems: 'center',
+        justifyContent: 'center'
     },
     button: {
         paddingHorizontal: sizes.padding * 1.3,
