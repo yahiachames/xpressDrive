@@ -9,7 +9,6 @@ const FormListImages = ({ names }) => {
   const { errors, setFieldValue, touched, values } = useFormikContext();
   const [images, setImages] = useState([]);
   const renderImage = ({ item }) => {
-    console.log(values[item]);
     if (values[item])
       return (
         <ImageBackground
@@ -26,9 +25,11 @@ const FormListImages = ({ names }) => {
         <FlatList
           data={names}
           renderItem={renderImage}
+          numColumns={2}
           keyExtractor={(item, index) => {
             return index;
           }}
+          contentContainerStyle={styles.flatContainer}
         />
       )}
     </View>
@@ -41,5 +42,10 @@ const styles = StyleSheet.create({
   avatar: {
     height: adaptToWidth(0.25),
     width: adaptToWidth(0.25),
+  },
+  flatContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

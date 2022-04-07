@@ -35,14 +35,15 @@ function FormImagePicker({
               .length - 1
           ],
       };
+      let label = values["imageName"];
 
-      setFieldValue(values["imageName"], formatImage);
+      setFieldValue(label, formatImage);
     }
   };
 
-  useEffect(() => {
-    console.log(values["imageName"], "from picker");
-  }, [values["imageName"]]);
+  const setValue = (value) => {
+    setFieldValue("imageName", value);
+  };
 
   return (
     <View style={styles.container}>
@@ -56,13 +57,10 @@ function FormImagePicker({
       <BasicPicker
         items={items}
         numberOfColumns={numberOfColumns}
-        onSelectItem={(item) => {
-          console.log(item);
-          return setFieldValue("imageName", item);
-        }}
+        onChange={setValue}
         PickerItemComponent={PickerItemComponent}
         placeholder={"test"}
-        selectedItem={values["imageName"]}
+        selectedValue={values["imageName"]}
         style={{ width: adaptToWidth(0.4) }}
       />
 
