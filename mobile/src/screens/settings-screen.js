@@ -39,34 +39,36 @@ const SettingsScreen = ({navigation}) => {
     }
 
     return (
-        <Screen>
-            <ScrollView style={styles.container}>
-                <View style={styles.user}>
-                    <View style={{alignItems: 'center', flexDirection: 'row'}}>
-                        <Image source={defaultUser} style={styles.avatar}/>
-                        <View style={{marginHorizontal: sizes.margin * 2}}>
-                            <Text style={styles.name}>John doe</Text>
-                            <Text style={styles.rank}>Gold Member</Text>
-                        </View>
-                    </View>
-                    <FontAwesome name={"chevron-right"} size={sizes.icon} color={colors.grey}/>
-                </View>
-                <FlatList
-                    style={{marginBottom: sizes.margin}}
-                    data={items1}
-                    renderItem={({item}) => boxItem(item)}
-                    _keyExtractor={(item, index) => item.name
-                    }
-                />
-                <FlatList
-                    style={styles.box}
-                    data={items2}
-                    renderItem={({item}) => boxItem(item)}
-                    _keyExtractor={(item, index) => item.name
-                    }
-                />
-            </ScrollView>
-        </Screen>
+      <Screen>
+        <View style={styles.container}>
+          <View style={styles.user}>
+            <View style={{ alignItems: "center", flexDirection: "row" }}>
+              <Image source={defaultUser} style={styles.avatar} />
+              <View style={{ marginHorizontal: sizes.margin * 2 }}>
+                <Text style={styles.name}>John doe</Text>
+                <Text style={styles.rank}>Gold Member</Text>
+              </View>
+            </View>
+            <FontAwesome
+              name={"chevron-right"}
+              size={sizes.icon}
+              color={colors.grey}
+            />
+          </View>
+          <FlatList
+            style={{ marginBottom: sizes.margin }}
+            data={items1}
+            renderItem={({ item }) => boxItem(item)}
+            keyExtractor={(item, index) => index}
+          />
+          <FlatList
+            style={styles.box}
+            data={items2}
+            renderItem={({ item }) => boxItem(item)}
+            keyExtractor={(item, index) => index}
+          />
+        </View>
+      </Screen>
     );
 };
 

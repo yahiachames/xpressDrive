@@ -12,7 +12,7 @@ function AppFormField({ name, width, ...otherProps }) {
     <>
       <AppTextInput
         onBlur={() => setFieldTouched(name)}
-        onChangeText={(text) => setFieldValue(name, text)}
+        onChangeText={(text) => setFieldValue(name, String(text))}
         value={values[name]}
         width={width}
         {...otherProps}

@@ -13,7 +13,7 @@ const FormListImages = ({ names }) => {
       return (
         <ImageBackground
           source={{ uri: values[item].uri }}
-          borderRadius={40}
+          borderRadius={adaptToHeight(0.01)}
           style={styles.avatar}
         />
       );
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   avatar: {
     height: adaptToWidth(0.25),
     width: adaptToWidth(0.25),
+    margin: adaptToHeight(0.02),
   },
   flatContainer: {
     flexDirection: "row",

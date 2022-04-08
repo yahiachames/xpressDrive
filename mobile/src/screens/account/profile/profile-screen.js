@@ -64,9 +64,10 @@ const ProfileScreen = () => {
           <Text style={styles.title}>Information</Text>
           <FlatList
             data={items}
-            renderItem={({ item }) => {
+            keyExtractor={(item, index) => index}
+            renderItem={({ item, index }) => {
               return (
-                <View style={styles.item}>
+                <View style={styles.item} key={index}>
                   <Text style={styles.label}>{item.label}</Text>
                   <Text style={styles.value}>{item.value}</Text>
                 </View>

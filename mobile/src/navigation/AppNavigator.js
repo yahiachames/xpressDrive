@@ -13,6 +13,7 @@ import RiderCustomDrawr from "../components/chames/RiderCustomDrawer";
 import CustomRiderHeader from "../components/CustomRiderHeader";
 import { adaptToHeight } from "../config/dimensions";
 import CustomModal from "../components/Modals/custom-modal";
+import routes from "./routes";
 
 const Drawer = createDrawerNavigator();
 
@@ -33,7 +34,7 @@ export default () => (
     }}
   >
     <Drawer.Screen
-      name="Home"
+      name={routes.HOME_RIDER}
       component={HomeNavigator}
       options={{
         headerShown: true,

@@ -28,33 +28,36 @@ const indicator = ({item}) => {
 
 const InfoPanel = () => {
     return (
-        <View style={styles.box}>
-            <View style={styles.boxHeader}>
-                <View style={styles.userInfo}>
-                    <Image source={defaultUser} style={styles.avatar}/>
-                    <View>
-                        <Text style={styles.textPrimary}>John Doe</Text>
-                        <Text style={styles.textSecondary}>Basic Level</Text>
-                    </View>
-                </View>
-                <View style={{
-                    marginBottom: sizes.margin,
-                }}>
-                    <Text style={styles.textPrimary}>$100.00</Text>
-                    <Text style={[styles.textSecondary, {alignSelf: 'flex-end'}]}>Earned</Text>
-                </View>
+      <View style={styles.box}>
+        <View style={styles.boxHeader}>
+          <View style={styles.userInfo}>
+            <Image source={defaultUser} style={styles.avatar} />
+            <View>
+              <Text style={styles.textPrimary}>John Doe</Text>
+              <Text style={styles.textSecondary}>Basic Level</Text>
             </View>
-            <View style={styles.boxFooter}>
-                <FlatList
-                    key={'#'}
-                    data={indicators}
-                    renderItem={indicator}
-                    numColumns={3}
-                    _keyExtractor={(item, index) => item.key
-                    }
-                />
-            </View>
+          </View>
+          <View
+            style={{
+              marginBottom: sizes.margin,
+            }}
+          >
+            <Text style={styles.textPrimary}>$100.00</Text>
+            <Text style={[styles.textSecondary, { alignSelf: "flex-end" }]}>
+              Earned
+            </Text>
+          </View>
         </View>
+        <View style={styles.boxFooter}>
+          <FlatList
+            key={"#"}
+            data={indicators}
+            renderItem={indicator}
+            numColumns={3}
+            keyExtractor={(item, index) => index}
+          />
+        </View>
+      </View>
     );
 };
 

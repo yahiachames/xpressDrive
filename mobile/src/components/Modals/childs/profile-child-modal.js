@@ -22,13 +22,13 @@ const ProfileChildModal = ({closeModal}) => {
     const data = profile;
 
     const initValues = {
-        username: data.user.username ? data.user.username : "",
-        firstname: data.user.firstname ? data.user.firstname : "",
-        lastname: data.user.lastname ? data.user.lastname : "",
-        gender: data.user.gender ? data.user.gender : "",
-        birthday: data.user.birthday ? data.user.birthday : "",
-        phone: data.user.phone ? data.user.phone : "",
-        email: data.user.email ? data.user.email : "",
+      username: data.user && data.user.username ? data.user.username : "",
+      firstname: data.user && data.user.firstname ? data.user.firstname : "",
+      lastname: data.user && data.user.lastname ? data.user.lastname : "",
+      gender: data.user && data.user.gender ? data.user.gender : "",
+      birthday: data.user && data.user.birthday ? data.user.birthday : "",
+      phone: data.user && data.user.phone ? data.user.phone : "",
+      email: data.user && data.user.email ? data.user.email : "",
     };
 
     const items = [

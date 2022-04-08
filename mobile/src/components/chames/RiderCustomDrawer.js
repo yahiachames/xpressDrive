@@ -38,7 +38,9 @@ const RiderCustomDrawer = (props) => {
     setShowModal(false);
   };
 
-  useEffect(() => {}, [JSON.stringify(profile)]);
+  useEffect(() => {
+    if (profile.documents) console.log(profile.documents.photo);
+  }, [JSON.stringify(profile)]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -56,7 +58,7 @@ const RiderCustomDrawer = (props) => {
                 profile
                   ? profile.documents
                     ? {
-                        uri: `data:image/jpg;base64,${profile.documents.photo.data}`,
+                        uri: `data:image/png;base64,${profile.documents.photo}`,
                       }
                     : defaultUser
                   : defaultUser

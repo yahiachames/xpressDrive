@@ -25,33 +25,40 @@ const NavOptions = () => {
     //const origin = useSelector(selectOrigin);
 
     return (
-        <FlatList
-            data={data}
-            keyExtractor={(item) => item.id}
-            horizontal
-            renderItem={({ item }) => (
-                <TouchableOpacity
-                    onPress={() => navigation.navigate(item.screen)}
-                    style={{padding: adaptToWidth(0.01), margin: adaptToWidth(0.01), width: 'auto', backgroundColor: colors.greyMedium}}
-                    /*disabled={!origin}*/
-                >
-                    <View >
-                        {/*style={!origin ? {opacity: 0.2} : null}*/}
-                        <Image
-                            style={{ width: 120, height: 120, resizeMode: "contain" }}
-                            source={{ uri: item.image }}
-                        />
-                        <Text style={{marginTop: adaptToHeight(0.01)}}>{item.title}</Text>
-                        <Icon
-                            style={{marginTop: adaptToHeight(0.01)}}
-                            name="arrow-forward"
-                            color="white"
-                            type="ion-icon"
-                        />
-                    </View>
-                </TouchableOpacity>
-            )}
-        />
+      <FlatList
+        data={data}
+        keyExtractor={({ item, index }) => index}
+        horizontal
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate(item.screen)}
+            style={{
+              padding: adaptToWidth(0.01),
+              margin: adaptToWidth(0.01),
+              width: "auto",
+              backgroundColor: colors.greyMedium,
+            }}
+            /*disabled={!origin}*/
+          >
+            <View>
+              {/*style={!origin ? {opacity: 0.2} : null}*/}
+              <Image
+                style={{ width: 120, height: 120, resizeMode: "contain" }}
+                source={{ uri: item.image }}
+              />
+              <Text style={{ marginTop: adaptToHeight(0.01) }}>
+                {item.title}
+              </Text>
+              <Icon
+                style={{ marginTop: adaptToHeight(0.01) }}
+                name="arrow-forward"
+                color="white"
+                type="ion-icon"
+              />
+            </View>
+          </TouchableOpacity>
+        )}
+      />
     );
 };
 
