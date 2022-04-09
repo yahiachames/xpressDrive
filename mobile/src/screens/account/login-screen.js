@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import * as Yup from "yup";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { colors, images, sizes } from "../../constants";
@@ -15,6 +15,8 @@ import CustomForm from "../../components/forms/Form";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import storage from "../../config/storage";
 import SocketContext from "../../context/SocketContext";
+import { ErrorMessage } from "../../components/forms";
+import { adaptToHeight } from "../../config/dimensions";
 
 const initialValues = {
   username: "",
@@ -23,8 +25,10 @@ const initialValues = {
 
 const { login1, login2 } = images;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, route }) => {
+  console.log(route, "from login");
   const { socket, setSocket } = useContext(SocketContext);
+  const [failedLogin, setFailedLogin] = useState(false);
 
   const { user, setUser } = useContext(AuthContext);
 
@@ -37,15 +41,17 @@ const LoginScreen = ({ navigation }) => {
   });
 
   const onSubmit = (values) => {
-    loginApi(values).then((res) => {
+    let pre_values = { ...values, role: route.params.role.toLowerCase() };
+    loginApi(pre_values).then((res) => {
+      console.log(res);
       if (res.ok) {
         storage.storeKey(AUTH_KEY, res.data.token);
         const user = jwt_decode(res.data.token);
-          socket.emit("joined", { id_user: user.user_id, role: user.role });
-
+        socket.emit("joined", { id_user: user.user_id, role: user.role });
 
         setUser(user);
       } else {
+        setFailedLogin(true);
         setUser(null);
       }
     });
@@ -87,12 +93,25 @@ const LoginScreen = ({ navigation }) => {
             }}
             color={colors.white}
           />
+          <ErrorMessage
+            visible={failedLogin}
+            error="incorrect username or email"
+            style={{
+              alignSelf: "center",
+              fontSize: adaptToHeight(0.02),
+              marginTop: adaptToHeight(0.01),
+            }}
+          />
         </CustomForm>
       </View>
       <View style={styles.footer}>
         <BasicButton
           title={"Forget password?"}
-          onPress={() => navigation.navigate(routes.FORGET_PASSWORD)}
+          onPress={() =>
+            navigation.navigate(routes.FORGET_PASSWORD, {
+              role: route.params.role.toLowerCase(),
+            })
+          }
           bgColor="transparent"
           type="clear"
           textColor={colors.grey}
@@ -117,7 +136,7 @@ const styles = StyleSheet.create({
     padding: sizes.padding,
   },
   image: {
-    flex: .35,
+    flex: 0.35,
     margin: -sizes.margin * 2,
     position: "relative",
   },
@@ -128,7 +147,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: sizes.width,
-    opacity: .4,
+    opacity: 0.4,
   },
   wave: {
     position: "absolute",
@@ -137,11 +156,11 @@ const styles = StyleSheet.create({
     tintColor: colors.white,
     width: sizes.width,
     right: 0,
-    left: 0
+    left: 0,
   },
   form: {
-    flex: .55,
-    justifyContent: 'center',
+    flex: 0.55,
+    justifyContent: "center",
   },
   title: {
     fontFamily: "latoMedium",
@@ -156,7 +175,7 @@ const styles = StyleSheet.create({
     borderColor: colors.greyLight,
   },
   footer: {
-    flex: .2,
+    flex: 0.2,
     justifyContent: "center",
   },
   footerText: {

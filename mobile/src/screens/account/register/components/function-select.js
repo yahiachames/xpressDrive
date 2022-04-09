@@ -61,7 +61,7 @@ export const FunctionSelect = ({name, onPress}) => {
                          bgColor={'transparent'}
                          onPress={() => {
                              if(values[name]) {
-                                 onPress()
+                                 onPress(values[name]);
                              }
                          }}
                          textStyle={[styles.buttonText, values[name] ? {color: colors.primary} : null]} title={"Next"}/>

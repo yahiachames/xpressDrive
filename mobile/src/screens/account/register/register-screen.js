@@ -26,98 +26,115 @@ const { bg } = images;
 const RegisterScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState(false);
+    const [role, setRole] = useState("");
 
     const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .label("Email")
-            .email("Enter a valid email")
-            .required("Please enter a valid email"),
-        phone: Yup.number()
-            .label("Phone")
-            .required()
-            .min(8, "Must have at least 8 numbers"),
-        password: Yup.string().min(4, "must have at least 4 charchters"),
-        username: Yup.string().min(4, "must have at least 4 charchters"),
+      email: Yup.string()
+        .label("Email")
+        .email("Enter a valid email")
+        .required("Please enter a valid email"),
+      phone: Yup.number()
+        .label("Phone")
+        .required()
+        .min(8, "Must have at least 8 numbers"),
+      password: Yup.string().min(4, "must have at least 4 charchters"),
+      username: Yup.string().min(4, "must have at least 4 charchters"),
     });
 
     const onSubmit = (values) => {
-        const pre_values = { ...values, phone: "+216" + values.phone };
-        signupApi(pre_values)
-            .then((res) => {
-                navigation.navigate(routes.LOGIN);
-            })
-            .catch((e) => console.warn(e));
+      const pre_values = { ...values, phone: "+216" + values.phone };
+      console.log(pre_values);
+      signupApi(pre_values)
+        .then((res) => {
+          navigation.navigate(routes.LOGIN, {
+            params: { role: values.role },
+          });
+        })
+        .catch((e) => console.warn(e));
     };
 
     const RegisterForm = () => {
-        const { values, setFieldValue } = useFormikContext();
-        return (
-            <>
-                <ImageBackground source={bg} resizeMode="stretch" style={styles.image}>
-                    <Text style={styles.title}>
-                        <Text style={{ fontWeight: "bold" }}>Sign up</Text>
-                        <Text> with email and phone number</Text>
-                    </Text>
-                </ImageBackground>
-                <View style={styles.form}>
-                    <View>
-                        <FormInput
-                            style={styles.input}
-                            placeholder={"username"}
-                            name={"username"}
-                        />
-                        <FormInput
-                            style={styles.input}
-                            placeholder={"name@example.com"}
-                            name={"email"}
-                        />
-                        <FormInput
-                            style={styles.input}
-                            placeholder={"password"}
-                            name={"password"}
-                        />
-                        <FormInput
-                            style={[styles.input]}
-                            placeholder={"Mobile number"}
-                            name={"phone"}
-                        />
-                        <SubmitButton
-                            title={"Sign up"}
-                            style={{ backgroundColor: colors.dark }}
-                            color={colors.white}
-                        />
-                    </View>
-                </View>
-                <View style={styles.footer}>
-                    <Text style={styles.footerText}>Already have an account?</Text>
-                    <BasicButton
-                        style={{padding: 0}}
-                        textColor={colors.black}
-                        title={"Sign In"}
-                        onPress={() => navigation.navigate(routes.LOGIN)}
-                        bgColor="transparent"
-                    />
-                </View>
-            </>
-        );
+      const { values, setFieldValue } = useFormikContext();
+      return (
+        <>
+          <ImageBackground
+            source={bg}
+            resizeMode="stretch"
+            style={styles.image}
+          >
+            <Text style={styles.title}>
+              <Text style={{ fontWeight: "bold" }}>Sign up</Text>
+              <Text> with email and phone number</Text>
+            </Text>
+          </ImageBackground>
+          <View style={styles.form}>
+            <View>
+              <FormInput
+                style={styles.input}
+                placeholder={"username"}
+                name={"username"}
+              />
+              <FormInput
+                style={styles.input}
+                placeholder={"name@example.com"}
+                name={"email"}
+              />
+              <FormInput
+                style={styles.input}
+                placeholder={"password"}
+                name={"password"}
+              />
+              <FormInput
+                style={[styles.input]}
+                placeholder={"Mobile number"}
+                name={"phone"}
+              />
+              <SubmitButton
+                title={"Sign up"}
+                style={{ backgroundColor: colors.dark }}
+                color={colors.white}
+              />
+            </View>
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Already have an account?</Text>
+            <BasicButton
+              style={{ padding: 0 }}
+              textColor={colors.black}
+              title={"Sign In"}
+              onPress={() => {
+                console.log(role);
+                navigation.navigate(routes.LOGIN, {
+                  role,
+                });
+              }}
+              bgColor="transparent"
+            />
+          </View>
+        </>
+      );
     };
 
-    const onSelectFunction = (role) => {};
+    const onSelectFunction = (role) => {
+      console.log(role);
+      setRole(role);
+      setSelected(true);
+    };
 
     return (
-        <Screen style={styles.container}>
-            <CustomForm
-                validationSchema={validationSchema}
-                initialValues={initialValues}
-                onSubmit={onSubmit}
-            >
-                {selected ? (
-                    <RegisterForm />
-                ) : (
-                    <FunctionSelect name={"role"} onPress={() => setSelected(true)} />
-                )}
-            </CustomForm>
-        </Screen>
+      <Screen style={styles.container}>
+        <CustomForm
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+        >
+          {selected ? (
+            <RegisterForm />
+          ) : (
+            <FunctionSelect name={"role"} onPress={onSelectFunction} />
+          )}
+        </CustomForm>
+      </Screen>
     );
 };
 

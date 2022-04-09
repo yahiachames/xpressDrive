@@ -87,21 +87,20 @@ const ConfirmationCode = ({name}) => {
     };
 
     return (
-        <CodeField
-            ref={ref}
-            {...props}
-            autoFocus
-            value={value}
-            onChangeText={(value) => {
-                setValue(value)
-                setFieldValue(name, value)
-            }}
-            cellCount={CELL_COUNT}
-            rootStyle={styles.codeFiledRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            renderCell={renderCell}
-        />
+      <CodeField
+        ref={ref}
+        {...props}
+        autoFocus
+        value={value}
+        onChangeText={(value) => {
+          setValue(value);
+          setFieldValue(name, value);
+        }}
+        cellCount={CELL_COUNT}
+        rootStyle={styles.codeFiledRoot}
+        textContentType="oneTimeCode"
+        renderCell={renderCell}
+      />
     );
 };
 
