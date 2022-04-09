@@ -12,11 +12,13 @@ import { io } from "socket.io-client";
 import { AUTH_KEY, SERVER_URL } from "../config/config";
 import { updateOnline } from "../controllers/DriversAPis";
 import {adaptToWidth} from "../config/dimensions";
+import ProfileContext from "../context/ProfileContext";
 
 const { defaultUser } = images;
 
 const CustomDrawer = (props) => {
   const { user, setUser } = useContext(AuthContext);
+  const { profile, setProfile } = useContext(ProfileContext);
 
   return (
     <View style={{ flex: 1 }}>
@@ -28,14 +30,14 @@ const CustomDrawer = (props) => {
           <View style={styles.user}>
             <Image source={defaultUser} style={styles.avatar} />
             <View style={{ justifyContent: "center" }}>
-              <Text style={styles.name}>John Doe</Text>
+              <Text style={styles.name}>{profile.user ? profile.user.username : 'Unknown'}</Text>
               <View style={styles.rankContainer}>
                 <Ionicons
                   name="star"
                   size={sizes.icon}
                   color={colors.secondary}
                 />
-                <Text style={styles.rank}>Gold Member</Text>
+                <Text style={styles.rank}>{profile.user &&  profile.user.rank ? profile.user.rank : 'Unranked'}</Text>
               </View>
             </View>
           </View>

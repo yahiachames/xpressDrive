@@ -5,9 +5,9 @@ import {colors, images, sizes} from "../../../../constants";
 import {adaptToHeight, adaptToWidth} from "../../../../config/dimensions";
 
 const indicators = [
-    {icon: "clockcircleo", value: "10.2", label: "Hours Online"},
-    {icon: "linechart", value: "30 KM", label: "Total Distance"},
-    {icon: "book", value: "20", label: "Total Jobs"}
+    {icon: "clockcircleo", value: "0", label: "Hours Online"},
+    {icon: "linechart", value: "0 KM", label: "Total Distance"},
+    {icon: "book", value: "0", label: "Total Jobs"}
 ]
 
 const {defaultUser} = images
@@ -26,21 +26,41 @@ const indicator = ({item}) => {
     )
 }
 
-const InfoPanel = () => {
+const InfoPanel = ({profile}) => {
+    const {user} = profile
+    let total = 0
+    if(user) {
+        const {rides} = user
+        if(rides.length) {
+            const minutes = rides.reduce(function (previousValue, currentValue) {
+                return previousValue.timestamp_per_minute + currentValue.timestamp_per_minute;
+            });
+            let hours = minutes ? minutes / 60 : 0
+            const distance = rides.reduce(function (previousValue, currentValue) {
+                return previousValue.distance_per_km + currentValue.distance_per_km;
+            });
+            total = rides.reduce(function (previousValue, currentValue) {
+                return previousValue.total_price + currentValue.total_price;
+            });
+            indicators[0].value = hours
+            indicators[1].value = distance + ' KM'
+            indicators[2].value = rides.length
+        }
+    }
     return (
         <View style={styles.box}>
             <View style={styles.boxHeader}>
                 <View style={styles.userInfo}>
                     <Image source={defaultUser} style={styles.avatar}/>
                     <View>
-                        <Text style={styles.textPrimary}>John Doe</Text>
-                        <Text style={styles.textSecondary}>Basic Level</Text>
+                        <Text style={styles.textPrimary}>{user ? user.username : 'Unknown'}</Text>
+                        <Text style={styles.textSecondary}>{user && user.rank? user.rank : "Unranked"}</Text>
                     </View>
                 </View>
                 <View style={{
                     marginBottom: sizes.margin,
                 }}>
-                    <Text style={styles.textPrimary}>$100.00</Text>
+                    <Text style={styles.textPrimary}>{total}</Text>
                     <Text style={[styles.textSecondary, {alignSelf: 'flex-end'}]}>Earned</Text>
                 </View>
             </View>
@@ -70,6 +90,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        paddingHorizontal: adaptToWidth(.025),
     },
     userInfo: {
         flexDirection: "row",

@@ -22,10 +22,13 @@ import { useDispatch } from "react-redux";
 import { setLocation } from "../../../redux/actions/location-actions";
 import { updateLocation, updateOnline } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
+import ProfileContext from "../../../context/ProfileContext";
 
 const HomeScreen = () => {
   const { socket, setSocket } = useContext(SocketContext);
   const { user, setUser } = useContext(AuthContext);
+  const { profile, setProfile } = useContext(ProfileContext);
+
   const bottomSheet = useRef(1);
   const snapPoints = useMemo(() => ["20%", "48%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
@@ -118,7 +121,7 @@ const HomeScreen = () => {
         snapPoints={snapPoints}
         onChange={handleSheetChange}
       >
-          <InfoPanel />
+          <InfoPanel profile={profile} />
       </BottomSheet>
     </Screen>
   );
