@@ -33,16 +33,16 @@ const InfoPanel = ({profile}) => {
         let {rides} = user
         if(rides) {
             rides = rides.filter(el => el.done)
-            const minutes = rides.reduce(function (previousValue, currentValue) {
-                return previousValue.timestamp_per_minute + currentValue.timestamp_per_minute;
-            });
+            const minutes = rides.reduce((previousValue, currentValue) =>
+                 previousValue.timestamp_per_minute + currentValue.timestamp_per_minut, 0
+            );
             let hours = minutes ? minutes / 60 : 0
-            const distance = rides.reduce(function (previousValue, currentValue) {
-                return previousValue.distance_per_km + currentValue.distance_per_km;
-            });
-            total = rides.reduce(function (previousValue, currentValue) {
-                return previousValue.total_price + currentValue.total_price;
-            });
+            const distance = rides.reduce((previousValue, currentValue) =>
+                previousValue.distance_per_km + currentValue.distance_per_km, 0
+            );
+            total = rides.reduce((previousValue, currentValue) =>
+                previousValue.total_price + currentValue.total_price, 0
+            );
             indicators[0].value = hours
             indicators[1].value = distance + ' KM'
             indicators[2].value = rides.length
@@ -54,7 +54,7 @@ const InfoPanel = ({profile}) => {
                 <View style={styles.userInfo}>
                     <Image source={defaultUser} style={styles.avatar}/>
                     <View>
-                        <Text style={styles.textPrimary}>{user ? user.username : 'Unknown'}</Text>
+                        <Text style={styles.textPrimary}>{user && user.fullName ? user.fullName : 'Unknown'}</Text>
                         <Text style={styles.textSecondary}>{user && user.rank? user.rank : "Unranked"}</Text>
                     </View>
                 </View>

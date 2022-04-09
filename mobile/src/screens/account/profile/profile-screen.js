@@ -12,12 +12,11 @@ const ProfileScreen = () => {
 
   const { user, documents } = profile;
 
-  console.log(user)
 
   const items = [
     {
       label: "Full name",
-      value: user ? user.fullName : "Unknown",
+      value: user && user.fullName ? user.fullName : "Unknown",
     },
     {
       label: "Phone number",
@@ -25,15 +24,15 @@ const ProfileScreen = () => {
     },
     {
       label: "Email",
-      value: user ? user.email : "",
+      value: user && user.email ? user.email : "",
     },
     {
       label: "Gender",
-      value: user ? user.gender : "Not set",
+      value: user && user.gender ? user.gender : "Not set",
     },
     {
       label: "Birthday",
-      value: user ? user.birthday : "Not set",
+      value: user && user.birthday ? user.birthday : "Not set",
     },
   ];
 

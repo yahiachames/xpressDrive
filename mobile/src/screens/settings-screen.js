@@ -1,13 +1,19 @@
 import {FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import React from "react";
+import React, {useContext} from "react";
 import {FontAwesome} from "@expo/vector-icons";
 import {colors, images, sizes} from "../constants";
 import Screen from "../components/screen";
 import {adaptToWidth} from "../config/dimensions";
 import VehicleManagementScreen from "./driver/settings/vehicle-management-screen";
 import routes from "../navigation/routes";
+import ProfileContext from "../context/ProfileContext";
+import Routes from "../navigation/routes";
 
 const SettingsScreen = ({navigation}) => {
+
+    const { profile, setProfile } = useContext(ProfileContext);
+
+    const { user, documents } = profile;
 
     const items1 = [
         {icon: 'car', name: routes.VEHICLE_MANAGEMENT, color: colors.secondary},
@@ -41,12 +47,12 @@ const SettingsScreen = ({navigation}) => {
     return (
       <Screen>
         <View style={styles.container}>
-          <View style={styles.user}>
+          <TouchableOpacity activeOpacity={.7} onPress={()=>navigation.navigate(Routes.PROFILE)} style={styles.user}>
             <View style={{ alignItems: "center", flexDirection: "row" }}>
               <Image source={defaultUser} style={styles.avatar} />
               <View style={{ marginHorizontal: sizes.margin * 2 }}>
-                <Text style={styles.name}>John doe</Text>
-                <Text style={styles.rank}>Gold Member</Text>
+                <Text style={styles.name}>{user ? user.fullName : "Unknown"}</Text>
+                <Text style={styles.rank}>{user && user.rank ? user.rank : "Unranked"}</Text>
               </View>
             </View>
             <FontAwesome
@@ -54,19 +60,23 @@ const SettingsScreen = ({navigation}) => {
               size={sizes.icon}
               color={colors.grey}
             />
-          </View>
-          <FlatList
-            style={{ marginBottom: sizes.margin }}
-            data={items1}
-            renderItem={({ item }) => boxItem(item)}
-            keyExtractor={(item, index) => index}
-          />
-          <FlatList
-            style={styles.box}
-            data={items2}
-            renderItem={({ item }) => boxItem(item)}
-            keyExtractor={(item, index) => index}
-          />
+          </TouchableOpacity>
+          <ScrollView style={{flex:.9}}>
+              <>
+                  <FlatList
+                      style={{ marginBottom: sizes.margin }}
+                      data={items1}
+                      renderItem={({ item }) => boxItem(item)}
+                      keyExtractor={(item, index) => index}
+                  />
+                  <FlatList
+                      style={styles.box}
+                      data={items2}
+                      renderItem={({ item }) => boxItem(item)}
+                      keyExtractor={(item, index) => index}
+                  />
+              </>
+          </ScrollView>
         </View>
       </Screen>
     );
@@ -76,7 +86,8 @@ export default SettingsScreen;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.light
+        backgroundColor: colors.light,
+        flex: 1
     },
     item: {
         alignItems: 'center',
@@ -102,12 +113,11 @@ const styles = StyleSheet.create({
         padding: sizes.padding
     },
     user: {
+        flex:.1,
         backgroundColor: colors.white,
         elevation: 10,
         borderBottomWidth: 1,
-        borderTopWidth: 1,
         borderBottomColor: colors.greyLight,
-        borderTopColor: colors.greyLight,
         padding: sizes.padding,
         flexDirection: "row",
         alignItems: "center",

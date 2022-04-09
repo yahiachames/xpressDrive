@@ -108,7 +108,7 @@ export default () => (
         drawerIcon: ({ color }) => (
           <Ionicons name="settings-outline" size={sizes.icon} color={color} />
         ),
-        headerShown: true,
+        headerShown: false,
       }}
     />
   </Drawer.Navigator>
