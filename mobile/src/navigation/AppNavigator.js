@@ -14,6 +14,7 @@ import CustomRiderHeader from "../components/CustomRiderHeader";
 import { adaptToHeight } from "../config/dimensions";
 import CustomModal from "../components/Modals/custom-modal";
 import routes from "./routes";
+import HistoryScreen from "../screens/riderScreens/HistoryScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -36,6 +37,17 @@ export default () => (
     <Drawer.Screen
       name={routes.HOME_RIDER}
       component={HomeNavigator}
+      options={{
+        headerShown: true,
+        header: ({ scene, previous, navigation }) => (
+          <CustomRiderHeader navigation={navigation} />
+        ),
+        headerTransparent: true,
+      }}
+    />
+    <Drawer.Screen
+      name={routes.HISORY}
+      component={HistoryScreen}
       options={{
         headerShown: true,
         header: ({ scene, previous, navigation }) => (

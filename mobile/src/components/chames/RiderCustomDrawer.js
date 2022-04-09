@@ -19,11 +19,12 @@ import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import { io } from "socket.io-client";
 import CustomModal from "../Modals/custom-modal";
 import ProfileChildModal from "../Modals/childs/profile-child-modal";
-import { adaptToHeight } from "../../config/dimensions";
+import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import { useSelector } from "react-redux";
 import { checkKeyInObject } from "../../utility/checkKeyinObject";
 import SocketContext from "../../context/SocketContext";
 import ProfileContext from "../../context/ProfileContext";
+import Avatar from "../../../assets/avatar1.svg";
 
 const { defaultUser } = images;
 
@@ -53,18 +54,7 @@ const RiderCustomDrawer = (props) => {
         />
         <View style={styles.header}>
           <View style={styles.user}>
-            <Image
-              source={
-                profile
-                  ? profile.documents
-                    ? {
-                        uri: `data:image/png;base64,${profile.documents.photo}`,
-                      }
-                    : defaultUser
-                  : defaultUser
-              }
-              style={styles.avatar}
-            />
+            <Avatar width={adaptToWidth(0.15)} height={adaptToHeight(0.15)} />
             <View style={{ justifyContent: "center" }}>
               <Text style={styles.name}>
                 {profile.user ? profile.user.username : "jhon"}

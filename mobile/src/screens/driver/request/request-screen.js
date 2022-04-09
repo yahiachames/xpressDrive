@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Screen from "../../../components/screen";
 import { colors, sizes } from "../../../constants";
@@ -8,6 +8,7 @@ import AuthContext from "../../../context/AuthContext";
 import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
 import { acceptRide, declineRide } from "../../../controllers/rideApis";
+import AppText from "../../../components/Text";
 
 const RequestScreen = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -19,7 +20,10 @@ const RequestScreen = () => {
     setLoading(true);
     getRidesPending(user.user_id)
       .then((res) => {
-        setPendingRides(res.data);
+        console.log(res.data);
+        if (res.ok) {
+          setPendingRides(res.data);
+        }
       })
       .catch((e) => console.log(e));
     setLoading(false);
@@ -42,6 +46,7 @@ const RequestScreen = () => {
   };
 
   useEffect(() => {
+    console.log(pendingRides);
     getApiPendingRides();
   }, []);
 
@@ -78,29 +83,44 @@ const RequestScreen = () => {
   if (loading) {
     return <Text>Loading ...</Text>;
   } else {
-    return (
-      <Screen>
-        <Text style={styles.alert}>You have 10 new requests.</Text>
-        <FlatList
-          data={pendingRides}
-          keyExtractor={({ index, item }) => {
-            return index;
+    if (pendingRides.length == 0) {
+      console.log(pendingRides);
+      return (
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-          renderItem={({ item }) => (
-            <RequestItem
-              distance_per_km={item.distance_per_km}
-              id={item._id}
-              total_price={item.total_price}
-              username={item.rider_id.username}
-              currentPoint={item.currentPoint.text}
-              destination={item.destination.text}
-              onAccept={handleAccept}
-              onDecline={handleDecline}
-            />
-          )}
-        />
-      </Screen>
-    );
+        >
+          <AppText style={{ color: colors.greyMedium }}>No rides found</AppText>
+        </View>
+      );
+    } else {
+      return (
+        <Screen>
+          <FlatList
+            data={pendingRides}
+            keyExtractor={({ index, item }) => {
+              return index;
+            }}
+            renderItem={({ item }) => (
+              <RequestItem
+                distance_per_km={item.distance_per_km}
+                id={item._id}
+                total_price={item.total_price}
+                username={item.rider_id.username}
+                currentPoint={item.currentPoint.text}
+                destination={item.destination.text}
+                onAccept={handleAccept}
+                onDecline={handleDecline}
+              />
+            )}
+          />
+        </Screen>
+      );
+    }
   }
 };
 
