@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: colors.white,
+    borderBottomWidth: .7,
+    borderBottomColor: colors.greyLight
   },
   title: {
     fontFamily: "latoBold",

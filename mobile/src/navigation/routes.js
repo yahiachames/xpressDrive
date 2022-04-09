@@ -9,7 +9,6 @@ export default Object.freeze({
   MAP: "Map",
   REQUESTS: "Requests",
   SETTINGS_NAVIGATION: "Settings",
-  SETTINGS: "Settingss",
   PROFILE: "Profile",
   HOME_RIDER: "Home",
   PICK_UP: "Pick Up",

@@ -12,8 +12,18 @@ const SettingStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name={routes.SETTINGS}
-        options={{ headerShown: false }}
+        name={routes.SETTINGS_NAVIGATION}
+        options={{
+            headerShown: true,
+            header: ({ scene, previous, navigation }) => (
+                <CustomHeader
+                    goBack={false}
+                    title={routes.SETTINGS_NAVIGATION}
+                    navigation={navigation}
+                    children={<View />}
+                />
+            ),
+        }}
         component={SettingsScreen}
       />
       <Stack.Screen
