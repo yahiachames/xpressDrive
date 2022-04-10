@@ -30,7 +30,7 @@ const CustomDrawer = (props) => {
           <View style={styles.user}>
             <Image source={defaultUser} style={styles.avatar} />
             <View style={{ justifyContent: "center" }}>
-              <Text style={styles.name}>{profile.user ? profile.user.username : 'Unknown'}</Text>
+              <Text style={styles.name}>{profile.user && profile.user.username ? profile.user.username : 'Unknown'}</Text>
               <View style={styles.rankContainer}>
                 <Ionicons
                   name="star"

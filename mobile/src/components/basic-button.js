@@ -19,7 +19,7 @@ function BasicButton({
 }) {
   return (
     <TouchableOpacity
-      activeOpacity={.9}
+      activeOpacity={.7}
       style={[styles.button, { backgroundColor: bgColor }, style]}
       disabled={disabled}
       onPress={onPress}

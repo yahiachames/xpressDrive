@@ -2,7 +2,7 @@ import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Screen from "../../../components/screen";
 import { colors, sizes } from "../../../constants";
-import RequestItem from "./components/requestItem";
+import RequestItem from "./components/request-Item";
 import * as Notifcations from "expo-notifications";
 import AuthContext from "../../../context/AuthContext";
 import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
@@ -20,7 +20,6 @@ const RequestScreen = () => {
     setLoading(true);
     getRidesPending(user.user_id)
       .then((res) => {
-        console.log(res.data);
         if (res.ok) {
           setPendingRides(res.data);
         }
@@ -46,7 +45,6 @@ const RequestScreen = () => {
   };
 
   useEffect(() => {
-    console.log(pendingRides);
     getApiPendingRides();
   }, []);
 
@@ -84,7 +82,6 @@ const RequestScreen = () => {
     return <Text>Loading ...</Text>;
   } else {
     if (pendingRides.length == 0) {
-      console.log(pendingRides);
       return (
         <View
           style={{

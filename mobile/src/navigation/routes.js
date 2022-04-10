@@ -19,5 +19,5 @@ export default Object.freeze({
   NOTIFICATION: "Notifications",
   TERMS_PRIVACY: "Terms & Privacy Policy",
   CONTACT_US: "Contact Us",
-  HISORY: "History",
+  HISTORY: "History",
 });
