@@ -22,7 +22,7 @@ const initValues = {
   imageName: "photo",
 };
 
-const DocumentManagement = () => {
+const DocumentManagement = ({ onCancel }) => {
   const { user, setUser } = useContext(AuthContext);
   const PicketItemCmpt = (item) => {
     console.log(item, "from item");

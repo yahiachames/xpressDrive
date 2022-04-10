@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
+import React, { useContext, useEffect } from "react";
 import ProfileContext from "../../context/ProfileContext";
-import { FlatList } from "react-native-gesture-handler";
 
 const HistoryScreen = () => {
   const { profile, setProfile } = useContext(ProfileContext);
-  const { user } = profile;
+  const { documents } = profile;
+  useEffect(() => {
+    console.log(documents.photo);
+  }, [JSON.stringify(documents)]);
+  const base64Image = documents.photo;
   return (
     <View style={styles.container}>
       <Text>No rides found</Text>
+      <Image
+        source={{ uri: `data:image/jpg;base64,${base64Image}` }}
+        style={{ width: 150, height: 150 }}
+      />
     </View>
   );
 };

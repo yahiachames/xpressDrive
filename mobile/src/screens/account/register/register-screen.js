@@ -46,8 +46,9 @@ const RegisterScreen = ({ navigation }) => {
       console.log(pre_values);
       signupApi(pre_values)
         .then((res) => {
+            console.log(res);
           navigation.navigate(routes.LOGIN, {
-            params: { role: values.role },
+            params: { role: values.role.toLowerCase() },
           });
         })
         .catch((e) => console.warn(e));
