@@ -4,12 +4,12 @@ const {width, height} = Dimensions.get("window");
 
 export default {
     // global sizes
-    tiny: 5,
-    base: 8,
-    font: 15,
-    radius: 10,
-    padding: 10,
-    margin: 10,
+    tiny: width * .02,
+    base: width * .03,
+    font: width * .04,
+    radius: width * .03,
+    padding: width * .03,
+    margin: width * .03,
 
     // input
     inputHeight: height * .08,
@@ -22,6 +22,8 @@ export default {
     h5: width * .048,
     h6: width * .042,
     h7: width * .038,
+    h8: width * .034,
+    h9: width * .032,
     input: width * .04,
     icon: width * .04,
 

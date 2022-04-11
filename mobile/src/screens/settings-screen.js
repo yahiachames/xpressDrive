@@ -51,7 +51,7 @@ const SettingsScreen = ({navigation}) => {
             <View style={{ alignItems: "center", flexDirection: "row" }}>
               <Image source={defaultUser} style={styles.avatar} />
               <View style={{ marginHorizontal: sizes.margin * 2 }}>
-                <Text style={styles.name}>{user ? user.fullName : "Unknown"}</Text>
+                <Text style={styles.name}>{user && user.fullName ? user.fullName : "Unknown"}</Text>
                 <Text style={styles.rank}>{user && user.rank ? user.rank : "Unranked"}</Text>
               </View>
             </View>

@@ -22,7 +22,7 @@ const initValues = {
   imageName: "photo",
 };
 
-const DocumentManagement = ({ onCancel }) => {
+const DocumentManagementScreen = () => {
   const { user, setUser } = useContext(AuthContext);
   const PicketItemCmpt = (item) => {
     console.log(item, "from item");
@@ -66,7 +66,6 @@ const DocumentManagement = ({ onCancel }) => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              justifyContent: "center",
               justifyContent: "space-between",
               padding: adaptToHeight(0.02),
             }}
@@ -87,6 +86,6 @@ const DocumentManagement = ({ onCancel }) => {
   );
 };
 
-export default DocumentManagement;
+export default DocumentManagementScreen;
 
 const styles = StyleSheet.create({});

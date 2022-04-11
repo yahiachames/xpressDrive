@@ -5,7 +5,7 @@ import routes from "./routes";
 import SettingsScreen from "../screens/settings-screen";
 import CustomHeader from "../components/custom-header";
 import {View} from "react-native";
-import DocumentManagement from "../screens/driver/settings/DocumentManagement";
+import DocumentManagementScreen from "../screens/driver/settings/document-management-screen";
 
 const SettingStack = () => {
   const Stack = createNativeStackNavigator();
@@ -43,7 +43,18 @@ const SettingStack = () => {
       />
       <Stack.Screen
         name={routes.DOCUMENT_MANAGEMENT}
-        component={DocumentManagement}
+        component={DocumentManagementScreen}
+        options={{
+            headerShown: true,
+            header: ({ scene, previous, navigation }) => (
+                <CustomHeader
+                    goBack={true}
+                    title={routes.DOCUMENT_MANAGEMENT}
+                    navigation={navigation}
+                    children={<View />}
+                />
+            ),
+        }}
       />
       <Stack.Screen name={routes.REVIEWS} component={VehicleManagementScreen} />
       <Stack.Screen

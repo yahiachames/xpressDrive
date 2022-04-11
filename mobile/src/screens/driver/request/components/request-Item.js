@@ -1,10 +1,8 @@
 import {Image, StyleSheet, Text, View} from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { colors, images, sizes } from "../../../../constants";
 import { adaptToHeight, adaptToWidth } from "../../../../config/dimensions";
 import BasicButton from "../../../../components/basic-button";
-import { geocodeLoc } from "../../../../utility/LocationUtility";
-import { acceptRide, declineRide } from "../../../../controllers/rideApis";
 
 const { defaultUser } = images;
 

@@ -14,6 +14,7 @@ import routes from "./routes";
 import PickUpScreen from "../screens/driver/pick-up-screen";
 import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 import SettingStack from "./settings-navigation";
+import HistoryScreen from "../screens/history/history-screen";
 
 const Drawer = createDrawerNavigator();
 
@@ -71,7 +72,7 @@ export default () => (
       component={RequestScreen}
       options={{
         drawerIcon: ({ color }) => (
-          <Ionicons name="git-pull-request" size={sizes.icon} color={color} />
+          <Ionicons name="newspaper-outline" size={sizes.icon} color={color} />
         ),
         headerShown: true,
         header: ({ scene, previous, navigation }) => (
@@ -88,7 +89,7 @@ export default () => (
       component={PickUpScreen}
       options={{
         drawerIcon: ({ color }) => (
-          <Ionicons name="git-pull-request" size={sizes.icon} color={color} />
+          <Ionicons name="navigate-sharp" size={sizes.icon} color={color} />
         ),
         headerShown: true,
         header: ({ scene, previous, navigation }) => (
@@ -100,6 +101,24 @@ export default () => (
           />
         ),
       }}
+    />
+    <Drawer.Screen
+        name={routes.HISTORY}
+        component={HistoryScreen}
+        options={{
+              drawerIcon: ({ color }) => (
+                  <Ionicons name="md-hourglass-outline" size={sizes.icon} color={color} />
+              ),
+              headerShown: true,
+              header: ({ scene, previous, navigation }) => (
+                  <CustomHeader
+                      goBack={true}
+                      title={routes.HISTORY}
+                      navigation={navigation}
+                      children={<View />}
+                  />
+              ),
+          }}
     />
     <Drawer.Screen
       name={routes.SETTINGS_NAVIGATION}

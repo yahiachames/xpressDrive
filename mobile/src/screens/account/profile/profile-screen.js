@@ -52,10 +52,10 @@ const ProfileScreen = () => {
           />
           <View>
             <Text style={styles.name}>
-              {user.fullName ? user.fullName : "Unknown"}
+              {user && user.fullName ? user.fullName : "Unknown"}
             </Text>
             <Text style={styles.rank}>
-              {user.rank ? user.rank : "Unranked"}
+              {user && user.rank ? user.rank : "Unranked"}
             </Text>
           </View>
         </View>
