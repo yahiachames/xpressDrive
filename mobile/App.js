@@ -15,7 +15,7 @@ const App = () => {
   const token = useNotifcations();
   const socketiNITI = io(SERVER_URL);
   const [socket, setSocket] = useState(socketiNITI);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState(null);
 
   const [user, setUser] = useState(null);
   useEffect(() => {

@@ -4,58 +4,60 @@ import Screen from "../../../components/screen";
 import { colors, images, sizes } from "../../../constants";
 import { adaptToHeight, adaptToWidth } from "../../../config/dimensions";
 import ProfileContext from "../../../context/ProfileContext";
+import AuthContext from "../../../context/AuthContext";
+import useImage from "../../../hooks/useImage";
 
 const { defaultUser } = images;
 
 const ProfileScreen = () => {
   const { profile, setProfile } = useContext(ProfileContext);
+  const { user, setUser } = useContext(AuthContext);
 
-  const { user, documents } = profile;
+  const currentUser = user.profile.user;
+  const currentDocuments = user.profile.documents;
+  const img = useImage(currentDocuments.photo);
 
+  useEffect(() => {}, [img]);
 
   const items = [
     {
       label: "Full name",
-      value: user && user.fullName ? user.fullName : "Unknown",
+      value:
+        currentUser && currentUser.fullName ? currentUser.fullName : "Unknown",
     },
     {
       label: "Phone number",
-      value: user ? user.phone : "",
+      value: currentUser ? currentUser.phone : "",
     },
     {
       label: "Email",
-      value: user && user.email ? user.email : "",
+      value: currentUser && currentUser.email ? currentUser.email : "",
     },
     {
       label: "Gender",
-      value: user && user.gender ? user.gender : "Not set",
+      value: currentUser && currentUser.gender ? currentUser.gender : "Not set",
     },
     {
       label: "Birthday",
-      value: user && user.birthday ? user.birthday : "Not set",
+      value:
+        currentUser && currentUser.birthday ? currentUser.birthday : "Not set",
     },
   ];
 
-  if (user)
+  if (currentUser)
     return (
       <Screen>
         <View style={styles.user}>
           <Image
-            source={
-              documents.photo
-                ? {
-                    uri: `data:image/png;base64,${documents.photo[1]}`,
-                  }
-                : defaultUser
-            }
+            source={currentDocuments.photo ? img : defaultUser}
             style={styles.avatar}
           />
           <View>
             <Text style={styles.name}>
-              {user && user.fullName ? user.fullName : "Unknown"}
+              {currentUser?.username ? currentUser.fullname : "Unknown"}
             </Text>
             <Text style={styles.rank}>
-              {user && user.rank ? user.rank : "Unranked"}
+              {currentUser && currentUser.rank ? currentUser.rank : "Unranked"}
             </Text>
           </View>
         </View>
@@ -76,7 +78,7 @@ const ProfileScreen = () => {
         </View>
       </Screen>
     );
-  else return <View/>;
+  else return <View />;
 };
 
 export default ProfileScreen;

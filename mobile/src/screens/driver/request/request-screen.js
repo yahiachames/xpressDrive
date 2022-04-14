@@ -15,10 +15,11 @@ const RequestScreen = () => {
   const [pendingRides, setPendingRides] = useState([]);
   const [loading, setLoading] = useState(false);
   const { socket, setSocket } = useContext(SocketContext);
+  const user_id = user.profile.user._id;
 
   const getApiPendingRides = () => {
     setLoading(true);
-    getRidesPending(user.user_id)
+    getRidesPending(user_id)
       .then((res) => {
         if (res.ok) {
           setPendingRides(res.data);

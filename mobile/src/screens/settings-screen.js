@@ -8,78 +8,109 @@ import VehicleManagementScreen from "./driver/settings/vehicle-management-screen
 import routes from "../navigation/routes";
 import ProfileContext from "../context/ProfileContext";
 import Routes from "../navigation/routes";
+import AuthContext from "../context/AuthContext";
+import useImage from "../hooks/useImage";
 
-const SettingsScreen = ({navigation}) => {
+const SettingsScreen = ({ navigation }) => {
+  const { user, setUser } = useContext(AuthContext);
+  const currentUser = user.profile.user;
+  const currentDocuments = user.profile.documents;
 
-    const { profile, setProfile } = useContext(ProfileContext);
+  const items1 = [
+    { icon: "car", name: routes.VEHICLE_MANAGEMENT, color: colors.secondary },
+    { icon: "vcard", name: routes.DOCUMENT_MANAGEMENT, color: colors.primary },
+    { icon: "star", name: routes.REVIEWS, color: colors.yellow },
+    { icon: "globe", name: routes.LANGUAGE, color: colors.blue },
+  ];
 
-    const { user, documents } = profile;
+  const items2 = [
+    { icon: "bell", name: routes.NOTIFICATION, color: colors.blueLight },
+    { icon: "gavel", name: routes.TERMS_PRIVACY, color: colors.greyMedium },
+    { icon: "question-circle-o", name: routes.CONTACT_US, color: colors.pink },
+  ];
 
-    const items1 = [
-        {icon: 'car', name: routes.VEHICLE_MANAGEMENT, color: colors.secondary},
-        {icon: 'vcard', name: routes.DOCUMENT_MANAGEMENT, color: colors.primary},
-        {icon: 'star', name: routes.REVIEWS, color: colors.yellow},
-        {icon: 'globe', name: routes.LANGUAGE, color: colors.blue}
-    ]
+  const { defaultUser } = images;
 
-    const items2 = [
-        {icon: 'bell', name: routes.NOTIFICATION, color: colors.blueLight},
-        {icon: 'gavel', name: routes.TERMS_PRIVACY, color: colors.greyMedium},
-        {icon: 'question-circle-o', name: routes.CONTACT_US, color: colors.pink},
-    ]
-
-    const {defaultUser} = images
-
-    const boxItem = (item) => {
-        return (
-            <TouchableOpacity style={styles.item} activeOpacity={.8}
-                              onPress={() => navigation.navigate(item.name)}>
-                <View style={[styles.textContainer]}>
-                    <FontAwesome name={item.icon} size={sizes.icon} color={colors.white}
-                                 style={[styles.icon, {backgroundColor: item.color}]}/>
-                    <Text style={styles.text}>{item.name}</Text>
-                </View>
-                <FontAwesome name={"chevron-right"} size={sizes.icon} color={colors.grey}/>
-            </TouchableOpacity>
-        )
-    }
-
+  const boxItem = (item) => {
     return (
-      <Screen>
-        <View style={styles.container}>
-          <TouchableOpacity activeOpacity={.7} onPress={()=>navigation.navigate(Routes.PROFILE)} style={styles.user}>
-            <View style={{ alignItems: "center", flexDirection: "row" }}>
-              <Image source={defaultUser} style={styles.avatar} />
-              <View style={{ marginHorizontal: sizes.margin * 2 }}>
-                <Text style={styles.name}>{user && user.fullName ? user.fullName : "Unknown"}</Text>
-                <Text style={styles.rank}>{user && user.rank ? user.rank : "Unranked"}</Text>
-              </View>
-            </View>
-            <FontAwesome
-              name={"chevron-right"}
-              size={sizes.icon}
-              color={colors.grey}
-            />
-          </TouchableOpacity>
-          <ScrollView style={{flex:.9}}>
-              <>
-                  <FlatList
-                      style={{ marginBottom: sizes.margin }}
-                      data={items1}
-                      renderItem={({ item }) => boxItem(item)}
-                      keyExtractor={(item, index) => index}
-                  />
-                  <FlatList
-                      style={styles.box}
-                      data={items2}
-                      renderItem={({ item }) => boxItem(item)}
-                      keyExtractor={(item, index) => index}
-                  />
-              </>
-          </ScrollView>
+      <TouchableOpacity
+        style={styles.item}
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate(item.name)}
+      >
+        <View style={[styles.textContainer]}>
+          <FontAwesome
+            name={item.icon}
+            size={sizes.icon}
+            color={colors.white}
+            style={[styles.icon, { backgroundColor: item.color }]}
+          />
+          <Text style={styles.text}>{item.name}</Text>
         </View>
-      </Screen>
+        <FontAwesome
+          name={"chevron-right"}
+          size={sizes.icon}
+          color={colors.grey}
+        />
+      </TouchableOpacity>
     );
+  };
+
+  return (
+    <Screen>
+      <View style={styles.container}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate(Routes.PROFILE)}
+          style={styles.user}
+        >
+          <View style={{ alignItems: "center", flexDirection: "row" }}>
+            <Image
+              source={
+                currentDocuments.photo
+                  ? useImage(currentDocuments.photo)
+                  : defaultUser
+              }
+              style={styles.avatar}
+            />
+            <View style={{ marginHorizontal: sizes.margin * 2 }}>
+              <Text style={styles.name}>
+                {currentUser && currentUser.username
+                  ? currentUser.username
+                  : "Unknown"}
+              </Text>
+              <Text style={styles.rank}>
+                {currentUser && currentUser.rank
+                  ? currentUser.rank
+                  : "Unranked"}
+              </Text>
+            </View>
+          </View>
+          <FontAwesome
+            name={"chevron-right"}
+            size={sizes.icon}
+            color={colors.grey}
+          />
+        </TouchableOpacity>
+        <ScrollView style={{ flex: 0.9 }}>
+          <>
+            <FlatList
+              style={{ marginBottom: sizes.margin }}
+              data={items1}
+              renderItem={({ item }) => boxItem(item)}
+              keyExtractor={(item, index) => index}
+            />
+            <FlatList
+              style={styles.box}
+              data={items2}
+              renderItem={({ item }) => boxItem(item)}
+              keyExtractor={(item, index) => index}
+            />
+          </>
+        </ScrollView>
+      </View>
+    </Screen>
+  );
 };
 
 export default SettingsScreen;

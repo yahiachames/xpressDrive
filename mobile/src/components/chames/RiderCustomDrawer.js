@@ -25,11 +25,13 @@ import { checkKeyInObject } from "../../utility/checkKeyinObject";
 import SocketContext from "../../context/SocketContext";
 import ProfileContext from "../../context/ProfileContext";
 import Avatar from "../../../assets/avatar1.svg";
+import { updateOnline } from "../../controllers/DriversAPis";
 
 const { defaultUser } = images;
 
 const RiderCustomDrawer = (props) => {
   const { user, setUser } = useContext(AuthContext);
+
   const [showModal, setShowModal] = useState(false);
   // const [profile, setProfile] = useState({});
   const { profile, setProfile } = useContext(ProfileContext);
@@ -40,7 +42,7 @@ const RiderCustomDrawer = (props) => {
   };
 
   useEffect(() => {
-    if (profile.documents) console.log(profile.documents.photo);
+    // if (profile.documents) console.log(profile.documents.photo);
   }, [JSON.stringify(profile)]);
 
   return (
@@ -57,7 +59,7 @@ const RiderCustomDrawer = (props) => {
             <Avatar width={adaptToWidth(0.15)} height={adaptToHeight(0.15)} />
             <View style={{ justifyContent: "center" }}>
               <Text style={styles.name}>
-                {profile.user ? profile.user.username : "jhon"}
+                {profile?.user?.username ? profile.user.username : "unKnown"}
               </Text>
             </View>
             <TouchableOpacity
@@ -96,8 +98,17 @@ const RiderCustomDrawer = (props) => {
         <TouchableOpacity
           onPress={() => {
             socket.emit("deconnect", { id_user: user.sub });
-            storage.removeKey(AUTH_KEY);
-            setUser(null);
+            updateOnline(false, user.user_id)
+              .then((res) => {
+                storage
+                  .removeKey(AUTH_KEY)
+                  .then((res) => {
+                    setProfile(null);
+                    setUser(null);
+                  })
+                  .catch((e) => console.log(e));
+              })
+              .catch((e) => console.log(e));
           }}
           style={{ paddingVertical: sizes.padding }}
         >

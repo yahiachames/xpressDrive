@@ -12,7 +12,7 @@ import { addCar } from "../../../controllers/carApis";
 const initValues = {
   serial_number: "",
   marque: "",
-  chv: 0,
+  chv: "",
   air_conditioner: false,
   heating: false,
   level: "normal",
@@ -28,6 +28,7 @@ const imageNames = [];
 
 const VehicleManagementChildModal = ({ onCancel }) => {
   const { user, setUser } = useContext(AuthContext);
+  const id = user.profile.user._id;
   const PicketItemCmpt = (item) => {
     console.log(item, "from item");
     return (
@@ -54,8 +55,7 @@ const VehicleManagementChildModal = ({ onCancel }) => {
     formdata.append("visite", pre_values.visite);
     formdata.append("assurance", pre_values.assurance);
 
-    console.log(pre_values, "from submit", user.user_id);
-    addCar(user.user_id, formdata)
+    addCar(id, formdata)
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };

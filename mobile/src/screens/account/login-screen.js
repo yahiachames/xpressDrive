@@ -5,18 +5,16 @@ import { colors, images, sizes } from "../../constants";
 import Screen from "../../components/screen";
 import BasicButton from "../../components/basic-button";
 import routes from "../../navigation/routes";
-import jwt_decode from "jwt-decode";
-import AuthContext from "../../context/AuthContext";
+
 import { loginApi } from "../../controllers/userApis";
-import { io, Socket } from "socket.io-client";
+
 import FormInput from "../../components/forms/form-input";
 import SubmitButton from "../../components/forms/submit-button";
 import CustomForm from "../../components/forms/Form";
-import { AUTH_KEY, SERVER_URL } from "../../config/config";
-import storage from "../../config/storage";
-import SocketContext from "../../context/SocketContext";
+
 import { ErrorMessage } from "../../components/forms";
 import { adaptToHeight } from "../../config/dimensions";
+import useAuth from "../../hooks/useAuth";
 
 const initialValues = {
   username: "",
@@ -26,11 +24,8 @@ const initialValues = {
 const { login1, login2 } = images;
 
 const LoginScreen = ({ navigation, route }) => {
-  console.log(route, "from login");
-  const { socket, setSocket } = useContext(SocketContext);
   const [failedLogin, setFailedLogin] = useState(false);
-
-  const { user, setUser } = useContext(AuthContext);
+  const { logIn } = useAuth();
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().label("Username").required(),
@@ -45,14 +40,9 @@ const LoginScreen = ({ navigation, route }) => {
     loginApi(pre_values).then((res) => {
       console.log(res);
       if (res.ok) {
-        storage.storeKey(AUTH_KEY, res.data.token);
-        const user = jwt_decode(res.data.token);
-        socket.emit("joined", { id_user: user.user_id, role: user.role });
-
-        setUser(user);
+        logIn(res.data.token);
       } else {
         setFailedLogin(true);
-        setUser(null);
       }
     });
   };

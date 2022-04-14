@@ -21,7 +21,6 @@ const CustomChooseDest = () => {
 
     setTimeout(() => {
       axios.get(`https://photon.komoot.io/api/?q=${value}`).then((res) => {
-        console.log(res.data.features.map((el) => el.properties));
         return setSearchData(res.data.features.map((el) => el.properties.name));
       });
     }, 500);

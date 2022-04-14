@@ -24,6 +24,7 @@ const initValues = {
 
 const DocumentManagementScreen = () => {
   const { user, setUser } = useContext(AuthContext);
+  const id = user.profile.user._id;
   const PicketItemCmpt = (item) => {
     console.log(item, "from item");
     return (
@@ -42,7 +43,7 @@ const DocumentManagementScreen = () => {
     formdata.append("permis", pre_values.permis);
 
     console.log(pre_values, "from submit", user.user_id);
-    updateDoc(user.user_id, formdata)
+    updateDoc(id, formdata)
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };

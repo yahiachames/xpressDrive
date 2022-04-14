@@ -17,111 +17,114 @@ const ProfileChildModal = ({closeModal}) => {
 
     const {user, setUser} = useContext(AuthContext);
 
-    const { profile, setProfile } = useContext(ProfileContext);
+    const { profile } = user;
 
     const data = profile;
+    const id = user.profile.user._id;
 
     const initValues = {
-      username: data.user && data.user.username ? data.user.username : "",
-      firstname: data.user && data.user.firstname ? data.user.firstname : "",
-      lastname: data.user && data.user.lastname ? data.user.lastname : "",
-      gender: data.user && data.user.gender ? data.user.gender : "",
-      birthday: data.user && data.user.birthday ? data.user.birthday : "",
-      phone: data.user && data.user.phone ? data.user.phone : "",
-      email: data.user && data.user.email ? data.user.email : "",
+      username: data?.user?.username ? data.user.username : "",
+      firstname: data?.user?.firstname ? data.user.firstname : "",
+      lastname: data?.user?.lastname ? data.user.lastname : "",
+      gender: data?.user?.gender ? data.user.gender : "",
+      birthday: data?.user?.birthday ? data.user.birthday : "",
+      phone: data?.user?.phone ? data.user.phone : "",
+      email: data?.user?.email ? data.user.email : "",
     };
 
     const items = [
-        {
-            name: 'username',
-            label: 'Username',
-            disabled: true
-        },
-        {
-            name: 'email',
-            label: 'Email',
-            disabled: true
-        },
-        {
-            name: 'phone',
-            label: 'Phone Number',
-            disabled: false
-        },
-        {
-            name: 'gender',
-            label: 'Gender',
-            disabled: false
-        },
-        {
-            name: 'birthday',
-            label: 'Birthday',
-            disabled: false
-        }
-    ]
+      {
+        name: "username",
+        label: "Username",
+        disabled: true,
+      },
+      {
+        name: "email",
+        label: "Email",
+        disabled: true,
+      },
+      {
+        name: "phone",
+        label: "Phone Number",
+        disabled: false,
+      },
+      {
+        name: "gender",
+        label: "Gender",
+        disabled: false,
+      },
+      {
+        name: "birthday",
+        label: "Birthday",
+        disabled: false,
+      },
+    ];
 
     const validationSchema = Yup.object({
-        lastname: Yup.string().label("Lastname").required(),
-        firstname: Yup.string().label("Firstname").required(),
-        username: Yup.string().label("username"),
-        email: Yup.string().email().label("Email"),
-        phone: Yup.number().min(8).label("Phone Number"),
-        gender: Yup.string().label("Gender"),
-        birthDay: Yup.string().label("BirthDay"),
+      lastname: Yup.string().label("Lastname").required(),
+      firstname: Yup.string().label("Firstname").required(),
+      username: Yup.string().label("username"),
+      email: Yup.string().email().label("Email"),
+      phone: Yup.number().min(8).label("Phone Number"),
+      gender: Yup.string().label("Gender"),
+      birthDay: Yup.string().label("BirthDay"),
     });
 
-    const {defaultUser} = images;
+    const { defaultUser } = images;
 
     const [image, setImage] = useState(null);
 
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-        if (!result.cancelled) {
-            setImage(result);
-        }
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setImage(result);
+      }
     };
 
     const handleSubmit = (initValues) => {
-        const formData = new FormData();
-        if (image) {
-            let formatImage = {
-                name: image.uri.split("/")[image.uri.split("/").length - 1],
-                uri: image.uri,
-                type:
-                    "image/" +
-                    image.uri.split("/")[image.uri.split("/").length - 1].split(".")[
-                    image.uri.split("/")[image.uri.split("/").length - 1].split(".")
-                        .length - 1
-                        ],
-            };
-            formData.append("photo", formatImage);
-        }
-        formData.append("username", initValues.username);
-        formData.append("firstName", initValues.firstName);
-        formData.append("lastName", initValues.lastName);
-        formData.append("email", initValues.email);
-        formData.append("phone", initValues.phone);
-        formData.append("gender", initValues.gender);
-        formData.append("birthDay", initValues.birthDay);
-        if (user.role === "driver") {
-            updateDriverProfile(user.user_id, formData)
-                .then((res) => {
-                    closeModal();
-                })
-                .catch((e) => console.log(e));
-        } else {
-            updateRiderProfile(user.user_id, formData)
-                .then((res) => {
-                    closeModal();
-                })
-                .catch((e) => console.log(e));
-        }
-        closeModal();
+      console.log(initValues);
+      const formData = new FormData();
+      if (image) {
+        let formatImage = {
+          name: image.uri.split("/")[image.uri.split("/").length - 1],
+          uri: image.uri,
+          type:
+            "image/" +
+            image.uri.split("/")[image.uri.split("/").length - 1].split(".")[
+              image.uri.split("/")[image.uri.split("/").length - 1].split(".")
+                .length - 1
+            ],
+        };
+        formData.append("photo", formatImage);
+      }
+      formData.append("username", initValues.username);
+      formData.append("firstName", initValues.firstname);
+      formData.append("lastName", initValues.lastname);
+      formData.append("email", initValues.email);
+      formData.append("phone", initValues.phone);
+      formData.append("gender", initValues.gender);
+      formData.append("birthDay", initValues.birthDay);
+      if (user.role === "driver") {
+        updateDriverProfile(id, formData)
+          .then((res) => {
+            console.log(res);
+            closeModal();
+          })
+          .catch((e) => console.log(e));
+      } else {
+        updateRiderProfile(id, formData)
+          .then((res) => {
+            closeModal();
+          })
+          .catch((e) => console.log(e));
+      }
+      closeModal();
     };
 
     return (

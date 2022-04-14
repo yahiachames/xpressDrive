@@ -11,12 +11,19 @@ import HistoryItem from "./components/history-item";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import { imageUri } from "../../config/imageUri";
 import Storage from "../../config/storage";
+import useImage from "../../hooks/useImage";
+import AuthContext from "../../context/AuthContext";
 
 const HistoryScreen = () => {
-  const { profile, setProfile } = useContext(ProfileContext);
-  const { user } = profile;
+  const { user, setUser } = useContext(AuthContext);
+  const { profile } = user;
+  const currentUser = profile.user;
+  const currentDocument = profile.documents;
   const [token, setToken] = useState(null);
+  const img = useImage(currentDocument.photo);
 
+  // useEffect(() => {}, [img]);
+  console.log(currentDocument);
   let rides = [
     {
       distance: "5.2",
@@ -30,16 +37,6 @@ const HistoryScreen = () => {
       },
     },
   ];
-  const getToken = async () => {
-    Storage.getKey(AUTH_KEY)
-      .then((res) => setToken(res))
-      .catch((e) => console.log(e));
-  };
-  useEffect(() => {
-    if (profile.documents)
-      console.log(imageUri(`${SERVER_URL}uploads/${profile.documents.photo}`));
-    getToken();
-  }, [JSON.stringify(profile), token]);
 
   return (
     <Screen
@@ -47,23 +44,15 @@ const HistoryScreen = () => {
         backgroundColor: colors.light,
       }}
     >
-      <Image
-        source={
-          profile.documents
-            ? imageUri(`${SERVER_URL}uploads/${profile.documents.photo}`, token)
-            : { uri: "" }
-        }
-        style={{ width: 150, height: 150 }}
-      />
       <View style={{ flex: 0.2 }}>
         <AppText style={styles.filterLabel}>Sort By</AppText>
         <HistoryFilter />
       </View>
       <View style={{ flex: 0.2 }}>
-        <HistoryMetric user={user} />
+        <HistoryMetric user={currentUser} />
       </View>
       <View style={{ flex: 0.6 }}>
-        {user && user.rides && !user.rides.length ? (
+        {currentUser && currentUser.rides && !currentUser.rides.length ? (
           <FlatList
             data={rides}
             renderItem={({ item }) => <HistoryItem item={item} />}

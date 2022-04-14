@@ -103,22 +103,26 @@ export default () => (
       }}
     />
     <Drawer.Screen
-        name={routes.HISTORY}
-        component={HistoryScreen}
-        options={{
-              drawerIcon: ({ color }) => (
-                  <Ionicons name="md-hourglass-outline" size={sizes.icon} color={color} />
-              ),
-              headerShown: true,
-              header: ({ scene, previous, navigation }) => (
-                  <CustomHeader
-                      goBack={true}
-                      title={routes.HISTORY}
-                      navigation={navigation}
-                      children={<View />}
-                  />
-              ),
-          }}
+      name={routes.HISTORY}
+      component={HistoryScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons
+            name="md-hourglass-outline"
+            size={sizes.icon}
+            color={color}
+          />
+        ),
+        headerShown: true,
+        header: ({ scene, previous, navigation }) => (
+          <CustomHeader
+            goBack={true}
+            title={routes.HISTORY}
+            navigation={navigation}
+            children={<View />}
+          />
+        ),
+      }}
     />
     <Drawer.Screen
       name={routes.SETTINGS_NAVIGATION}

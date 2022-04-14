@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   DrawerContentScrollView,
@@ -11,14 +11,18 @@ import storage from "../config/storage";
 import { io } from "socket.io-client";
 import { AUTH_KEY, SERVER_URL } from "../config/config";
 import { updateOnline } from "../controllers/DriversAPis";
-import {adaptToWidth} from "../config/dimensions";
+import { adaptToWidth } from "../config/dimensions";
 import ProfileContext from "../context/ProfileContext";
+import useAuth from "../hooks/useAuth";
+import useImage from "../hooks/useImage";
 
 const { defaultUser } = images;
 
 const CustomDrawer = (props) => {
   const { user, setUser } = useContext(AuthContext);
-  const { profile, setProfile } = useContext(ProfileContext);
+  const { profile } = user;
+  const { logOut } = useAuth();
+  const img = useImage(profile.documents.photo);
 
   return (
     <View style={{ flex: 1 }}>
@@ -28,16 +32,23 @@ const CustomDrawer = (props) => {
       >
         <View style={styles.header}>
           <View style={styles.user}>
-            <Image source={defaultUser} style={styles.avatar} />
+            <Image
+              source={profile?.documents?.photo ? img : defaultUser}
+              style={styles.avatar}
+            />
             <View style={{ justifyContent: "center" }}>
-              <Text style={styles.name}>{profile.user && profile.user.username ? profile.user.username : 'Unknown'}</Text>
+              <Text style={styles.name}>
+                {profile?.user?.username ? profile.user.username : "Unknown"}
+              </Text>
               <View style={styles.rankContainer}>
                 <Ionicons
                   name="star"
                   size={sizes.icon}
                   color={colors.secondary}
                 />
-                <Text style={styles.rank}>{profile.user &&  profile.user.rank ? profile.user.rank : 'Unranked'}</Text>
+                <Text style={styles.rank}>
+                  {profile?.user?.rank ? profile.user.rank : "Unranked"}
+                </Text>
               </View>
             </View>
           </View>
@@ -71,9 +82,7 @@ const CustomDrawer = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={async () => {
-            await updateOnline(false, user.user_id);
-            await storage.removeKey(AUTH_KEY);
-            setUser(null);
+            logOut();
           }}
           style={{ paddingVertical: sizes.padding }}
         >
@@ -99,8 +108,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   avatar: {
-    height: adaptToWidth(.2),
-    width: adaptToWidth(.2),
+    height: adaptToWidth(0.2),
+    width: adaptToWidth(0.2),
     borderRadius: 40,
     marginBottom: sizes.margin,
     borderWidth: 2,
