@@ -36,7 +36,9 @@ const LoginScreen = ({ navigation, route }) => {
   });
 
   const onSubmit = (values) => {
+    console.log(route.params, "route");
     let pre_values = { ...values, role: route.params.role.toLowerCase() };
+    console.log(pre_values);
     loginApi(pre_values).then((res) => {
       console.log(res);
       if (res.ok) {

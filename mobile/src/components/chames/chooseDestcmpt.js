@@ -82,7 +82,7 @@ const ChoseDestCmpt = ({ navigation }) => {
 
     setTimeout(() => {
       axios
-        .get(`https://photon.komoot.io/api/?q=tunisie + ${value}`)
+        .get(`https://photon.komoot.io/api/?q=tunisie ${value}`)
         .then((res) => {
           return setSearchData(res.data.features.map((el) => el));
         });
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   },
   view8: {
     marginLeft: adaptToWidth(0.01),
-    top: adaptToHeight(0.03),
+    top: adaptToHeight(0.07),
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     margin: adaptToHeight(0.01),
     borderRadius: 0,
     backgroundColor: colors.light,
-    height: adaptToHeight(0.1),
+    height: 60,
     alignSelf: "center",
     backgroundColor: colors.light,
     borderRadius: adaptToHeight(0.01),

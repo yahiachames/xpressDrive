@@ -66,10 +66,9 @@ export default function RequestScreen({ navigation, route }) {
   let isActive = bottomsheet1?.current?.isActive();
   const bottomsheet1 = useRef(null);
   const { user, setUser } = useContext(AuthContext);
-  const id = user.user_id;
+  const id = user.profile.user_id;
   const locationstate = useSelector((state) => state.location);
   const origin = useSelector((state) => state.location.currentPoint);
-  const RideId = useSelector((state) => state.RideId.id);
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState(null);

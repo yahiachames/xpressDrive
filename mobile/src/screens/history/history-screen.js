@@ -22,7 +22,6 @@ const HistoryScreen = () => {
   const [token, setToken] = useState(null);
   const img = useImage(currentDocument.photo);
 
-  // useEffect(() => {}, [img]);
   console.log(currentDocument);
   let rides = [
     {

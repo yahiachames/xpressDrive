@@ -3,57 +3,83 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 // components
 import CustomDrawerContent from "../components/custom-drawer";
-
 import { colors, sizes } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
 
 import CustomHeader from "../components/custom-header";
-import HomeNavigator from "./home-rider";
-import RiderCustomDrawr from "../components/chames/RiderCustomDrawer";
-import CustomRiderHeader from "../components/CustomRiderHeader";
-import { adaptToHeight } from "../config/dimensions";
-import CustomModal from "../components/Modals/custom-modal";
+import { View } from "react-native";
 import routes from "./routes";
+import ProfileScreen from "../screens/account/profile/profile-screen";
+import HomeNavigator from "./home-rider";
+import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 import HistoryScreen from "../screens/history/history-screen";
 
 const Drawer = createDrawerNavigator();
 
 export default () => (
   <Drawer.Navigator
-    drawerContent={RiderCustomDrawr}
+    drawerContent={CustomDrawerContent}
     screenOptions={{
       headerShown: false,
-
+      drawerActiveBackgroundColor: colors.primary,
       drawerActiveTintColor: colors.white,
-      drawerInactiveTintColor: colors.white,
+      drawerInactiveTintColor: colors.black,
       drawerLabelStyle: {
+        marginLeft: -25,
         fontFamily: "latoMedium",
-        fontSize: adaptToHeight(0.025),
-        margin: 5,
-        color: colors.black,
+        fontSize: sizes.font,
       },
     }}
   >
     <Drawer.Screen
-      name={routes.HOME_RIDER}
+      name={routes.HOME}
       component={HomeNavigator}
       options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons name="home-outline" size={sizes.icon} color={color} />
+        ),
         headerShown: true,
         header: ({ scene, previous, navigation }) => (
-          <CustomRiderHeader navigation={navigation} />
+          <CustomHeader
+            title={"Offline"}
+            navigation={navigation}
+            children={<View />}
+          />
         ),
-        headerTransparent: true,
+      }}
+    />
+    <Drawer.Screen
+      name={routes.PROFILE}
+      component={ProfileScreen}
+      options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons name="person-outline" size={sizes.icon} color={color} />
+        ),
+        headerShown: true,
+        header: ({ scene, previous, navigation }) => (
+          <CustomHeader
+            goBack={true}
+            children={<ProfileNavigation />}
+            navigation={navigation}
+          />
+        ),
       }}
     />
     <Drawer.Screen
       name={routes.HISTORY}
       component={HistoryScreen}
       options={{
+        drawerIcon: ({ color }) => (
+          <Ionicons name="person-outline" size={sizes.icon} color={color} />
+        ),
         headerShown: true,
         header: ({ scene, previous, navigation }) => (
-          <CustomRiderHeader navigation={navigation} />
+          <CustomHeader
+            goBack={true}
+            children={<View />}
+            navigation={navigation}
+          />
         ),
-        headerTransparent: true,
       }}
     />
   </Drawer.Navigator>

@@ -11,7 +11,11 @@ const HomeNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={routes.HOME} component={HomeScreen} />
-      <Stack.Screen name={routes.REQUESTS} component={RequestScreen} />
+      <Stack.Screen
+        name={routes.REQUESTS}
+        options={{ headerShown: true }}
+        component={RequestScreen}
+      />
     </Stack.Navigator>
   );
 };

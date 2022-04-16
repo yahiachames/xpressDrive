@@ -10,48 +10,40 @@ import {
 } from "react-native";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import { colors } from "../../constants";
-
 import * as Location from "expo-location";
-
-import Shape from "../../components/shape";
 import ChoseDestCmpt from "../../components/chames/chooseDestcmpt";
 import MapCustom from "../../components/chames/MapCustom";
 import { useDispatch, useSelector } from "react-redux";
-import BasicButton from "../../components/basic-button";
-import storage from "../../config/storage";
-import { AUTH_KEY, SERVER_URL } from "../../config/config";
 import { geocodeLoc } from "../../utility/LocationUtility";
 import { setLocation } from "../../redux/actions/location-actions";
-import { updateLocation } from "../../controllers/userApis";
-
-import AuthContext from "../../context/AuthContext";
 import SocketContext from "../../context/SocketContext";
+import AuthContext from "../../context/AuthContext";
 
 const HomeScreen = ({ navigation }) => {
   const { socket, setSocket } = useContext(SocketContext);
   const { user, setUser } = useContext(AuthContext);
+  const id = user.profile.user._id;
   const dispatch = useDispatch();
-  const id_user = user.user_id;
+
   const origin = useSelector((state) => state.location.currentPoint);
 
-   useEffect(() => {
-     socket.on("connect", () => {
-       socket.emit("joined", { username: user.user_id, room: user.user_id });
-     });
-     socket.on("disconnect", () => {
-       socket.emit("deconnect", { id_user: user.user_id, role: user.role });
-     });
+  useEffect(() => {
+    socket.on("connect", () => {
+      socket.emit("joined", { username: id, room: id });
+    });
+    socket.on("disconnect", () => {
+      socket.emit("deconnect", { id_user: id, role: user.role });
+    });
 
-     return () => {
-       socket.off("connect", () => {
-         socket.emit("joined", { username: user.user_id, room: user.user_id });
-       });
-       socket.off("disconnect", () => {
-         socket.emit("deconnect", { id_user: user.user_id, role: user.role });
-       });
-     };
-   }, [socket]);
-  
+    return () => {
+      socket.off("connect", () => {
+        socket.emit("joined", { username: id, room: id });
+      });
+      socket.off("disconnect", () => {
+        socket.emit("deconnect", { id_user: id, role: user.role });
+      });
+    };
+  }, [socket]);
 
   const getlocation = () => {
     Location.watchPositionAsync(

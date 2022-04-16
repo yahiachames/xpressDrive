@@ -21,8 +21,22 @@ export default useImage = (img) => {
 
   return {
     uri: `${SERVER_URL}uploads/${img}`,
-    headers: {
-      Authorization: token,
+    method: "POST",
+    props: {
+      source: {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Access-Control-Allow-Headers":
+            "X-Requested-With, content-type, Authorization",
+          "Access-Control-Allow-Methods":
+            "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+          "Access-Control-Allow-Origin": "*",
+          authorization: token,
+          Pragma: "no-cache",
+          "accept-encoding": "gzip, deflate",
+        },
+      },
     },
   };
 };
