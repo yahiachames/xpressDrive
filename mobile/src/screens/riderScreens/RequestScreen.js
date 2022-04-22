@@ -19,7 +19,7 @@ import {
 } from "react-native";
 
 import { Avatar, Icon } from "react-native-elements";
-
+import haverisne from "haversine-distance";
 import MapComponent from "../../components//chames/MapComponent";
 import { colors, parameters } from "../../global/styles.js";
 import { rideData } from "../../global/data";
@@ -47,6 +47,7 @@ import BarNavCmpt from "../../components/chames/BarNavCmpt";
 import BasicButton from "../../components/basic-button";
 import DriverChildModal from "../../components/Modals/childs/DriverChildModal";
 import SocketContext from "../../context/SocketContext";
+import calcCrow from "../../utility/distanceBetweenCords";
 
 export default function RequestScreen({ navigation, route }) {
   const { socket, setSocket } = useContext(SocketContext);
@@ -66,7 +67,7 @@ export default function RequestScreen({ navigation, route }) {
   let isActive = bottomsheet1?.current?.isActive();
   const bottomsheet1 = useRef(null);
   const { user, setUser } = useContext(AuthContext);
-  const id = user.profile.user_id;
+  const id = user.profile.user._id;
   const locationstate = useSelector((state) => state.location);
   const origin = useSelector((state) => state.location.currentPoint);
   const [selected, setSelected] = useState(false);
@@ -74,13 +75,15 @@ export default function RequestScreen({ navigation, route }) {
   const [rideStatus, setRideStatus] = useState(null);
 
   const handleCancelDriverResponse = () => {
-    DeleteRide(id).then((res) => {
+    DeleteRide(id, driver_id).then((res) => {
+      console.log(res, "deleted status");
       setRideStatus(null);
     });
   };
 
   useEffect(() => {
     socket.on("rideStatusUpdated", (obj) => {
+      console.log(obj, "riderStaus updated");
       setRideStatus(obj);
     });
 
@@ -93,6 +96,7 @@ export default function RequestScreen({ navigation, route }) {
 
     return () => {
       socket.off("rideStatusUpdated", (obj) => {
+        console.log(ob, "riderStaus updated");
         setRideStatus(obj);
       });
 
@@ -131,9 +135,23 @@ export default function RequestScreen({ navigation, route }) {
       total_price: 12,
     })
       .then((res) => {
+        console.log(res);
         dispatch(setRideId(res.data.data));
         if (res.data.success) {
           setRideStatus("pending");
+          console.log(
+            haverisne(
+              {
+                lat: locationstate.currentPoint["latitude"],
+                lng: locationstate.currentPoint["longitude"],
+              },
+              {
+                lat: locationstate.destination["latitude"],
+                lng: locationstate.destination["longitude"],
+              }
+            ) / 1000,
+            "calcCrow"
+          );
         }
       })
       .catch((e) => console.log(e));
@@ -143,10 +161,9 @@ export default function RequestScreen({ navigation, route }) {
     bottomsheet1?.current?.scrollTo(-adaptToHeight(0.62));
   }, [isActive]);
 
-
-useEffect(() => {
-  getDriversAPi();
-}, []);
+  useEffect(() => {
+    getDriversAPi();
+  }, []);
 
   const handleRideStatusModal = () => {
     if (drivers == null || drivers.length == 0) {
@@ -216,8 +233,7 @@ useEffect(() => {
     getDriversAPi();
     setLoading(false);
   }, []);
-  useEffect(() => {
-  }, [rideStatus]);
+  useEffect(() => {}, [rideStatus]);
 
   const renderFlatListItems = ({ item }) => {
     return (

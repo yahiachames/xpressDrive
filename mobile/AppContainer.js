@@ -33,6 +33,10 @@ export default function AppContainer() {
   useEffect(() => {
     persistUser();
   }, []);
+  useEffect(() => {
+    console.log("mount");
+    return console.log("unmount");
+  }, []);
 
   return (
     <Screen>

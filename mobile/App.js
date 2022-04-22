@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { AppState, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import AppContainer from "./AppContainer";
 import store from "./src/redux/store/store";
@@ -18,6 +18,7 @@ const App = () => {
   const [profile, setProfile] = useState(null);
 
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     (async () => {
       Location.enableNetworkProviderAsync();

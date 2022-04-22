@@ -21,8 +21,11 @@ const RequestScreen = () => {
     setLoading(true);
     getRidesPending(user_id)
       .then((res) => {
+        console.log(res);
         if (res.ok) {
-          setPendingRides(res.data);
+          setPendingRides([...res.data]);
+        } else if (res.status == 404) {
+          setPendingRides([]);
         }
       })
       .catch((e) => console.log(e));
@@ -47,10 +50,11 @@ const RequestScreen = () => {
 
   useEffect(() => {
     getApiPendingRides();
-  }, []);
+  }, [JSON.stringify(pendingRides)]);
 
   useEffect(() => {
     socket.on("NewRequest", () => {
+      console.log("new request");
       getApiPendingRides();
       Notifcations.scheduleNotificationAsync({
         content: {
@@ -66,6 +70,7 @@ const RequestScreen = () => {
     });
 
     socket.on("RideCancel", () => {
+      console.log("Ride Cancelled");
       getApiPendingRides();
     });
 

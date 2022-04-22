@@ -31,7 +31,7 @@ const HomeScreen = () => {
   const bottomSheet = useRef(1);
   const snapPoints = useMemo(() => ["20%", "48%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
-  const id_user = user.profile.user_id;
+  const id_user = user.profile.user._id;
   const dispatch = useDispatch();
 
   const getlocation = () => {
@@ -81,7 +81,12 @@ const HomeScreen = () => {
     getlocation();
     updateOnlineApi();
   }, []);
+  useEffect(() => {
+    console.log(id_user, "executed useeffect and id");
 
+    console.log("executed connect and joined");
+    socket.emit("joined", { username: id_user, room: id_user });
+  }, []);
   useEffect(() => {
     socket.on("connect", () => {
       socket.emit("joined", { username: user.user_id, room: user.user_id });
@@ -89,7 +94,6 @@ const HomeScreen = () => {
     socket.on("disconnect", () => {
       socket.emit("deconnect", { id_user: user.user_id, role: user.role });
     });
-
     return () => {
       socket.off("connect", () => {
         socket.emit("joined", { username: user.user_id, room: user.user_id });
@@ -99,7 +103,7 @@ const HomeScreen = () => {
       });
     };
   }, [socket]);
-
+ 
   return (
     <Screen>
       <View style={{ flex: 1, position: "relative" }}>
@@ -123,7 +127,7 @@ const HomeScreen = () => {
       </BottomSheet>
     </Screen>
   );
-};
+};;;;;;;;;;
 
 export default HomeScreen;
 

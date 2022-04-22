@@ -34,7 +34,6 @@ const useAuth = () => {
               })
               .catch((e) => console.log(e));
           }
-          socket.emit("joined", { id_user: user_id, role });
         })
         .catch((e) => console.log(e));
     }
