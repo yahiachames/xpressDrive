@@ -15,6 +15,7 @@ import PickUpScreen from "../screens/driver/pick-up-screen";
 import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 import SettingStack from "./settings-navigation";
 import HistoryScreen from "../screens/history/history-screen";
+import RequestNavigation from "./RequestNavigation";
 
 const Drawer = createDrawerNavigator();
 
@@ -69,7 +70,7 @@ export default () => (
     />
     <Drawer.Screen
       name={routes.REQUESTS}
-      component={RequestScreen}
+      component={RequestNavigation}
       options={{
         drawerIcon: ({ color }) => (
           <Ionicons name="newspaper-outline" size={sizes.icon} color={color} />
@@ -84,24 +85,7 @@ export default () => (
         ),
       }}
     />
-    <Drawer.Screen
-      name={routes.PICK_UP}
-      component={PickUpScreen}
-      options={{
-        drawerIcon: ({ color }) => (
-          <Ionicons name="navigate-sharp" size={sizes.icon} color={color} />
-        ),
-        headerShown: true,
-        header: ({ scene, previous, navigation }) => (
-          <CustomHeader
-            goBack={true}
-            title={routes.PICK_UP}
-            navigation={navigation}
-            children={<View />}
-          />
-        ),
-      }}
-    />
+
     <Drawer.Screen
       name={routes.HISTORY}
       component={HistoryScreen}

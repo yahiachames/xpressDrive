@@ -107,10 +107,26 @@ export default function RequestScreen({ navigation, route }) {
     });
     socket.on("DriverIsHere", (obj) => {
       console.log("DriverIsHere");
-      getApiPendingRides();
+
       Notifcations.scheduleNotificationAsync({
         content: {
-          title: "a new pending request !",
+          title: "your driver is Here ! ",
+          body: "test",
+          // sound: 'default',
+        },
+        trigger: {
+          seconds: 1,
+          repeats: false,
+        },
+      });
+    });
+
+    socket.on("DistanceAttempted", (obj) => {
+      console.log("Distance Attempted");
+
+      Notifcations.scheduleNotificationAsync({
+        content: {
+          title: "Distance Attempted",
           body: "test",
           // sound: 'default',
         },
@@ -133,6 +149,7 @@ export default function RequestScreen({ navigation, route }) {
       socket.off("onlineUpdate", () => {
         getDriversAPi();
       });
+      socket.off("DriverIsHere");
     };
   }, [socket]);
 
@@ -241,7 +258,7 @@ export default function RequestScreen({ navigation, route }) {
           <ChildModal
             nameIcon="checkcircle"
             message="accepted by driver"
-            colorIcon={colors.darkBlue}
+            colorIcon={"green"}
             onPress={() => handleCancelDriverResponse()}
           />
         );

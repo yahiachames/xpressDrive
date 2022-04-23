@@ -8,6 +8,7 @@ export default Object.freeze({
   CODE_VERIFICATION: "Code_Verification",
   MAP: "Map",
   REQUESTS: "Requests",
+  REQUEST: "Request",
   SETTINGS_NAVIGATION: "Settings",
   PROFILE: "Profile",
   HOME_RIDER: "Home",

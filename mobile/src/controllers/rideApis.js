@@ -27,3 +27,6 @@ export const updateStatus = (id, status) =>
 
   export const DeleteRide = (id, driver_id) =>
     api.post(`ride/delete/${id}`, { driver_id });
+
+export const completedRide = (id, rider_id) =>
+  api.post(`ride/completed/${id}`, { rider_id });
