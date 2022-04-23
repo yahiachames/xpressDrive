@@ -4,42 +4,81 @@ import AppText from "../../../components/Text";
 import {colors, images, sizes} from "../../../constants";
 import {adaptToWidth} from "../../../config/dimensions";
 
-const HistoryItem = ({item}) => {
+const HistoryItem = ({ item, user }) => {
+  const { defaultUser } = images;
 
-    const {defaultUser} = images;
-
-    return (
-        <View style={{paddingHorizontal: sizes.padding, paddingBottom: sizes.padding}}>
-            <View>
-                <View style={styles.box}>
-                    <View style={styles.header}>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Image source={defaultUser} style={styles.image}/>
-                            <View>
-                                <AppText style={{paddingHorizontal: sizes.padding, fontSize: sizes.h6}}>{item.user.name}</AppText>
-                                <AppText style={styles.badge}>{item.state}</AppText>
-                            </View>
-                        </View>
-                        <View style={{alignItems: 'flex-end'}}>
-                            <AppText style={{fontSize: sizes.h6}}>${item.price}</AppText>
-                            <AppText style={{color: colors.grey, fontSize: sizes.h7}}>{item.distance} km</AppText>
-                        </View>
-                    </View>
-                    <View style={styles.body}>
-                        <View style={{paddingBottom: sizes.padding}}>
-                            <AppText style={{color: colors.grey, fontSize: sizes.h8, textTransform: 'uppercase', paddingBottom: sizes.tiny}}>Pick Up</AppText>
-                            <AppText style={{fontSize: sizes.h6}}>${item.pickup}</AppText>
-                        </View>
-                        <View style={styles.divider} />
-                        <View style={{paddingTop: sizes.padding}}>
-                            <AppText style={{color: colors.grey, fontSize: sizes.h8, textTransform: 'uppercase', paddingBottom: sizes.tiny}}>Drop Off</AppText>
-                            <AppText style={{fontSize: sizes.h6}}>${item.dropOff}</AppText>
-                        </View>
-                    </View>
-                </View>
+  return (
+    <View
+      style={{
+        paddingHorizontal: sizes.padding,
+        paddingBottom: sizes.padding,
+      }}
+    >
+      <View>
+        <View style={styles.box}>
+          <View style={styles.header}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image source={defaultUser} style={styles.image} />
+              <View>
+                <AppText
+                  style={{
+                    paddingHorizontal: sizes.padding,
+                    fontSize: sizes.h6,
+                  }}
+                >
+                  {user.role == "rider"
+                    ? item.driver_id.username
+                    : item.rider_id.username}
+                </AppText>
+                <AppText style={styles.badge}>{item.status}</AppText>
+              </View>
             </View>
+            <View style={{ alignItems: "flex-end" }}>
+              <AppText style={{ fontSize: sizes.h6 }}>
+                ${item.total_price}
+              </AppText>
+              <AppText style={{ color: colors.grey, fontSize: sizes.h7 }}>
+                {item.distance_per_km} km
+              </AppText>
+            </View>
+          </View>
+          <View style={styles.body}>
+            <View style={{ paddingBottom: sizes.padding }}>
+              <AppText
+                style={{
+                  color: colors.grey,
+                  fontSize: sizes.h8,
+                  textTransform: "uppercase",
+                  paddingBottom: sizes.tiny,
+                }}
+              >
+                Pick Up
+              </AppText>
+              <AppText style={{ fontSize: sizes.h6 }}>
+                ${item.currentPoint.text}
+              </AppText>
+            </View>
+            <View style={styles.divider} />
+            <View style={{ paddingTop: sizes.padding }}>
+              <AppText
+                style={{
+                  color: colors.grey,
+                  fontSize: sizes.h8,
+                  textTransform: "uppercase",
+                  paddingBottom: sizes.tiny,
+                }}
+              >
+                Drop Off
+              </AppText>
+              <AppText style={{ fontSize: sizes.h6 }}>
+                ${item.destination.text}
+              </AppText>
+            </View>
+          </View>
         </View>
-    );
+      </View>
+    </View>
+  );
 };
 
 export default HistoryItem;

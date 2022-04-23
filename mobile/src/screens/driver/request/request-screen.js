@@ -10,7 +10,7 @@ import SocketContext from "../../../context/SocketContext";
 import { acceptRide, declineRide } from "../../../controllers/rideApis";
 import AppText from "../../../components/Text";
 
-const RequestScreen = () => {
+const RequestScreen = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
   const [pendingRides, setPendingRides] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,6 @@ const RequestScreen = () => {
     setLoading(true);
     getRidesPending(user_id)
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           setPendingRides([...res.data]);
         } else if (res.status == 404) {
@@ -110,6 +109,7 @@ const RequestScreen = () => {
             }}
             renderItem={({ item }) => (
               <RequestItem
+                fullItem={item}
                 distance_per_km={item.distance_per_km}
                 id={item._id}
                 total_price={item.total_price}
@@ -118,6 +118,7 @@ const RequestScreen = () => {
                 destination={item.destination.text}
                 onAccept={handleAccept}
                 onDecline={handleDecline}
+                navigation={navigation}
               />
             )}
           />

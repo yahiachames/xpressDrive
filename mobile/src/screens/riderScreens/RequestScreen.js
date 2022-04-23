@@ -48,6 +48,7 @@ import BasicButton from "../../components/basic-button";
 import DriverChildModal from "../../components/Modals/childs/DriverChildModal";
 import SocketContext from "../../context/SocketContext";
 import calcCrow from "../../utility/distanceBetweenCords";
+import * as Notifcations from "expo-notifications";
 
 export default function RequestScreen({ navigation, route }) {
   const { socket, setSocket } = useContext(SocketContext);
@@ -73,12 +74,20 @@ export default function RequestScreen({ navigation, route }) {
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState(null);
+  const [disabled, setDisabled] = useState(false);
 
   const handleCancelDriverResponse = () => {
-    DeleteRide(id, driver_id).then((res) => {
-      console.log(res, "deleted status");
+    if (rideStatus == "pending") {
+      DeleteRide(id, driver_id).then((res) => {
+        console.log(res, "deleted status");
+        setRideStatus(null);
+      });
+    } else if (rideStatus == "started") {
       setRideStatus(null);
-    });
+      setDisabled(true);
+    } else {
+      setRideStatus(null);
+    }
   };
 
   useEffect(() => {
@@ -92,6 +101,24 @@ export default function RequestScreen({ navigation, route }) {
     });
     socket.on("onlineUpdate", () => {
       getDriversAPi();
+    });
+    socket.on("joined", () => {
+      getDriversAPi();
+    });
+    socket.on("DriverIsHere", (obj) => {
+      console.log("DriverIsHere");
+      getApiPendingRides();
+      Notifcations.scheduleNotificationAsync({
+        content: {
+          title: "a new pending request !",
+          body: "test",
+          // sound: 'default',
+        },
+        trigger: {
+          seconds: 1,
+          repeats: false,
+        },
+      });
     });
 
     return () => {
@@ -112,6 +139,7 @@ export default function RequestScreen({ navigation, route }) {
   const getDriversAPi = async () => {
     getDrivers()
       .then((res) => {
+        console.log(res);
         setDrivers(res.data);
       })
       .catch((e) => console.log(e));
@@ -195,6 +223,7 @@ export default function RequestScreen({ navigation, route }) {
                 top: adaptToHeight(0.45),
                 alignSelf: "center",
               }}
+              disabled={disabled}
               bgColor={colors.blueSelect}
             />
           </View>

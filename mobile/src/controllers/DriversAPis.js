@@ -40,6 +40,7 @@ export const updateDriverProfile = (driver_id, formdata) => {
     },
   });
 };
+export const getRidesDriver = (id) => api.get(`driver/rides/${id}`);
 
 
 
