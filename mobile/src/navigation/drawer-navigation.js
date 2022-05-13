@@ -1,21 +1,18 @@
 import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-
-// components
 import CustomDrawerContent from '../components/custom-drawer';
 import HomeScreen from "../screens/driver/home/home-screen";
 import {colors, sizes} from "../constants";
 import {Ionicons} from "@expo/vector-icons";
 import ProfileScreen from "../screens/account/profile/profile-screen";
-import RequestScreen from "../screens/driver/request/request-screen";
 import CustomHeader from "../components/custom-header";
 import {View} from "react-native";
 import routes from "./routes";
-import PickUpScreen from "../screens/driver/pick-up-screen";
 import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 import SettingStack from "./settings-navigation";
 import HistoryScreen from "../screens/history/history-screen";
 import InviteFriendsScreen from "../screens/invite-friends/invite-friends-screen";
+import RequestNavigation from "./RequestNavigation";
 
 const Drawer = createDrawerNavigator();
 
@@ -70,7 +67,7 @@ export default () => (
     />
     <Drawer.Screen
       name={routes.REQUESTS}
-      component={RequestScreen}
+      component={RequestNavigation}
       options={{
         drawerIcon: ({ color }) => (
           <Ionicons name="newspaper-outline" size={sizes.icon} color={color} />
@@ -79,24 +76,6 @@ export default () => (
         header: ({ scene, previous, navigation }) => (
           <CustomHeader
             title={routes.REQUESTS}
-            navigation={navigation}
-            children={<View />}
-          />
-        ),
-      }}
-    />
-    <Drawer.Screen
-      name={routes.PICK_UP}
-      component={PickUpScreen}
-      options={{
-        drawerIcon: ({ color }) => (
-          <Ionicons name="navigate-sharp" size={sizes.icon} color={color} />
-        ),
-        headerShown: true,
-        header: ({ scene, previous, navigation }) => (
-          <CustomHeader
-            goBack={true}
-            title={routes.PICK_UP}
             navigation={navigation}
             children={<View />}
           />

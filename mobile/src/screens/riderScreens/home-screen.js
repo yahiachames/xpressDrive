@@ -19,8 +19,10 @@ import { setLocation } from "../../redux/actions/location-actions";
 import SocketContext from "../../context/SocketContext";
 import AuthContext from "../../context/AuthContext";
 
+
 const HomeScreen = ({ navigation }) => {
   const { socket, setSocket } = useContext(SocketContext);
+
   const { user, setUser } = useContext(AuthContext);
   const id = user.profile.user._id;
   const dispatch = useDispatch();
@@ -28,19 +30,25 @@ const HomeScreen = ({ navigation }) => {
   const origin = useSelector((state) => state.location.currentPoint);
 
   useEffect(() => {
+    console.log(id, "executed useeffect and id");
+
+    console.log("executed connect and joined");
+    socket.emit("joined", { username: id, room: id });
+  }, []);
+
+  useEffect(() => {
     socket.on("connect", () => {
-      socket.emit("joined", { username: id, room: id });
+      socket.emit("joined", { username: user.user_id, room: user.user_id });
     });
     socket.on("disconnect", () => {
-      socket.emit("deconnect", { id_user: id, role: user.role });
+      socket.emit("deconnect", { id_user: user.user_id, role: user.role });
     });
-
     return () => {
       socket.off("connect", () => {
-        socket.emit("joined", { username: id, room: id });
+        socket.emit("joined", { username: user.user_id, room: user.user_id });
       });
       socket.off("disconnect", () => {
-        socket.emit("deconnect", { id_user: id, role: user.role });
+        socket.emit("deconnect", { id_user: user.user_id, role: user.role });
       });
     };
   }, [socket]);
@@ -130,8 +138,8 @@ const styles = StyleSheet.create({
   chosedestcmp: {
     zIndex: 1,
     position: "absolute",
-    top: adaptToHeight(0.285),
-    left: adaptToWidth(0.03),
+    top: 200,
+    left: 5,
   },
 });
 

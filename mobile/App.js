@@ -18,6 +18,7 @@ const App = () => {
   const [profile, setProfile] = useState(null);
 
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     (async () => {
       Location.enableNetworkProviderAsync();

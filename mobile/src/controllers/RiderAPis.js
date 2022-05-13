@@ -10,3 +10,4 @@ export const updateRiderProfile = (rider_id, formdata) => {
 export const getOneRider = (id) => {
   return api.get(`rider/one/${id}`);
 };
+export const getRidesRider = (id) => api.get(`rider/rides/${id}`);

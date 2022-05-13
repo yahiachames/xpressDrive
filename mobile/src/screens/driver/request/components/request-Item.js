@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { colors, images, sizes } from "../../../../constants";
 import { adaptToHeight, adaptToWidth } from "../../../../config/dimensions";
 import BasicButton from "../../../../components/basic-button";
+import routes from "../../../../navigation/routes";
 
 const { defaultUser } = images;
 
 const RequestItem = ({
+  fullItem,
   id,
   username,
   total_price,
@@ -16,6 +18,7 @@ const RequestItem = ({
   ride_id,
   onAccept,
   onDecline,
+  navigation,
 }) => {
   console.log(
     {
@@ -71,9 +74,12 @@ const RequestItem = ({
               style={styles.button}
               bgColor={colors.primary}
               title={"Accept"}
-              onPress={() => onAccept(id)}
+              onPress={() => {
+                onAccept(id);
+                navigation.navigate(routes.PICK_UP);
+              }}
             />
-            <View style={{ flex: .1 }} />
+            <View style={{ flex: 0.1 }} />
             <BasicButton
               style={styles.button}
               bgColor={colors.danger}
@@ -111,9 +117,12 @@ const RequestItem = ({
               style={styles.button}
               bgColor={colors.primary}
               title={"Accept"}
-              onPress={() => onAccept(id)}
+              onPress={() => {
+                onAccept(id);
+                navigation.navigate(routes.PICK_UP, { fullItem });
+              }}
             />
-            <View style={{ flex: .1 }} />
+            <View style={{ flex: 0.1 }} />
             <BasicButton
               style={styles.button}
               bgColor={colors.danger}

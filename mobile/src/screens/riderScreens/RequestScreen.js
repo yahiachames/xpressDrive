@@ -3,26 +3,17 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useMemo,
-  useCallback,
 } from "react";
 import {
   StyleSheet,
   Image,
   View,
   Text,
-  Dimensions,
-  TouchableOpacity,
   FlatList,
-  TouchableWithoutFeedbackBase,
-  TouchableHighlight,
 } from "react-native";
-
-import { Avatar, Icon } from "react-native-elements";
-
-import MapComponent from "../../components//chames/MapComponent";
+import haverisne from "haversine-distance";
+import MapComponent from "../../components/chames/MapComponent";
 import { colors, parameters } from "../../global/styles.js";
-import { rideData } from "../../global/data";
 import { useDispatch, useSelector } from "react-redux";
 import BottomSheet from "../../components/BottomSheet";
 import {
@@ -33,10 +24,8 @@ import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import CustomModal from "../../components/Modals/custom-modal";
 import AppText from "../../components/custom-text";
 import {
-  checkStatus,
   createRide,
   DeleteRide,
-  updateStatus,
 } from "../../controllers/rideApis";
 import { setRideId } from "../../redux/actions/RideId";
 import AuthContext from "../../context/AuthContext";
@@ -47,6 +36,8 @@ import BarNavCmpt from "../../components/chames/BarNavCmpt";
 import BasicButton from "../../components/basic-button";
 import DriverChildModal from "../../components/Modals/childs/DriverChildModal";
 import SocketContext from "../../context/SocketContext";
+import calcCrow from "../../utility/distanceBetweenCords";
+import * as Notifcations from "expo-notifications";
 
 export default function RequestScreen({ navigation, route }) {
   const { socket, setSocket } = useContext(SocketContext);
@@ -66,17 +57,25 @@ export default function RequestScreen({ navigation, route }) {
   let isActive = bottomsheet1?.current?.isActive();
   const bottomsheet1 = useRef(null);
   const { user, setUser } = useContext(AuthContext);
-  const id = user.profile.user_id;
+  const id = user.profile.user._id;
   const locationstate = useSelector((state) => state.location);
   const origin = useSelector((state) => state.location.currentPoint);
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const [rideStatus, setRideStatus] = useState(null);
+  const [disabled, setDisabled] = useState(false);
 
   const handleCancelDriverResponse = () => {
-    DeleteRide(id).then((res) => {
+    if (rideStatus == "pending") {
+      DeleteRide(id, driver_id).then((res) => {
+        setRideStatus(null);
+      });
+    } else if (rideStatus == "started") {
       setRideStatus(null);
-    });
+      setDisabled(true);
+    } else {
+      setRideStatus(null);
+    }
   };
 
   useEffect(() => {
@@ -90,18 +89,50 @@ export default function RequestScreen({ navigation, route }) {
     socket.on("onlineUpdate", () => {
       getDriversAPi();
     });
+    socket.on("joined", () => {
+      getDriversAPi();
+    });
+    socket.on("DriverIsHere", (obj) => {
+      Notifcations.scheduleNotificationAsync({
+        content: {
+          title: "your driver is Here ! ",
+          body: "test",
+          // sound: 'default',
+        },
+        trigger: {
+          seconds: 1,
+          repeats: false,
+        },
+      });
+    });
+
+    socket.on("DistanceAttempted", (obj) => {
+      console.log("Distance Attempted");
+
+      Notifcations.scheduleNotificationAsync({
+        content: {
+          title: "Distance Attempted",
+          body: "test",
+          // sound: 'default',
+        },
+        trigger: {
+          seconds: 1,
+          repeats: false,
+        },
+      });
+    });
 
     return () => {
       socket.off("rideStatusUpdated", (obj) => {
         setRideStatus(obj);
       });
-
       socket.off("locationUpdate", (obj) => {
         getDriversAPi();
       });
       socket.off("onlineUpdate", () => {
         getDriversAPi();
       });
+      socket.off("DriverIsHere");
     };
   }, [socket]);
 
@@ -134,6 +165,19 @@ export default function RequestScreen({ navigation, route }) {
         dispatch(setRideId(res.data.data));
         if (res.data.success) {
           setRideStatus("pending");
+          console.log(
+            haverisne(
+              {
+                lat: locationstate.currentPoint["latitude"],
+                lng: locationstate.currentPoint["longitude"],
+              },
+              {
+                lat: locationstate.destination["latitude"],
+                lng: locationstate.destination["longitude"],
+              }
+            ) / 1000,
+            "calcCrow"
+          );
         }
       })
       .catch((e) => console.log(e));
@@ -143,10 +187,9 @@ export default function RequestScreen({ navigation, route }) {
     bottomsheet1?.current?.scrollTo(-adaptToHeight(0.62));
   }, [isActive]);
 
-
-useEffect(() => {
-  getDriversAPi();
-}, []);
+  useEffect(() => {
+    getDriversAPi();
+  }, []);
 
   const handleRideStatusModal = () => {
     if (drivers == null || drivers.length == 0) {
@@ -168,7 +211,6 @@ useEffect(() => {
               title="Book"
               onPress={async () => {
                 handleToggleModal(false);
-
                 createRideApi();
               }}
               style={{
@@ -178,6 +220,7 @@ useEffect(() => {
                 top: adaptToHeight(0.45),
                 alignSelf: "center",
               }}
+              disabled={disabled}
               bgColor={colors.blueSelect}
             />
           </View>
@@ -195,7 +238,7 @@ useEffect(() => {
           <ChildModal
             nameIcon="checkcircle"
             message="accepted by driver"
-            colorIcon={colors.darkBlue}
+            colorIcon={"green"}
             onPress={() => handleCancelDriverResponse()}
           />
         );
@@ -216,15 +259,13 @@ useEffect(() => {
     getDriversAPi();
     setLoading(false);
   }, []);
-  useEffect(() => {
-  }, [rideStatus]);
+  useEffect(() => {}, [rideStatus]);
 
   const renderFlatListItems = ({ item }) => {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
           setDriver_id(item._id);
-
           setSelected(item._id);
         }}
         onLongPress={() => {
@@ -244,7 +285,6 @@ useEffect(() => {
             source={require("../../../assets/taxi1.jpg")}
             style={styles.itemIconBox}
           />
-
           <View style={styles.itemTextBox}>
             <AppText
               style={[
@@ -267,7 +307,6 @@ useEffect(() => {
       </TouchableWithoutFeedback>
     );
   };
-
   if (loading)
     return (
       <View>
@@ -284,7 +323,6 @@ useEffect(() => {
               mapStyle={styles.MapView}
               origin={origin}
             />
-
             <BottomSheet ref={bottomsheet1}>
               {handleRideStatusModal()}
             </BottomSheet>
@@ -316,10 +354,8 @@ const styles = StyleSheet.create({
   BottomsheetView: {},
   itemFlatContainer: {
     padding: adaptToHeight(0.01),
-
     justifyContent: "center",
     alignItems: "center",
-    justifyContent: "space-around",
     width: adaptToWidth(0.31),
     height: adaptToHeight(0.2),
     borderWidth: 1,
@@ -338,8 +374,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    justifyContent: "space-between",
-
     width: "80%",
   },
   itemIconBox: {
@@ -355,7 +389,6 @@ const styles = StyleSheet.create({
   },
   ItemFlatDescBox: {
     fontSize: 16,
-
     color: colors.grey2,
   },
   itemdescFlat: {
@@ -367,17 +400,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   btnModal: {
     width: adaptToWidth(0.32),
   },
   textBtnModal: {
     fontSize: 14,
   },
-
   container: {
     flex: 1,
-
     alignItems: "center",
     justifyContent: "center",
   },
@@ -394,7 +424,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
-
   view1: {
     position: "absolute",
     top: 25,
@@ -408,7 +437,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
     zIndex: 8,
   },
-
   flatlist: {
     marginTop: 20,
     height: "100%",

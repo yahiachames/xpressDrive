@@ -22,7 +22,7 @@ import { useDispatch } from "react-redux";
 import { setLocation } from "../../../redux/actions/location-actions";
 import { updateLocation, updateOnline } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
-
+import useLocation from "../../../hooks/useLocation";
 
 const HomeScreen = () => {
   const { socket, setSocket } = useContext(SocketContext);
@@ -31,45 +31,9 @@ const HomeScreen = () => {
   const bottomSheet = useRef(1);
   const snapPoints = useMemo(() => ["18%", "48%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
-  const id_user = user.profile.user_id;
+  const id_user = user.profile.user._id;
   const dispatch = useDispatch();
-
-  const getlocation = () => {
-    Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.Highest,
-        maximumAge: 10000,
-      },
-      (resLocation) => {
-        geocodeLoc(
-          resLocation.coords.latitude,
-          resLocation.coords.longitude
-        ).then((resGeocode) => {
-          let address = resGeocode.data.address;
-          updateLocation(
-            {
-              latitude: resLocation.coords.latitude,
-              longitude: resLocation.coords.longitude,
-            },
-            id_user
-          )
-            .then((res) => {
-              dispatch(
-                setLocation({
-                  latitude: resLocation.coords.latitude,
-                  longitude: resLocation.coords.longitude,
-                  region: address.state,
-                  subregion: address.county,
-                  street: address.road ? address.road : address.village,
-                  code_postale: address.postcode,
-                })
-              );
-            })
-            .catch((e) => console.log("update location failed with error ", e));
-        });
-      }
-    );
-  };
+  const loc = useLocation();
 
   const updateOnlineApi = () => {
     updateOnline(true, id_user)
@@ -78,10 +42,14 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getlocation();
     updateOnlineApi();
   }, []);
+  useEffect(() => {
+    console.log(id_user, "executed useeffect and id");
 
+    console.log("executed connect and joined");
+    socket.emit("joined", { username: id_user, room: id_user });
+  }, []);
   useEffect(() => {
     socket.on("connect", () => {
       socket.emit("joined", { username: user.user_id, room: user.user_id });
@@ -89,7 +57,6 @@ const HomeScreen = () => {
     socket.on("disconnect", () => {
       socket.emit("deconnect", { id_user: user.user_id, role: user.role });
     });
-
     return () => {
       socket.off("connect", () => {
         socket.emit("joined", { username: user.user_id, room: user.user_id });
@@ -123,7 +90,7 @@ const HomeScreen = () => {
       </BottomSheet>
     </Screen>
   );
-};
+};;;;;;;;;;
 
 export default HomeScreen;
 
