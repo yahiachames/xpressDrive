@@ -4,10 +4,13 @@ import {StyleSheet} from 'react-native'
 import {sizes} from "../constants";
 
 function BasicPicker({
-                         items = [], placeholder, style, enabled, onChange = () => {
-    }, ...props
+                         items = [],
+                         placeholder,
+                         style,
+                         enabled,
+                         onChange = () => {},
+                         ...props
                      }) {
-
     return (
         <Picker
             {...props}

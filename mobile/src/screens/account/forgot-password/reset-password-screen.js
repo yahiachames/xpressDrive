@@ -4,7 +4,7 @@ import {adaptToWidth} from "../../../config/dimensions";
 import Screen from "../../../components/screen";
 import * as Yup from "yup";
 import {colors, images, sizes} from "../../../constants";
-import CustomForm from "../../../components/forms/Form";
+import CustomForm from "../../../components/forms/custom-form";
 import FormInput from "../../../components/forms/form-input";
 import SubmitButton from "../../../components/forms/submit-button";
 import { PassChange } from "../../../controllers/userApis";

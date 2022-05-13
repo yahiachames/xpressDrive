@@ -31,7 +31,7 @@ import {
 } from "react-native-gesture-handler";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import CustomModal from "../../components/Modals/custom-modal";
-import AppText from "../../components/Text";
+import AppText from "../../components/custom-text";
 import {
   checkStatus,
   createRide,

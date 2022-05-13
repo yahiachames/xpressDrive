@@ -10,7 +10,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { colors, parameters } from "../global/styles";
 import { Avatar, Icon } from "react-native-elements";
-import AppTextInput from "./AppInput";
 import { adaptToHeight, adaptToWidth } from "../config/dimensions";
 import axios from "axios";
 import * as Location from "expo-location";
@@ -21,6 +20,7 @@ import {
   updateLocation,
 } from "../redux/actions/location-actions";
 import { autoCompleteLoc } from "../utility/LocationUtility";
+import BasicInput from "./basic-input";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -93,14 +93,15 @@ const ChoseDestCmpt = () => {
         </TouchableOpacity>
         <View style={styles.view7}>
           <View style={styles.searchcontainer}>
-            <AppTextInput
+            <BasicInput
               onChangeText={(value) => handleCHange(value)}
               placeholder="write your destination here"
+              iconType={"MaterialCommunityIcons"}
               icon="map-marker-check"
               value={searchValue}
-              width={adaptToWidth(0.6)}
-              styleView={styles.inputstyleview}
-              style={styles.textinput}
+              width={adaptToWidth(.6)}
+              style={styles.inputstyleview}
+              textStyle={styles.textinput}
               color={colors.danger}
             />
             {searchData.length !== 0 && toggleFlat && (

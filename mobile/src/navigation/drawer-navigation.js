@@ -15,6 +15,7 @@ import PickUpScreen from "../screens/driver/pick-up-screen";
 import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 import SettingStack from "./settings-navigation";
 import HistoryScreen from "../screens/history/history-screen";
+import InviteFriendsScreen from "../screens/invite-friends/invite-friends-screen";
 
 const Drawer = createDrawerNavigator();
 
@@ -134,5 +135,22 @@ export default () => (
         headerShown: false,
       }}
     />
+      <Drawer.Screen
+          name={routes.INVITE_FRIENDS}
+          component={InviteFriendsScreen}
+          options={{
+              drawerLabel: () => null,
+              drawerItemStyle: { display: 'none' },
+              headerShown: true,
+              header: ({ scene, previous, navigation }) => (
+                  <CustomHeader
+                      goBack={true}
+                      title={routes.INVITE_FRIENDS}
+                      navigation={navigation}
+                      children={<View />}
+                  />
+              ),
+          }}
+      />
   </Drawer.Navigator>
 );

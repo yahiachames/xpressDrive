@@ -15,9 +15,11 @@ export default Object.freeze({
   VEHICLE_MANAGEMENT: "Vehicle Management",
   DOCUMENT_MANAGEMENT: "Document Management",
   REVIEWS: "Reviews",
+  RANKING: "Ranking",
   LANGUAGE: "Language",
   NOTIFICATION: "Notifications",
   TERMS_PRIVACY: "Terms & Privacy Policy",
   CONTACT_US: "Contact Us",
   HISTORY: "History",
+  INVITE_FRIENDS: "Invite Friends"
 });

@@ -4,6 +4,7 @@ const {width, height} = Dimensions.get("window");
 
 export default {
     // global sizes
+    inch: width * .01,
     tiny: width * .02,
     base: width * .03,
     font: width * .04,
@@ -13,6 +14,10 @@ export default {
 
     // input
     inputHeight: height * .08,
+    textArrayInputHeight: height * .15,
+
+    // avatar
+    avatar: width * .12,
 
     // font sizes
     h1: width * .078,

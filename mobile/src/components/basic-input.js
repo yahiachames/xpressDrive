@@ -1,8 +1,7 @@
 import React from "react";
 import {StyleSheet, TextInput, View} from "react-native";
-import {AntDesign} from "@expo/vector-icons";
+import {AntDesign, FontAwesome, MaterialCommunityIcons} from "@expo/vector-icons";
 import {colors, sizes} from "../constants";
-import {adaptToHeight} from "../config/dimensions";
 
 function AppTextInput({
                           icon,
@@ -10,17 +9,41 @@ function AppTextInput({
                           style,
                           textStyle,
                           lang,
+                          color = colors.primary,
+                          iconType = "AntDesign",
                           ...otherProps
                       }) {
+
+    const renderIcon = () => {
+      switch (iconType) {
+          case "AntDesign":
+              return <AntDesign
+                  name={icon}
+                  size={sizes.icon}
+                  color={color}
+                  style={styles.icon}
+              />
+          case "MaterialCommunityIcons":
+              return <MaterialCommunityIcons
+                  name={icon}
+                  size={sizes.icon}
+                  color={color}
+                  style={styles.icon}
+              />
+          default:
+              return <FontAwesome
+                  name={icon}
+                  size={sizes.icon}
+                  color={color}
+                  style={styles.icon}
+              />
+      }
+    }
+
     return (
         <View style={[styles.container, {width}, style]}>
             {icon && (
-                <AntDesign
-                    name={icon}
-                    size={sizes.icon}
-                    color={colors.dark}
-                    style={styles.icon}
-                />
+                renderIcon()
             )}
             <TextInput style={[styles.text, textStyle]} {...otherProps} />
         </View>

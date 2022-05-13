@@ -10,7 +10,7 @@ import { loginApi } from "../../controllers/userApis";
 
 import FormInput from "../../components/forms/form-input";
 import SubmitButton from "../../components/forms/submit-button";
-import CustomForm from "../../components/forms/Form";
+import CustomForm from "../../components/forms/custom-form";
 
 import { ErrorMessage } from "../../components/forms";
 import { adaptToHeight } from "../../config/dimensions";

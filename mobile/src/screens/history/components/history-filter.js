@@ -26,7 +26,7 @@ const HistoryFilter = () => {
         {
             id: 'REJECTED',
             value: 'Rejected',
-            style: {borderRightWidth: .7, borderBottomRightRadius: sizes.tiny, borderTopRightRadius: sizes.tiny},
+            style: {borderRightWidth: .6, borderBottomRightRadius: sizes.tiny, borderTopRightRadius: sizes.tiny},
         }
     ]
 

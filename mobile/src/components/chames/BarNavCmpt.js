@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
-import AppText from "../Text";
+import AppText from "../custom-text";
 import ListItemSeparator from "./list/ListItemSep";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import BarNavSVG from "../../../assets/BarDestNav.svg";

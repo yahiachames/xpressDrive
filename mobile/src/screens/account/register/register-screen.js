@@ -8,7 +8,7 @@ import Screen from "../../../components/screen";
 import routes from "../../../navigation/routes";
 import FormInput from "../../../components/forms/form-input";
 import SubmitButton from "../../../components/forms/submit-button";
-import CustomForm from "../../../components/forms/Form";
+import CustomForm from "../../../components/forms/custom-form";
 import { signupApi } from "../../../controllers/userApis";
 import { useDispatch } from "react-redux";
 import { useFormikContext } from "formik";

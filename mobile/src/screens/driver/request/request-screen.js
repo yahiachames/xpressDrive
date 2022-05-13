@@ -8,7 +8,7 @@ import AuthContext from "../../../context/AuthContext";
 import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
 import { acceptRide, declineRide } from "../../../controllers/rideApis";
-import AppText from "../../../components/Text";
+import AppText from "../../../components/custom-text";
 
 const RequestScreen = () => {
   const { user, setUser } = useContext(AuthContext);

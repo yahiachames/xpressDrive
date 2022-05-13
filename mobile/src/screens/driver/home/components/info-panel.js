@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     userInfo: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: sizes.margin,
+        marginBottom: sizes.margin * 2,
     },
     avatar: {
         height: adaptToWidth(.15),

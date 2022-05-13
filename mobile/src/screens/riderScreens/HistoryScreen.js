@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useContext, useEffect } from "react";
 import ProfileContext from "../../context/ProfileContext";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
-import { imageUri } from "../../config/imageUri";
+import { imageUri } from "../../config/image-uri";
 import Storage from "../../config/storage";
 
 const HistoryScreen = () => {

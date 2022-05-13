@@ -2,14 +2,14 @@ import { FlatList, StyleSheet, View, Image } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import ProfileContext from "../../context/ProfileContext";
 import Screen from "../../components/screen";
-import AppText from "../../components/Text";
+import AppText from "../../components/custom-text";
 import colors from "../../constants/colors";
 import HistoryFilter from "./components/history-filter";
 import HistoryMetric from "./components/history-metric";
 import { sizes } from "../../constants";
 import HistoryItem from "./components/history-item";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
-import { imageUri } from "../../config/imageUri";
+import { imageUri } from "../../config/image-uri";
 import Storage from "../../config/storage";
 import useImage from "../../hooks/useImage";
 import AuthContext from "../../context/AuthContext";
@@ -43,15 +43,15 @@ const HistoryScreen = () => {
         backgroundColor: colors.light,
       }}
     >
-      <View style={{ flex: 0.2 }}>
+      <View style={{ flex: .2 }}>
         <AppText style={styles.filterLabel}>Sort By</AppText>
         <HistoryFilter />
       </View>
-      <View style={{ flex: 0.2 }}>
+      <View style={{ flex: .2 }}>
         <HistoryMetric user={currentUser} />
       </View>
-      <View style={{ flex: 0.6 }}>
-        {currentUser && currentUser.rides && !currentUser.rides.length ? (
+      <View style={{ flex: .6 }}>
+        {currentUser?.rides?.length ? (
           <FlatList
             data={rides}
             renderItem={({ item }) => <HistoryItem item={item} />}
