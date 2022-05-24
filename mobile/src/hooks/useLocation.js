@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateLocation } from "../controllers/userApis";
 import { setLocation } from "../redux/actions/location-actions";
 import { geocodeLoc } from "../utility/LocationUtility";
 import * as Location from "expo-location";

@@ -76,7 +76,6 @@ const RequestItem = ({
               title={"Accept"}
               onPress={() => {
                 onAccept(id);
-                console.log(navigation);
                 navigation.navigate(routes.PICK_UP);
               }}
             />

@@ -4,14 +4,15 @@ import { AntDesign } from "@expo/vector-icons";
 import { adaptToHeight } from "../../../config/dimensions";
 import { colors } from "../../../constants";
 import BasicButton from "../../basic-button";
+import sizes from "../../../constants/sizes";
 
 const ChildModal = ({
   nameIcon = "checkcircle",
-  sizeIcon = adaptToHeight(0.08),
+  sizeIcon = sizes.icon,
   styleIcon,
   colorIcon = colors.primary,
   styleContainer,
-  message = "hello",
+  message,
   styleText,
   onPress,
 }) => {

@@ -2,7 +2,7 @@ import {StyleSheet, View} from "react-native";
 import React from "react";
 import {colors, sizes} from "../../../constants";
 import {Ionicons} from "@expo/vector-icons";
-import AppText from "../../../components/Text";
+import AppText from "../../../components/custom-text";
 
 const HistoryMetric = ({ user, rides }) => {
   let jobs = 0;

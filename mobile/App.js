@@ -1,4 +1,4 @@
-import { AppState, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import AppContainer from "./AppContainer";
 import store from "./src/redux/store/store";

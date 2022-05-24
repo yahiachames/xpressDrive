@@ -29,7 +29,7 @@ const HomeScreen = () => {
   const { user, setUser } = useContext(AuthContext);
 
   const bottomSheet = useRef(1);
-  const snapPoints = useMemo(() => ["20%", "48%"], []);
+  const snapPoints = useMemo(() => ["18%", "48%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
   const id_user = user.profile.user._id;
   const dispatch = useDispatch();

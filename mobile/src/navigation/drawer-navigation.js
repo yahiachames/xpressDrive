@@ -1,20 +1,17 @@
 import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-
-// components
 import CustomDrawerContent from '../components/custom-drawer';
 import HomeScreen from "../screens/driver/home/home-screen";
 import {colors, sizes} from "../constants";
 import {Ionicons} from "@expo/vector-icons";
 import ProfileScreen from "../screens/account/profile/profile-screen";
-import RequestScreen from "../screens/driver/request/request-screen";
 import CustomHeader from "../components/custom-header";
 import {View} from "react-native";
 import routes from "./routes";
-import PickUpScreen from "../screens/driver/pick-up-screen";
 import ProfileNavigation from "../screens/account/profile/navigation/profile-navigation";
 import SettingStack from "./settings-navigation";
 import HistoryScreen from "../screens/history/history-screen";
+import InviteFriendsScreen from "../screens/invite-friends/invite-friends-screen";
 import RequestNavigation from "./RequestNavigation";
 
 const Drawer = createDrawerNavigator();
@@ -85,7 +82,6 @@ export default () => (
         ),
       }}
     />
-
     <Drawer.Screen
       name={routes.HISTORY}
       component={HistoryScreen}
@@ -118,5 +114,22 @@ export default () => (
         headerShown: false,
       }}
     />
+      <Drawer.Screen
+          name={routes.INVITE_FRIENDS}
+          component={InviteFriendsScreen}
+          options={{
+              drawerLabel: () => null,
+              drawerItemStyle: { display: 'none' },
+              headerShown: true,
+              header: ({ scene, previous, navigation }) => (
+                  <CustomHeader
+                      goBack={true}
+                      title={routes.INVITE_FRIENDS}
+                      navigation={navigation}
+                      children={<View />}
+                  />
+              ),
+          }}
+      />
   </Drawer.Navigator>
 );

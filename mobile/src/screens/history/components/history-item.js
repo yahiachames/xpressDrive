@@ -1,6 +1,6 @@
 import {Image, StyleSheet, View} from "react-native";
 import React from "react";
-import AppText from "../../../components/Text";
+import AppText from "../../../components/custom-text";
 import {colors, images, sizes} from "../../../constants";
 import {adaptToWidth} from "../../../config/dimensions";
 

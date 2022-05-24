@@ -23,7 +23,8 @@ import ChildModal from "../../components/Modals/childs/ChildModal";
 const { defaultUser } = images;
 
 const PickUpScreen = ({ navigation, route }) => {
-  const location = useSelector((state) => state.location.currentPoint);
+
+    const location = useSelector((state) => state.location.currentPoint);
   const { socket, setSocket } = useContext(SocketContext);
   const Item = route.params.fullItem;
   const [distanceAttempted, setdistanceAttempted] = useState(false);
@@ -32,6 +33,7 @@ const PickUpScreen = ({ navigation, route }) => {
   const snapPoints = useMemo(() => ["20%", "35%", "50%"], []);
   const handleSheetChange = useCallback((index) => {}, []);
   const loc = useLocation();
+
   useEffect(() => {
     if (!driverIsHere) {
       const intervalid = setInterval(() => {
@@ -45,29 +47,10 @@ const PickUpScreen = ({ navigation, route }) => {
             lng: Item?.currentPoint?.longitude,
           }
         );
-
-        console.log(
-          { lat: location?.latitude, lng: location?.longitude },
-          {
-            lat: Item?.currentPoint?.latitude,
-            lng: Item?.currentPoint?.longitude,
-          },
-          "driver is here test"
-        );
         if (distance <= 30) {
           socket.emit("DriverIsHere", { username: Item.rider_id._id });
           clearInterval(intervalid);
         }
-        console.log(
-          haversine(
-            { lat: location?.latitude, lng: location?.longitude },
-            {
-              lat: Item?.currentPoint?.latitude,
-              lng: Item?.currentPoint?.longitude,
-            }
-          ),
-          "driver is here "
-        );
       }, 10000);
       return () => clearInterval(intervalid);
     }
@@ -91,16 +74,13 @@ const PickUpScreen = ({ navigation, route }) => {
             })
             .catch((e) => console.log(e));
         }
-        console.log(
-          haversine(
+        haversine(
             { lat: location?.latitude, lng: location?.longitude },
             {
               lat: Item?.destination?.latitude,
               lng: Item?.destination?.longitude,
             }
-          ),
-          "distance reach "
-        );
+          )
       }, 10000);
       return () => clearInterval(intervalid);
     }

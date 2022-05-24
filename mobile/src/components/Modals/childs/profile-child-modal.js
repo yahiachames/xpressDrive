@@ -1,6 +1,6 @@
 import {FlatList, ImageBackground, StyleSheet, Text, View} from "react-native";
 import React, {useContext, useState} from "react";
-import {Form, FormField, SubmitButton} from "../../forms";
+import {Form, SubmitButton} from "../../forms";
 import * as Yup from "yup";
 import {adaptToWidth} from "../../../config/dimensions";
 import {colors, images} from "../../../constants";
@@ -11,7 +11,7 @@ import AuthContext from "../../../context/AuthContext";
 import {updateDriverProfile} from "../../../controllers/DriversAPis";
 import sizes from "../../../constants/sizes";
 import BasicButton from "../../basic-button";
-import ProfileContext from "../../../context/ProfileContext";
+import FormInput from "../../forms/form-input";
 
 const ProfileChildModal = ({closeModal}) => {
 
@@ -155,45 +155,44 @@ const ProfileChildModal = ({closeModal}) => {
             </View>
             <View style={{backgroundColor: colors.white, padding: sizes.padding, marginBottom: sizes.margin}}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={{flex: .3}}>
-                        <ImageBackground
-                            borderRadius={40}
-                            source={image ? {uri: image.uri} : defaultUser}
-                            style={styles.avatar}
-                        >
-                            <View style={styles.avatarBackdrop}>
-                                <AntDesign
-                                    name="camera"
-                                    color={colors.primary}
-                                    size={sizes.icon * 2.5}
-                                    onPress={() => pickImage()}
-                                />
-                            </View>
-                        </ImageBackground>
+                    <View style={{flex: .4, alignItems: "flex-start"}}>
+                        <View style={{alignItems: 'center'}}>
+                            <ImageBackground
+                                borderRadius={40}
+                                source={image ? {uri: image.uri} : defaultUser}
+                                style={styles.avatar}
+                            >
+                                <View style={styles.avatarBackdrop}>
+                                    <AntDesign
+                                        name="camera"
+                                        color={colors.primary}
+                                        size={sizes.icon * 2.5}
+                                        onPress={() => pickImage()}
+                                    />
+                                </View>
+                            </ImageBackground>
+                            <BasicButton
+                                bgColor={colors.transparent}
+                                textColor={colors.primary}
+                                style={{alignItems: 'flex-start', padding: 0}}
+                                title={'Edit photo'}
+                            />
+                        </View>
                     </View>
-                    <View style={{flex: .7}}>
-                        <FormField
+                    <View style={{flex: .6}}>
+                        <FormInput
                             name="firstname"
                             placeholder="First name"
-                            styleView={[styles.input, {borderBottomWidth: .7, borderBottomColor: colors.greyLight}]}
+                            style={[styles.input, {borderBottomWidth: .7, borderBottomColor: colors.greyLight}]}
                             color={colors.black}
                         />
-                        <FormField
+                        <FormInput
                             name="lastname"
                             placeholder="Last name"
-                            styleView={[styles.input, {borderBottomWidth: .7, borderBottomColor: colors.greyLight}]}
+                            style={[styles.input, {borderBottomWidth: .7, borderBottomColor: colors.greyLight}]}
                             color={colors.black}
                         />
                     </View>
-                </View>
-                <View>
-                    <BasicButton
-                        bgColor={colors.transparent}
-                        textColor={colors.primary}
-                        textStyle={styles.text}
-                        style={{alignItems: 'flex-start', padding: 0, paddingHorizontal: sizes.tiny}}
-                        title={'Edit photo'}
-                    />
                 </View>
             </View>
             <View style={{backgroundColor: colors.white}}>
@@ -206,11 +205,11 @@ const ProfileChildModal = ({closeModal}) => {
                                 <Text style={{marginBottom: sizes.margin}}>{[item.label]}</Text>
                             </View>
                             <View style={{flex: 1}}>
-                                <FormField
+                                <FormInput
                                     editable={item.disabled}
                                     name={item.name}
                                     placeholder={item.label}
-                                    styleView={styles.input}
+                                    style={styles.input}
                                     color={colors.black}
                                 />
                             </View>
@@ -227,7 +226,8 @@ export default ProfileChildModal;
 const styles = StyleSheet.create({
     input: {
         backgroundColor: colors.transparent,
-        padding: 0
+        padding: 0,
+        paddingHorizontal: 0,
     },
     avatar: {
         height: adaptToWidth(.25),

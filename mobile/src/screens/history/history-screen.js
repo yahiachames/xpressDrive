@@ -2,19 +2,18 @@ import { FlatList, StyleSheet, View, Image } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import ProfileContext from "../../context/ProfileContext";
 import Screen from "../../components/screen";
-import AppText from "../../components/Text";
 import colors from "../../constants/colors";
 import HistoryFilter from "./components/history-filter";
 import HistoryMetric from "./components/history-metric";
 import { sizes } from "../../constants";
 import HistoryItem from "./components/history-item";
 import { AUTH_KEY, SERVER_URL } from "../../config/config";
-import { imageUri } from "../../config/imageUri";
 import Storage from "../../config/storage";
 import useImage from "../../hooks/useImage";
 import AuthContext from "../../context/AuthContext";
 import { getRidesRider } from "../../controllers/RiderAPis";
 import { getRidesDriver } from "../../controllers/DriversAPis";
+import AppText from "../../components/custom-text";
 
 const HistoryScreen = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -128,7 +127,7 @@ const HistoryScreen = () => {
       </Screen>
     );
   }
-};;;;;;;;;;;;;;;
+}
 
 export default HistoryScreen;
 

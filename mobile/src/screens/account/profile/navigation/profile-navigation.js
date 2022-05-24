@@ -4,7 +4,7 @@ import { colors } from "../../../../constants";
 import CustomModal from "../../../../components/Modals/custom-modal";
 import ProfileChildModal from "../../../../components/Modals/childs/profile-child-modal";
 import sizes from "../../../../constants/sizes";
-import AppText from "../../../../components/Text";
+import AppText from "../../../../components/custom-text";
 
 const ProfileNavigation = () => {
 

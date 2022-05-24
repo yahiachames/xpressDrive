@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { colors, images, sizes } from "../../../constants";
 
 import Routes from "../../../navigation/routes";
-import CustomForm from "../../../components/forms/Form";
+import CustomForm from "../../../components/forms/custom-form";
 import SubmitButton from "../../../components/forms/submit-button";
 import FormInput from "../../../components/forms/form-input";
 import { resetPass } from "../../../controllers/userApis";

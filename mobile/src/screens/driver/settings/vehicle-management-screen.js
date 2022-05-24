@@ -2,7 +2,7 @@ import {FlatList, Image, StyleSheet, TouchableOpacity, View} from "react-native"
 import React, { useState } from "react";
 import { colors, images, sizes } from "../../../constants";
 import { FontAwesome } from "@expo/vector-icons";
-import AppText from "../../../components/Text";
+import AppText from "../../../components/custom-text";
 import { adaptToWidth } from "../../../config/dimensions";
 import Screen from "../../../components/screen";
 import CustomModal from "../../../components/Modals/custom-modal";

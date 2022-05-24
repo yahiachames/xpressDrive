@@ -1,44 +1,60 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AntDesign, FontAwesome5} from "@expo/vector-icons";
+import {AntDesign, FontAwesome, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 import {colors, sizes} from "../constants";
-import {adaptToHeight} from "../config/dimensions";
+import AppText from "./custom-text";
 
 function BasicButton({
-  iconSize = sizes.icon,
-  iconType = "FontAwesome5",
-  title,
-  icon,
-  onPress,
-  bgColor = colors.dark,
-  style,
-  textColor = colors.white,
-  textStyle,
-  disabled = false,
-  onLongPress,
-}) {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      style={[styles.button, { backgroundColor: bgColor }, style]}
-      disabled={disabled}
-      onPress={onPress}
-      onLongPress={onLongPress}
-    >
-      <View style={{ alignItems: "center", flexDirection: "row" }}>
-        {title && (
-          <Text style={[styles.text, { color: textColor }, textStyle]}>
-            {title}
-          </Text>
-        )}
-        {icon && iconType === "FontAwesome5" ? (
-          <FontAwesome5 name={icon} size={iconSize} color={textColor} />
-        ) : (
-          <AntDesign name={icon} size={iconSize} color={textColor} />
-        )}
-      </View>
-    </TouchableOpacity>
-  );
+                         iconSize = sizes.icon,
+                         iconType = "FontAwesome",
+                         title,
+                         icon,
+                         onPress,
+                         bgColor = colors.dark,
+                         style,
+                         textColor = colors.white,
+                         textStyle,
+                         disabled = false,
+                         onLongPress,
+                         activeOpacity = .7
+                     }) {
+
+    const renderIcon = () => {
+        switch (iconType) {
+            case "FontAwesome":
+                return <FontAwesome style={{paddingHorizontal: sizes.tiny}} name={icon} size={iconSize}
+                                    color={textColor}/>
+            case "AntDesign":
+                return <AntDesign style={{paddingHorizontal: sizes.tiny}} name={icon} size={iconSize}
+                                  color={textColor}/>
+            case "MaterialCommunityIcons":
+                return <MaterialCommunityIcons style={{paddingHorizontal: sizes.tiny}} name={icon} size={iconSize} color={textColor}/>
+            case "MaterialIcons":
+                return <MaterialIcons style={{paddingHorizontal: sizes.tiny}} name={icon} size={iconSize} color={textColor}/>
+            default:
+                return <AntDesign style={{paddingHorizontal: sizes.tiny}} name={icon} size={iconSize}
+                                  color={textColor}/>
+        }
+    }
+
+    return (
+        <TouchableOpacity
+            activeOpacity={activeOpacity}
+            style={[styles.button, {backgroundColor: bgColor}, style]}
+            disabled={disabled}
+            onPress={onPress}
+            onLongPress={onLongPress}
+        >
+            <View style={(icon && title) ? {alignItems: "center", flexDirection: "row"} : {}}>
+                {icon ? renderIcon() : <></>}
+                {title && (
+                    <AppText style={[styles.text, {color: textColor}, textStyle]}>
+                        {title}
+                    </AppText>
+                )}
+            </View>
+        </TouchableOpacity>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -57,7 +73,6 @@ const styles = StyleSheet.create({
         textTransform: "capitalize",
         fontFamily: "latoBold",
         textAlign: "center",
-
     },
 })
 

@@ -9,7 +9,7 @@ import ConfirmationCode from "../../../components/confirmation-code";
 import BasicButton from "../../../components/basic-button";
 import Routes from "../../../navigation/routes";
 import SubmitButton from "../../../components/forms/submit-button";
-import CustomForm from "../../../components/forms/Form";
+import CustomForm from "../../../components/forms/custom-form";
 import { useSelector } from "react-redux";
 import routes from "../../../navigation/routes";
 import { ErrorMessage } from "../../../components/forms";

@@ -3,26 +3,17 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useMemo,
-  useCallback,
 } from "react";
 import {
   StyleSheet,
   Image,
   View,
   Text,
-  Dimensions,
-  TouchableOpacity,
   FlatList,
-  TouchableWithoutFeedbackBase,
-  TouchableHighlight,
 } from "react-native";
-
-import { Avatar, Icon } from "react-native-elements";
 import haverisne from "haversine-distance";
-import MapComponent from "../../components//chames/MapComponent";
+import MapComponent from "../../components/chames/MapComponent";
 import { colors, parameters } from "../../global/styles.js";
-import { rideData } from "../../global/data";
 import { useDispatch, useSelector } from "react-redux";
 import BottomSheet from "../../components/BottomSheet";
 import {
@@ -31,12 +22,10 @@ import {
 } from "react-native-gesture-handler";
 import { adaptToHeight, adaptToWidth } from "../../config/dimensions";
 import CustomModal from "../../components/Modals/custom-modal";
-import AppText from "../../components/Text";
+import AppText from "../../components/custom-text";
 import {
-  checkStatus,
   createRide,
   DeleteRide,
-  updateStatus,
 } from "../../controllers/rideApis";
 import { setRideId } from "../../redux/actions/RideId";
 import AuthContext from "../../context/AuthContext";
@@ -79,7 +68,6 @@ export default function RequestScreen({ navigation, route }) {
   const handleCancelDriverResponse = () => {
     if (rideStatus == "pending") {
       DeleteRide(id, driver_id).then((res) => {
-        console.log(res, "deleted status");
         setRideStatus(null);
       });
     } else if (rideStatus == "started") {
@@ -92,7 +80,6 @@ export default function RequestScreen({ navigation, route }) {
 
   useEffect(() => {
     socket.on("rideStatusUpdated", (obj) => {
-      console.log(obj, "riderStaus updated");
       setRideStatus(obj);
     });
 
@@ -106,8 +93,6 @@ export default function RequestScreen({ navigation, route }) {
       getDriversAPi();
     });
     socket.on("DriverIsHere", (obj) => {
-      console.log("DriverIsHere");
-
       Notifcations.scheduleNotificationAsync({
         content: {
           title: "your driver is Here ! ",
@@ -139,10 +124,8 @@ export default function RequestScreen({ navigation, route }) {
 
     return () => {
       socket.off("rideStatusUpdated", (obj) => {
-        console.log(ob, "riderStaus updated");
         setRideStatus(obj);
       });
-
       socket.off("locationUpdate", (obj) => {
         getDriversAPi();
       });
@@ -156,7 +139,6 @@ export default function RequestScreen({ navigation, route }) {
   const getDriversAPi = async () => {
     getDrivers()
       .then((res) => {
-        console.log(res);
         setDrivers(res.data);
       })
       .catch((e) => console.log(e));
@@ -180,7 +162,6 @@ export default function RequestScreen({ navigation, route }) {
       total_price: 12,
     })
       .then((res) => {
-        console.log(res);
         dispatch(setRideId(res.data.data));
         if (res.data.success) {
           setRideStatus("pending");
@@ -230,7 +211,6 @@ export default function RequestScreen({ navigation, route }) {
               title="Book"
               onPress={async () => {
                 handleToggleModal(false);
-
                 createRideApi();
               }}
               style={{
@@ -286,7 +266,6 @@ export default function RequestScreen({ navigation, route }) {
       <TouchableWithoutFeedback
         onPress={() => {
           setDriver_id(item._id);
-
           setSelected(item._id);
         }}
         onLongPress={() => {
@@ -306,7 +285,6 @@ export default function RequestScreen({ navigation, route }) {
             source={require("../../../assets/taxi1.jpg")}
             style={styles.itemIconBox}
           />
-
           <View style={styles.itemTextBox}>
             <AppText
               style={[
@@ -329,7 +307,6 @@ export default function RequestScreen({ navigation, route }) {
       </TouchableWithoutFeedback>
     );
   };
-
   if (loading)
     return (
       <View>
@@ -346,7 +323,6 @@ export default function RequestScreen({ navigation, route }) {
               mapStyle={styles.MapView}
               origin={origin}
             />
-
             <BottomSheet ref={bottomsheet1}>
               {handleRideStatusModal()}
             </BottomSheet>
@@ -378,10 +354,8 @@ const styles = StyleSheet.create({
   BottomsheetView: {},
   itemFlatContainer: {
     padding: adaptToHeight(0.01),
-
     justifyContent: "center",
     alignItems: "center",
-    justifyContent: "space-around",
     width: adaptToWidth(0.31),
     height: adaptToHeight(0.2),
     borderWidth: 1,
@@ -400,8 +374,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    justifyContent: "space-between",
-
     width: "80%",
   },
   itemIconBox: {
@@ -417,7 +389,6 @@ const styles = StyleSheet.create({
   },
   ItemFlatDescBox: {
     fontSize: 16,
-
     color: colors.grey2,
   },
   itemdescFlat: {
@@ -429,17 +400,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   btnModal: {
     width: adaptToWidth(0.32),
   },
   textBtnModal: {
     fontSize: 14,
   },
-
   container: {
     flex: 1,
-
     alignItems: "center",
     justifyContent: "center",
   },
@@ -456,7 +424,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
-
   view1: {
     position: "absolute",
     top: 25,
@@ -470,7 +437,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
     zIndex: 8,
   },
-
   flatlist: {
     marginTop: 20,
     height: "100%",

@@ -8,7 +8,7 @@ import AuthContext from "../../../context/AuthContext";
 import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
 import { acceptRide, declineRide } from "../../../controllers/rideApis";
-import AppText from "../../../components/Text";
+import AppText from "../../../components/custom-text";
 
 const RequestScreen = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
@@ -53,7 +53,6 @@ const RequestScreen = ({ navigation }) => {
 
   useEffect(() => {
     socket.on("NewRequest", () => {
-      console.log("new request");
       getApiPendingRides();
       Notifcations.scheduleNotificationAsync({
         content: {
@@ -69,7 +68,6 @@ const RequestScreen = ({ navigation }) => {
     });
 
     socket.on("RideCancel", () => {
-      console.log("Ride Cancelled");
       getApiPendingRides();
     });
 
@@ -82,7 +80,6 @@ const RequestScreen = ({ navigation }) => {
       });
     };
   }, [socket]);
-
   if (loading) {
     return <Text>Loading ...</Text>;
   } else {
