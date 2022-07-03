@@ -39,13 +39,6 @@ export default () => (
           <Ionicons name="home-outline" size={sizes.icon} color={color} />
         ),
         headerShown: true,
-        header: ({ scene, previous, navigation }) => (
-          <CustomHeader
-            title={"Offline"}
-            navigation={navigation}
-            children={<View />}
-          />
-        ),
       }}
     />
     <Drawer.Screen
@@ -114,22 +107,22 @@ export default () => (
         headerShown: false,
       }}
     />
-      <Drawer.Screen
-          name={routes.INVITE_FRIENDS}
-          component={InviteFriendsScreen}
-          options={{
-              drawerLabel: () => null,
-              drawerItemStyle: { display: 'none' },
-              headerShown: true,
-              header: ({ scene, previous, navigation }) => (
-                  <CustomHeader
-                      goBack={true}
-                      title={routes.INVITE_FRIENDS}
-                      navigation={navigation}
-                      children={<View />}
-                  />
-              ),
-          }}
-      />
+    <Drawer.Screen
+      name={routes.INVITE_FRIENDS}
+      component={InviteFriendsScreen}
+      options={{
+        drawerLabel: () => null,
+        drawerItemStyle: { display: "none" },
+        headerShown: true,
+        header: ({ scene, previous, navigation }) => (
+          <CustomHeader
+            goBack={true}
+            title={routes.INVITE_FRIENDS}
+            navigation={navigation}
+            children={<View />}
+          />
+        ),
+      }}
+    />
   </Drawer.Navigator>
 );

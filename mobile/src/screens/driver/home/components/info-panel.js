@@ -3,14 +3,13 @@ import React from "react";
 import {AntDesign} from "@expo/vector-icons";
 import {colors, images, sizes} from "../../../../constants";
 import {adaptToHeight, adaptToWidth} from "../../../../config/dimensions";
+import { SERVER_URL } from "../../../../config/config";
 
 const indicators = [
-    {icon: "clockcircleo", value: "0", label: "Hours Online"},
-    {icon: "linechart", value: "0 KM", label: "Total Distance"},
-    {icon: "book", value: "0", label: "Total Jobs"}
-]
-
-
+  { icon: "clockcircleo", value: "0", label: "Hours Online" },
+  { icon: "linechart", value: "0 KM", label: "Total Distance" },
+  { icon: "book", value: "0", label: "Total Jobs" },
+];
 
 const { defaultUser } = images;
 
@@ -32,7 +31,7 @@ const indicator = ({ item }) => {
 
 const InfoPanel = ({ profile }) => {
   const { user } = profile;
-  const img = useImage(profile.documents.photo);
+  console.log(SERVER_URL + "uploads/" + profile.documents.photo);
   let total = 0;
   if (profile?.user) {
     let { rides } = user;
@@ -64,7 +63,11 @@ const InfoPanel = ({ profile }) => {
       <View style={styles.boxHeader}>
         <View style={styles.userInfo}>
           <Image
-            source={profile?.documents?.photo ? img : defaultUser}
+            source={
+              profile?.documents?.photo
+                ? { uri: SERVER_URL + "uploads/" + profile.documents.photo }
+                : defaultUser
+            }
             style={styles.avatar}
           />
           <View>

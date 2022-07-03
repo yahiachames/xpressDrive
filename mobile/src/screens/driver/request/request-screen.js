@@ -9,6 +9,7 @@ import { getDrivers, getRidesPending } from "../../../controllers/DriversAPis";
 import SocketContext from "../../../context/SocketContext";
 import { acceptRide, declineRide } from "../../../controllers/rideApis";
 import AppText from "../../../components/custom-text";
+import { useSelector } from "react-redux";
 
 const RequestScreen = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
@@ -16,6 +17,12 @@ const RequestScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const { socket, setSocket } = useContext(SocketContext);
   const user_id = user.profile.user._id;
+  const driver_location = useSelector((state) => state.location.currentPoint);
+  const driver_position = {
+    latitude: driver_location?.latitude,
+    longitude: driver_location?.longitude,
+    text: driver_location?.subregion + " " + driver_location?.street,
+  };
 
   const getApiPendingRides = () => {
     setLoading(true);
@@ -32,7 +39,7 @@ const RequestScreen = ({ navigation }) => {
   };
 
   const handleAccept = (id) => {
-    acceptRide(id)
+    acceptRide(id, driver_position)
       .then((res) => {
         getApiPendingRides();
       })
@@ -40,7 +47,7 @@ const RequestScreen = ({ navigation }) => {
   };
 
   const handleDecline = (id) => {
-    declineRide(id)
+    declineRide(id, driver_position)
       .then((res) => {
         getApiPendingRides();
       })
@@ -48,6 +55,7 @@ const RequestScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
+    console.log(driver_location);
     getApiPendingRides();
   }, [JSON.stringify(pendingRides)]);
 

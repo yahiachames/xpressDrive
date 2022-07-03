@@ -15,11 +15,7 @@ const HistoryFilter = ({ onChange }) => {
         borderTopLeftRadius: sizes.tiny,
       },
     },
-    {
-      id: "STARTED",
-      value: "Started",
-      style: {},
-    },
+
     {
       id: "COMPLETED",
       value: "Completed",

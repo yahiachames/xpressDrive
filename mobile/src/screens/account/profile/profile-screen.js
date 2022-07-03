@@ -12,6 +12,7 @@ import { colors, images, sizes } from "../../../constants";
 import { adaptToHeight, adaptToWidth } from "../../../config/dimensions";
 import AuthContext from "../../../context/AuthContext";
 import useImage from "../../../hooks/useImage";
+import { SERVER_URL } from "../../../config/config";
 
 const { defaultUser } = images;
 
@@ -56,7 +57,11 @@ const ProfileScreen = () => {
       <Screen>
         <View style={styles.user}>
           <Image
-            source={currentDocuments?.photo ? img : defaultUser}
+            source={
+              currentDocuments?.photo
+                ? { uri: SERVER_URL + "uploads/" + currentDocuments.photo }
+                : defaultUser
+            }
             style={styles.avatar}
           />
           <View>

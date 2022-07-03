@@ -34,6 +34,7 @@ const HomeScreen = () => {
   const id_user = user.profile.user._id;
   const dispatch = useDispatch();
   const loc = useLocation();
+  const user_location = user.profile.user.currentPosition;
 
   const updateOnlineApi = () => {
     updateOnline(true, id_user)
@@ -70,15 +71,15 @@ const HomeScreen = () => {
   return (
     <Screen>
       <View style={{ flex: 1, position: "relative" }}>
-        <OfflineBar />
-        <MapView style={styles.map} />
-        <TouchableOpacity style={styles.location}>
-          <FontAwesome5
-            name={"crosshairs"}
-            size={sizes.icon * 1.2}
-            color={colors.black}
-          />
-        </TouchableOpacity>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: user_location.latitude,
+            longitude: user_location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
       </View>
       <BottomSheet
         ref={bottomSheet}
@@ -90,7 +91,7 @@ const HomeScreen = () => {
       </BottomSheet>
     </Screen>
   );
-};;;;;;;;;;
+};
 
 export default HomeScreen;
 

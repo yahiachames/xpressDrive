@@ -39,13 +39,6 @@ export default () => (
           <Ionicons name="home-outline" size={sizes.icon} color={color} />
         ),
         headerShown: true,
-        header: ({ scene, previous, navigation }) => (
-          <CustomHeader
-            title={"Offline"}
-            navigation={navigation}
-            children={<View />}
-          />
-        ),
       }}
     />
     <Drawer.Screen

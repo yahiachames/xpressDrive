@@ -322,37 +322,38 @@ const VehicleManagementChildModal = ({onCancel}) => {
 export default VehicleManagementChildModal;
 
 const styles = StyleSheet.create({
-    carousel: {
-        backgroundColor: colors.dark,
-        aspectRatio: 1.8,
-        flexGrow: 0,
-        marginBottom: sizes.margin,
-    },
-    upload: {
-        height: adaptToHeight(.2),
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.white
-    },
-    floatingButton: {
-        position: 'absolute',
-        top: '30%',
-        alignSelf: 'center',
-        borderRadius: sizes.radius * 2,
-        zIndex: 10
-    },
-    footer: {
-        flex: .15,
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: colors.light,
-        padding: sizes.margin
-    },
-    image: {
-        width: 75,
-        height: 75,
-        position: "relative",
-    },
+  carousel: {
+    backgroundColor: colors.dark,
+    aspectRatio: 1.8,
+    flexGrow: 0,
+    marginBottom: sizes.margin,
+  },
+  upload: {
+    height: adaptToHeight(0.2),
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.white,
+    marginTop: adaptToHeight(0.07),
+  },
+  floatingButton: {
+    position: "absolute",
+    top: "30%",
+    alignSelf: "center",
+    borderRadius: sizes.radius * 2,
+    zIndex: 10,
+  },
+  footer: {
+    flex: 0.15,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: colors.light,
+    padding: sizes.margin,
+  },
+  image: {
+    width: 75,
+    height: 75,
+    position: "relative",
+  },
 });

@@ -8,6 +8,7 @@ import routes from "../navigation/routes";
 import Routes from "../navigation/routes";
 import AuthContext from "../context/AuthContext";
 import useImage from "../hooks/useImage";
+import { SERVER_URL } from "../config/config";
 
 const SettingsScreen = ({navigation}) => {
     const {user, setUser} = useContext(AuthContext);
@@ -55,59 +56,59 @@ const SettingsScreen = ({navigation}) => {
     };
 
     return (
-        <Screen>
-            <View style={styles.container}>
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => navigation.navigate(Routes.PROFILE)}
-                    style={styles.user}
-                >
-                    <View style={{alignItems: "center", flexDirection: "row"}}>
-                        <Image
-                            source={
-                                currentDocuments.photo
-                                    ? useImage(currentDocuments.photo)
-                                    : defaultUser
-                            }
-                            style={styles.avatar}
-                        />
-                        <View style={{marginHorizontal: sizes.margin * 2}}>
-                            <Text style={styles.name}>
-                                {currentUser && currentUser.username
-                                    ? currentUser.username
-                                    : "Unknown"}
-                            </Text>
-                            <Text style={styles.rank}>
-                                {currentUser && currentUser.rank
-                                    ? currentUser.rank
-                                    : "Unranked"}
-                            </Text>
-                        </View>
-                    </View>
-                    <FontAwesome
-                        name={"chevron-right"}
-                        size={sizes.icon}
-                        color={colors.grey}
-                    />
-                </TouchableOpacity>
-                <ScrollView style={{flex: 0.9}}>
-                    <>
-                        <FlatList
-                            style={{marginBottom: sizes.margin}}
-                            data={items1}
-                            renderItem={({item}) => boxItem(item)}
-                            keyExtractor={(item, index) => index}
-                        />
-                        <FlatList
-                            style={styles.box}
-                            data={items2}
-                            renderItem={({item}) => boxItem(item)}
-                            keyExtractor={(item, index) => index}
-                        />
-                    </>
-                </ScrollView>
+      <Screen>
+        <View style={styles.container}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate(Routes.PROFILE)}
+            style={styles.user}
+          >
+            <View style={{ alignItems: "center", flexDirection: "row" }}>
+              <Image
+                source={
+                  currentDocuments?.photo
+                    ? { uri: SERVER_URL + "uploads/" + currentDocuments.photo }
+                    : defaultUser
+                }
+                style={styles.avatar}
+              />
+              <View style={{ marginHorizontal: sizes.margin * 2 }}>
+                <Text style={styles.name}>
+                  {currentUser && currentUser.username
+                    ? currentUser.username
+                    : "Unknown"}
+                </Text>
+                <Text style={styles.rank}>
+                  {currentUser && currentUser.rank
+                    ? currentUser.rank
+                    : "Unranked"}
+                </Text>
+              </View>
             </View>
-        </Screen>
+            <FontAwesome
+              name={"chevron-right"}
+              size={sizes.icon}
+              color={colors.grey}
+            />
+          </TouchableOpacity>
+          <ScrollView style={{ flex: 0.9 }}>
+            <>
+              <FlatList
+                style={{ marginBottom: sizes.margin }}
+                data={items1}
+                renderItem={({ item }) => boxItem(item)}
+                keyExtractor={(item, index) => index}
+              />
+              <FlatList
+                style={styles.box}
+                data={items2}
+                renderItem={({ item }) => boxItem(item)}
+                keyExtractor={(item, index) => index}
+              />
+            </>
+          </ScrollView>
+        </View>
+      </Screen>
     );
 };
 
