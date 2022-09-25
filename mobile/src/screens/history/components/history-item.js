@@ -3,10 +3,11 @@ import React from "react";
 import AppText from "../../../components/custom-text";
 import {colors, images, sizes} from "../../../constants";
 import {adaptToWidth} from "../../../config/dimensions";
+import moment from "moment";
 
 const HistoryItem = ({ item, user }) => {
   const { defaultUser } = images;
-
+  console.log(item);
   return (
     <View
       style={{
@@ -52,10 +53,10 @@ const HistoryItem = ({ item, user }) => {
                   paddingBottom: sizes.tiny,
                 }}
               >
-                Pick Up
+                Driver Location
               </AppText>
               <AppText style={{ fontSize: sizes.h6 }}>
-                ${item.currentPoint.text}
+                ${item?.driver_position?.text}
               </AppText>
             </View>
             <View style={styles.divider} />
@@ -75,6 +76,52 @@ const HistoryItem = ({ item, user }) => {
               </AppText>
             </View>
           </View>
+          <View style={styles.divider} />
+          <View
+            style={{
+              padding: sizes.padding,
+
+              backgroundColor: colors.white,
+              justifyContent: "center",
+            }}
+          >
+            <AppText
+              style={{
+                color: colors.grey,
+                fontSize: sizes.h8,
+                textTransform: "uppercase",
+                paddingBottom: sizes.tiny,
+              }}
+            >
+              Pick Up
+            </AppText>
+            <AppText style={{ fontSize: sizes.h6 }}>
+              ${item.currentPoint.text}
+            </AppText>
+          </View>
+          <View style={styles.divider} />
+          <View
+            style={{
+              padding: sizes.padding,
+
+              backgroundColor: colors.white,
+              justifyContent: "center",
+            }}
+          >
+            <AppText
+              style={{
+                color: colors.grey,
+                fontSize: sizes.h8,
+                textTransform: "uppercase",
+                paddingBottom: sizes.tiny,
+              }}
+            >
+              Date et heure
+            </AppText>
+            <AppText style={{ fontSize: sizes.h6 }}>
+              ${moment(item.date).format("YYYY-MM-DD   HH:mm:ss")}
+            </AppText>
+          </View>
         </View>
       </View>
     </View>
@@ -84,45 +131,49 @@ const HistoryItem = ({ item, user }) => {
 export default HistoryItem;
 
 const styles = StyleSheet.create({
-    box: {
-        borderWidth: .4,
-        borderColor: colors.greyLighter,
-        elevation: 10,
-        shadowColor: colors.black,
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: .5,
-        shadowRadius: sizes.radius,
-    },
-    header: {
-        backgroundColor: colors.light,
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexDirection: "row",
-        padding: sizes.padding,
-    },
-    badge: {
-      fontSize: sizes.h9,
-      textTransform: 'capitalize',
-      backgroundColor: colors.primary,
-      color: colors.white,
-      borderRadius: sizes.radius,
-        alignSelf: 'center',
-        paddingHorizontal: sizes.tiny / 2,
-        marginTop: sizes.tiny / 2
-    },
-    image: {
-        borderWidth: .5,
-        borderColor: colors.greyLight,
-        borderRadius: sizes.radius,
-        width: adaptToWidth(0.13),
-        height: adaptToWidth(0.13),
-    },
-    body: {
-        backgroundColor: colors.white,
-        padding: sizes.padding
-    },
-    divider: {
-        borderBottomWidth: .7,
-        borderBottomColor: colors.greyLight,
-    }
+  box: {
+    borderWidth: 0.4,
+    borderColor: colors.greyLighter,
+    elevation: 10,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: sizes.radius,
+  },
+  header: {
+    backgroundColor: colors.light,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: sizes.padding,
+  },
+  badge: {
+    fontSize: sizes.h9,
+    textTransform: "capitalize",
+    backgroundColor: colors.primary,
+    color: colors.white,
+    borderRadius: sizes.radius,
+    alignSelf: "center",
+    paddingHorizontal: sizes.tiny / 2,
+    marginTop: sizes.tiny / 2,
+  },
+  image: {
+    borderWidth: 0.5,
+    borderColor: colors.greyLight,
+    borderRadius: sizes.radius,
+    width: adaptToWidth(0.13),
+    height: adaptToWidth(0.13),
+  },
+  body: {
+    backgroundColor: colors.white,
+    padding: sizes.padding,
+  },
+  divider: {
+    borderBottomWidth: 0.7,
+    borderBottomColor: colors.greyLight,
+  },
+  date_time: {
+    height: 50,
+    backgroundColor: colors.white,
+  },
 });

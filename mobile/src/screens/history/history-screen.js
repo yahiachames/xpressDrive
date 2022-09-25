@@ -61,9 +61,7 @@ const HistoryScreen = () => {
       case "COMPLETED":
         setRidesFiltred(rides.filter((el) => el.status == "completed"));
         break;
-      case "STARTED":
-        setRidesFiltred(rides.filter((el) => el.status == "started"));
-        break;
+
       case "REJECTED":
         setRidesFiltred(rides.filter((el) => el.status == "refused"));
         break;

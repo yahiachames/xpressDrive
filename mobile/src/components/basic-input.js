@@ -41,12 +41,14 @@ function AppTextInput({
     }
 
     return (
-        <View style={[styles.container, {width}, style]}>
-            {icon && (
-                renderIcon()
-            )}
-            <TextInput style={[styles.text, textStyle]} {...otherProps} />
-        </View>
+      <View style={[styles.container, { width }, style]}>
+        {icon && renderIcon()}
+        <TextInput
+          style={[styles.text, textStyle]}
+          {...otherProps}
+          placeholderTextColor={colors.greyLighter}
+        />
+      </View>
     );
 }
 

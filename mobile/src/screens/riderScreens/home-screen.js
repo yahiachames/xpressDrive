@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   chosedestcmp: {
     zIndex: 1,
     position: "absolute",
-    top: 200,
+    top: 100,
     left: 5,
   },
 });

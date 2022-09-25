@@ -9,89 +9,89 @@ import useAuth from "../hooks/useAuth";
 import useImage from "../hooks/useImage";
 import routes from "../navigation/routes";
 import AppText from "./custom-text";
+import { SERVER_URL } from "../config/config";
 
-const {defaultUser} = images;
+const { defaultUser } = images;
 
 const CustomDrawer = (props) => {
+  const { user, setUser } = useContext(AuthContext);
+  const { profile } = user;
+  const { logOut } = useAuth();
+  const img = SERVER_URL + "uploads/" + profile.documents.photo;
 
-    const {user, setUser} = useContext(AuthContext);
-    const {profile} = user;
-    const {logOut} = useAuth();
-    const img = useImage(profile.documents.photo);
-
-    return (
-        <View style={{flex: 1}}>
-            <DrawerContentScrollView
-                {...props}
-                contentContainerStyle={{backgroundColor: colors.primary}}
-            >
-                <View style={styles.header}>
-                    <View style={styles.user}>
-                        <Image
-                            source={profile?.documents?.photo ? img : defaultUser}
-                            style={styles.avatar}
-                        />
-                        <View style={{justifyContent: "center"}}>
-                            <AppText style={styles.name}>
-                                {profile?.user?.username ? profile.user.username : "Unknown"}
-                            </AppText>
-                            <View style={styles.rankContainer}>
-                                <Ionicons
-                                    name="star"
-                                    size={sizes.icon}
-                                    color={colors.secondary}
-                                />
-                                <AppText style={styles.rank}>
-                                    {profile?.user?.rank ? profile.user.rank : "Unranked"}
-                                </AppText>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.stats}></View>
-                </View>
-                <View
-                    style={{
-                        flex: 1,
-                        backgroundColor: colors.white,
-                        paddingTop: sizes.padding,
-                    }}
-                >
-                    <DrawerItemList {...props} />
-                </View>
-            </DrawerContentScrollView>
-            <View
-                style={{
-                    padding: sizes.padding,
-                    borderTopWidth: 1,
-                    borderTopColor: colors.greyLight,
-                }}
-            >
-                <TouchableOpacity
-                    onPress={() => {
-                        const {navigation} = props
-                        navigation.navigate(routes.INVITE_FRIENDS)
-                    }}
-                    style={{paddingVertical: sizes.padding}}
-                >
-                    <View style={{flexDirection: "row", alignItems: "center"}}>
-                        <Ionicons name="share-social-outline" size={sizes.icon}/>
-                        <AppText style={styles.action}>Invite Friends</AppText>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={async () => {
-                        logOut();
-                    }}
-                    style={{paddingVertical: sizes.padding}}
-                >
-                    <View style={{flexDirection: "row", alignItems: "center"}}>
-                        <Ionicons name="exit-outline" size={sizes.icon * 1.2}/>
-                        <AppText style={styles.action}>Logout</AppText>
-                    </View>
-                </TouchableOpacity>
+  return (
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={{ backgroundColor: colors.primary }}
+      >
+        <View style={styles.header}>
+          <View style={styles.user}>
+            <Image
+              source={profile?.documents?.photo ? { uri: img } : defaultUser}
+              style={styles.avatar}
+            />
+            <View style={{ justifyContent: "center" }}>
+              <AppText style={styles.name}>
+                {profile?.user?.username ? profile.user.username : "Unknown"}
+              </AppText>
+              <View style={styles.rankContainer}>
+                <Ionicons
+                  name="star"
+                  size={sizes.icon}
+                  color={colors.secondary}
+                />
+                <AppText style={styles.rank}>
+                  {profile?.user?.rank ? profile.user.rank : "Unranked"}
+                </AppText>
+              </View>
             </View>
+          </View>
+          <View style={styles.stats}></View>
         </View>
-    );
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: colors.white,
+            paddingTop: sizes.padding,
+          }}
+        >
+          <DrawerItemList {...props} />
+        </View>
+      </DrawerContentScrollView>
+      <View
+        style={{
+          padding: sizes.padding,
+          borderTopWidth: 1,
+          borderTopColor: colors.greyLight,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            const { navigation } = props;
+            navigation.navigate(routes.INVITE_FRIENDS);
+          }}
+          style={{ paddingVertical: sizes.padding }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons name="share-social-outline" size={sizes.icon} />
+            <AppText style={styles.action}>Invite Friends</AppText>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={async () => {
+            logOut();
+          }}
+          style={{ paddingVertical: sizes.padding }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons name="exit-outline" size={sizes.icon * 1.2} />
+            <AppText style={styles.action}>Logout</AppText>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 };
 
 export default CustomDrawer;
